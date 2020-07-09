@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.canvas.Canvas?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             xmlns="http://javafx.com/javafx"
             fx:controller="diagramdrawer.controller.Controller"
@@ -14,14 +15,16 @@
         </HBox>
     </top>
     <left>
-        <VBox id="toolbox" BorderPane.alignment="CENTER_LEFT">
+        <VBox id="toolbox">
             <Label id="toolbox-title" text="Tools"/>
-            <Button fx:id="boxOneSectionButton" />
+            <Button fx:id="boxOneSectionButton" text="Single Section Class"/>
         </VBox>
     </left>
     <center>
-        <Pane id="canvas">
+        <Pane id="canvaspane" fx:id="canvasPane">
+            <Canvas fx:id="canvas">
 
+            </Canvas>
         </Pane>
     </center>
 

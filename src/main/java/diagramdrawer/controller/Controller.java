@@ -1,21 +1,30 @@
 package diagramdrawer.controller;
 
 
+import diagramdrawer.model.SingleSectionClass;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import diagramdrawer.model.Person;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.stream.Collectors;
 
+@Slf4j
 public class Controller {
     @FXML
+    public Pane canvasPane;
+    @FXML
     private Button boxOneSectionButton;
+    @FXML
+    private Canvas canvas;
 
     private ObservableList<Person> masterData;
 
@@ -28,17 +37,30 @@ public class Controller {
 
     @FXML
     private void initialize() {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        canvas.widthProperty().bind(canvasPane.widthProperty());
+        canvas.heightProperty().bind(canvasPane.heightProperty());
 
-        // search panel
-        boxOneSectionButton.setText("Class");
-        boxOneSectionButton.setOnAction(event -> loadData());
-        boxOneSectionButton.setStyle("-fx-background-color: #457ecd; -fx-text-fill: #ffffff;");
+        log.info(gc.toString());
 
-        boxOneSectionButton.setOnKeyPressed(event -> {
-            if (event.getCode().equals(KeyCode.ENTER)) {
-                loadData();
-            }
-        });
+        boxOneSectionButton.setOnAction(event -> drawSingleSectionBox(gc));
+
+
+    }
+
+    private void drawSingleSectionBox(GraphicsContext gc) {
+        Runnable task = () -> {
+            log.info("draw");
+            SingleSectionClass boxToDraw = new SingleSectionClass("Class", 50, 50, 50, 100);
+            boxToDraw.draw(gc);
+
+
+            log.info("done draw");
+        };
+
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
     }
 
     private Node createPage(Integer pageIndex) {

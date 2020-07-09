@@ -17,6 +17,7 @@
     -fx-font-size: 18px;
 }
 
-#canvas {
-    -fx-background-color: white;
+#canvaspane {
+    -fx-background-color: white
+    -fx-width: 100%
 }
