@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx"
+            fx:controller="diagramdrawer.controller.Controller"
+            prefHeight="600.0" prefWidth="800.0"
+            stylesheets="@mainlayout.css">
+    <top>
+        <HBox id="menubar">
+            <Label id="file" text="File"/>
+        </HBox>
+    </top>
+    <left>
+        <VBox id="toolbox" BorderPane.alignment="CENTER_LEFT">
+            <Label id="toolbox-title" text="Tools"/>
+            <Button fx:id="boxOneSectionButton" />
+        </VBox>
+    </left>
+    <center>
+        <Pane id="canvas">
+
+        </Pane>
+    </center>
+
+</BorderPane>

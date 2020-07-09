@@ -1,4 +1,4 @@
-package sample;
+package diagramdrawer;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,10 +10,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(
-                Main.class.getResource("/sample.fxml"));
+                Main.class.getResource("/mainlayout.fxml"));
         Scene scene = new Scene(loader.load());
 
-        primaryStage.setTitle("Title goes here");
+        primaryStage.setTitle("Diagram Drawer");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

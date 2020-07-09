@@ -4,6 +4,6 @@ module JavaFXtutorial {
     requires javafx.fxml;
     requires static lombok;
 
-    opens sample.controller to javafx.fxml;
-    opens sample to javafx.graphics;
+    opens diagramdrawer.controller to javafx.fxml;
+    opens diagramdrawer to javafx.graphics;
 }

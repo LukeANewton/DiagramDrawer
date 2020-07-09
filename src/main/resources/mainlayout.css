@@ -1,0 +1,22 @@
+#toolbox, #menubar {
+    -fx-padding: 5px 5px 5px 10px;
+    -fx-border-style: solid;
+    -fx-margin: 0px
+}
+
+#toolbox {
+    -fx-min-width: 200px;
+}
+
+#menubar {
+
+}
+
+#toolbox-title {
+    -fx-padding: 0px 0px 10px 0px;
+    -fx-font-size: 18px;
+}
+
+#canvas {
+    -fx-background-color: white;
+}

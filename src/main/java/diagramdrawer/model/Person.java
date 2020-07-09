@@ -1,4 +1,4 @@
-package sample.model;
+package diagramdrawer.model;
 
 import javafx.beans.property.*;
 
