@@ -2,20 +2,13 @@ package diagramdrawer.controller;
 
 
 import diagramdrawer.model.SingleSectionClass;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import diagramdrawer.model.Person;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.stream.Collectors;
 
 @Slf4j
 public class Controller {
@@ -26,79 +19,49 @@ public class Controller {
     @FXML
     private Canvas canvas;
 
-    private ObservableList<Person> masterData;
-
     public Controller() {
-        masterData = FXCollections.observableArrayList();
-        masterData.add(new Person(5, "John", true));
-        masterData.add(new Person(7, "Albert", true));
-        masterData.add(new Person(11, "Monica", false));
+
     }
 
     @FXML
     private void initialize() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        //set canvas size of center pane
         canvas.widthProperty().bind(canvasPane.widthProperty());
         canvas.heightProperty().bind(canvasPane.heightProperty());
 
-        log.info(gc.toString());
-
-        boxOneSectionButton.setOnAction(event -> drawSingleSectionBox(gc));
-
-
+        //add event to toolbar buttons to enable canvas clicking
+        boxOneSectionButton.setOnAction(event -> canvas.setOnMouseClicked(clickEvent -> drawSingleSectionBox(gc, clickEvent)));
     }
 
-    private void drawSingleSectionBox(GraphicsContext gc) {
+    /**
+     * method to draw a class box on the canvas at the location clicked
+     *
+     * @param gc the context of the canvas to draw on
+     * @param event the mouse click event containing the click coordinates for drawing
+     */
+    private void drawSingleSectionBox(GraphicsContext gc, MouseEvent event) {
+        final int DEFAULT_SINGLE_SECTION_BOX_HEIGHT = 50;
+        final int DEFAULT_SINGLE_SECTION_BOX_WIDTH = 100;
+
+        //the click coordinates are the center of the box, so they are converted first to start drawing from
+        final int startX = (int) (event.getX() - (DEFAULT_SINGLE_SECTION_BOX_WIDTH/2));
+        final int startY = (int) (event.getY() - (DEFAULT_SINGLE_SECTION_BOX_HEIGHT/2));
+
         Runnable task = () -> {
-            log.info("draw");
-            SingleSectionClass boxToDraw = new SingleSectionClass("Class", 50, 50, 50, 100);
+            //create object and draw it
+            SingleSectionClass boxToDraw = new SingleSectionClass("Class", startX, startY,
+                    DEFAULT_SINGLE_SECTION_BOX_HEIGHT, DEFAULT_SINGLE_SECTION_BOX_WIDTH);
             boxToDraw.draw(gc);
 
-
-            log.info("done draw");
+            //remove event so one button click lets you place one object
+            canvas.setOnMouseClicked(null);
         };
 
+        //run thread
         Thread th = new Thread(task);
         th.setDaemon(true);
         th.start();
     }
-
-    private Node createPage(Integer pageIndex) {
-
-        VBox dataContainer = new VBox();
-
-        TableView<Person> tableView = new TableView<>(masterData);
-        TableColumn id = new TableColumn("ID");
-        TableColumn name = new TableColumn("NAME");
-        TableColumn employed = new TableColumn("EMPLOYED");
-
-        tableView.getColumns().addAll(id, name, employed);
-        dataContainer.getChildren().add(tableView);
-
-        return dataContainer;
-    }
-
-    private void loadData() {
-
-        Task<ObservableList<Person>> task = new Task<>() {
-            @Override
-            protected ObservableList<Person> call() {
-                updateMessage("Loading data");
-                System.out.println("searchText");
-                return FXCollections.observableArrayList(masterData
-                        .stream()
-                        .filter(value -> value.getName().toLowerCase().contains("searchText".toLowerCase()))
-                        .collect(Collectors.toList()));
-            }
-        };
-
-        task.setOnSucceeded(event -> {
-            //update UI
-        });
-
-        Thread th = new Thread(task);
-        th.setDaemon(true);
-        th.start();
-    }
-
 }
