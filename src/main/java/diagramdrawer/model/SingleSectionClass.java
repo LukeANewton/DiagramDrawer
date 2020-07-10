@@ -20,9 +20,9 @@ public class SingleSectionClass extends DrawableComponent{
     }
 
     @Override
-    public void draw(GraphicsContext gc) {
+    public void draw(GraphicsContext gc, Color color) {
         //draw shape
-        gc.setStroke(Color.BLACK);
+        gc.setStroke(color);
         gc.setLineWidth(1);
         gc.strokeLine(startX, startY, startX, startY + height);
         gc.strokeLine(startX, startY + height, startX + width, startY + height);

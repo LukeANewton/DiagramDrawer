@@ -2,6 +2,7 @@ package diagramdrawer.model;
 
 import javafx.scene.canvas.GraphicsContext;
 
+import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,5 +21,5 @@ public abstract class DrawableComponent {
         this.width = width;
     }
 
-    public abstract void draw(GraphicsContext gc);
+    public abstract void draw(GraphicsContext gc, Color color);
 }
