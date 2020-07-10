@@ -17,7 +17,8 @@
     <left>
         <VBox id="toolbox">
             <Label id="toolbox-title" text="Tools"/>
-            <Button fx:id="boxOneSectionButton" text="Single Section Class"/>
+            <Button id="boxOneSectionButton" fx:id="boxOneSectionButton" text="Single Section Class"/>
+            <Button id="boxTwoSectionButton" fx:id="boxTwoSectionButton" text="Two Section Class"/>
         </VBox>
     </left>
     <center>
