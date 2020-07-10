@@ -8,13 +8,13 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 @Slf4j
 public class Controller {
@@ -47,11 +47,17 @@ public class Controller {
         //add event to toolbar buttons to enable canvas clicking
         boxOneSectionButton.setOnAction(event -> {
             canvas.setOnMouseClicked(clickEvent -> {
-                try {
-                    drawFinalComponent(gc, SingleSectionClass.class, clickEvent.getX(), clickEvent.getY(),
-                                    DEFAULT_SINGLE_SECTION_BOX_HEIGHT, DEFAULT_SINGLE_SECTION_BOX_WIDTH);
-                } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
-                    e.printStackTrace();
+                if(clickEvent.getButton() == MouseButton.SECONDARY){
+                    // a right click indicates cancelling the new component addition
+                    cancelNewComponentListeners();
+                    clearTempCanvasContents(gc);
+                } else if(clickEvent.getButton() == MouseButton.PRIMARY){
+                    try {
+                        drawFinalComponent(gc, SingleSectionClass.class, clickEvent.getX(), clickEvent.getY(),
+                                DEFAULT_SINGLE_SECTION_BOX_HEIGHT, DEFAULT_SINGLE_SECTION_BOX_WIDTH);
+                    } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             canvas.setOnMouseMoved(moveEvent -> {
@@ -65,10 +71,14 @@ public class Controller {
                 });
     }
 
-    private void drawFinalComponent(GraphicsContext gc, Class<? extends DrawableComponent> classBox, double clickX, double clickY,
-                                    int height, int width) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    private void cancelNewComponentListeners(){
         canvas.setOnMouseMoved(null);
         canvas.setOnMouseClicked(null);
+    }
+
+    private void drawFinalComponent(GraphicsContext gc, Class<? extends DrawableComponent> classBox, double clickX, double clickY,
+                                    int height, int width) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        cancelNewComponentListeners();
         DrawableComponent newComponent = drawClassBox(gc, classBox, clickX, clickY, height, width, Color.BLACK, "Class");
         drawnComponents.add(newComponent);
     }
@@ -122,6 +132,5 @@ public class Controller {
 
         //run thread
         Platform.runLater(task);
-
     }
 }
