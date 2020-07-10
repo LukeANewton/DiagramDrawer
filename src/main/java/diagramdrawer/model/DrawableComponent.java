@@ -13,8 +13,10 @@ public abstract class DrawableComponent {
     protected int height;
     protected int startX;
     protected int startY;
+    protected String title;
 
-    public DrawableComponent(int startX, int startY, int height, int width){
+    public DrawableComponent(String title, int startX, int startY, int height, int width){
+        this.title = title;
         this.startX = startX;
         this.startY = startY;
         this.height = height;
