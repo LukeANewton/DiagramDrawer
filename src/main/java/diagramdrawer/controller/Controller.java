@@ -50,7 +50,7 @@ public class Controller {
                 try {
                     drawFinalComponent(gc, SingleSectionClass.class, clickEvent.getX(), clickEvent.getY(),
                                     DEFAULT_SINGLE_SECTION_BOX_HEIGHT, DEFAULT_SINGLE_SECTION_BOX_WIDTH);
-                } catch (ExecutionException | InterruptedException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+                } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
             });
@@ -58,7 +58,7 @@ public class Controller {
                 try {
                     drawPreviewComponent(gc, SingleSectionClass.class, moveEvent.getX(), moveEvent.getY(),
                             DEFAULT_SINGLE_SECTION_BOX_HEIGHT, DEFAULT_SINGLE_SECTION_BOX_WIDTH);
-                } catch (ExecutionException | InterruptedException | InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
+                } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
             });
@@ -66,7 +66,7 @@ public class Controller {
     }
 
     private void drawFinalComponent(GraphicsContext gc, Class<? extends DrawableComponent> classBox, double clickX, double clickY,
-                                    int height, int width) throws ExecutionException, InterruptedException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+                                    int height, int width) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         canvas.setOnMouseMoved(null);
         canvas.setOnMouseClicked(null);
         DrawableComponent newComponent = drawClassBox(gc, classBox, clickX, clickY, height, width, Color.BLACK, "Class");
@@ -74,7 +74,7 @@ public class Controller {
     }
 
     private void drawPreviewComponent(GraphicsContext gc, Class<? extends DrawableComponent> classBox, double clickX, double clickY,
-                                      int height, int width) throws ExecutionException, InterruptedException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+                                      int height, int width) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         clearTempCanvasContents(gc);
         drawClassBox(gc, classBox, clickX, clickY, height, width, Color.LIGHTGRAY, "");
     }
