@@ -19,10 +19,10 @@ public class TwoSectionClass extends DrawableComponent {
     }
 
     @Override
-    public void draw(GraphicsContext gc, Color color) {
+    public void draw(GraphicsContext gc, Color color, int lineWidth) {
         //draw surrounding box
         gc.setStroke(color);
-        gc.setLineWidth(1);
+        gc.setLineWidth(lineWidth);
         gc.strokeLine(startX, startY, startX, startY + height);
         gc.strokeLine(startX, startY + height, startX + width, startY + height);
         gc.strokeLine(startX + width, startY + height, startX + width, startY);

@@ -35,10 +35,16 @@ public class Controller {
     private final int DEFAULT_TWO_SECTION_BOX_HEIGHT = 80;
     private final int DEFAULT_TWO_SECTION_BOX_WIDTH = 100;
 
+    //thicknesses for drawing lines
+    private final int DRAW_THICKNESS = 1;       //"normal" width lines for drawing
+    private final int HIGHLIGHT_THICKNESS = 4;  //thicker lines to indicate which box is highlighted
+
     //the components drawn on the canvas
     ArrayList<DrawableComponent> drawnComponents;
     //the DrawableComponent currently highlighted
     DrawableComponent highlightedComponent;
+    //the GraphicsContent for the canvas to draw on
+    GraphicsContext gc;
 
     public Controller() {
         drawnComponents = new ArrayList<>();
@@ -47,22 +53,22 @@ public class Controller {
 
     @FXML
     private void initialize() {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc = canvas.getGraphicsContext2D();
 
         //set canvas size of center pane
         canvas.widthProperty().bind(canvasPane.widthProperty());
         canvas.heightProperty().bind(canvasPane.heightProperty());
 
         //add event on single section class box
-        boxOneSectionButton.setOnAction(event -> setNewComponentListeners(gc, SingleSectionClass.class,
+        boxOneSectionButton.setOnAction(event -> setNewComponentListeners(SingleSectionClass.class,
                 DEFAULT_SINGLE_SECTION_BOX_HEIGHT, DEFAULT_SINGLE_SECTION_BOX_WIDTH));
 
         //add event on two section class box
-        boxTwoSectionButton.setOnAction(event -> setNewComponentListeners(gc, TwoSectionClass.class,
+        boxTwoSectionButton.setOnAction(event -> setNewComponentListeners(TwoSectionClass.class,
                 DEFAULT_TWO_SECTION_BOX_HEIGHT, DEFAULT_TWO_SECTION_BOX_WIDTH));
 
         //add event on canvas to highlight/unhighlight drawn components
-        canvas.setOnMouseEntered(event -> highlightDrawableComponentHandler(gc, event));
+        canvas.setOnMouseEntered(this::highlightDrawableComponentHandler);
     }
 
     /**
@@ -70,22 +76,20 @@ public class Controller {
      * and has a specified height and width. The handler sets a click event on the canvas that draws the specified
      * DrawableComponent at the location clicked, or cancels the operation if the click is a right click
      *
-     * @param gc the graphics context to draw on
      * @param classBox the class to draw on the canvas
      * @param height the height of the new object to draw
      * @param width the width of the new object ot draw
      */
-    private void setNewComponentListeners(GraphicsContext gc, Class<? extends DrawableComponent> classBox,
+    private void setNewComponentListeners(Class<? extends DrawableComponent> classBox,
                                           int height, int width){
         //add listener to draw the object on left click, and cancel the operation on right click
         canvas.setOnMousePressed(clickEvent -> {
             if(clickEvent.getButton() == MouseButton.SECONDARY){
                 // a right click indicates cancelling the new component addition
-                cancelNewComponentListeners(gc);
-                redrawPermanentCanvasComponents(gc);
+                cancelNewComponentListeners();
             } else if(clickEvent.getButton() == MouseButton.PRIMARY){
                 try {
-                    drawFinalComponent(gc, classBox, clickEvent.getX(), clickEvent.getY(), height, width);
+                    drawFinalComponent(classBox, clickEvent.getX(), clickEvent.getY(), height, width);
                 } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -94,20 +98,17 @@ public class Controller {
         //add listener to draw preview on canvas whenever the mouse is moved to a new location
         canvas.setOnMouseMoved(moveEvent -> {
             try {
-                drawPreviewComponent(gc, classBox, moveEvent.getX(), moveEvent.getY(), height, width);
+                drawPreviewComponent(classBox, moveEvent.getX(), moveEvent.getY(), height, width);
             } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         });
     }
 
-    /**used to reset the canvas mouse event handlers when they are no longer needed
-     *
-     * @param gc the GraphicsContext of the canvas being drawn on
-     */
-    private void cancelNewComponentListeners(GraphicsContext gc){
+    /**used to reset the canvas mouse event handlers when they are no longer needed*/
+    private void cancelNewComponentListeners(){
         canvas.setOnMouseMoved(null);
-        canvas.setOnMousePressed(event -> highlightDrawableComponentHandler(gc, event));
+        canvas.setOnMousePressed(this::highlightDrawableComponentHandler);
     }
 
     /**
@@ -115,17 +116,16 @@ public class Controller {
      * with a specified height and width. The component is added to the master list of canvas contents
      * and the mouse event handlers for drawing a new component are removed
      *
-     * @param gc the graphics context of the canvas to draw onto
      * @param classBox the type of DrawableComponent to draw
      * @param clickX the X coordinate at the center of the object to draw
      * @param clickY the Y coordinate at the center of the object to draw
      * @param height the height of the object to draw
      * @param width the width of the object to draw
      */
-    private void drawFinalComponent(GraphicsContext gc, Class<? extends DrawableComponent> classBox, double clickX, double clickY,
+    private void drawFinalComponent(Class<? extends DrawableComponent> classBox, double clickX, double clickY,
                                     int height, int width) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        cancelNewComponentListeners(gc);
-        DrawableComponent newComponent = drawComponent(gc, classBox, clickX, clickY, height, width, Color.BLACK, "Class");
+        cancelNewComponentListeners();
+        DrawableComponent newComponent = drawComponent(classBox, clickX, clickY, height, width, Color.BLACK, "Class");
         drawnComponents.add(newComponent);
     }
 
@@ -134,23 +134,20 @@ public class Controller {
      * with a specified height and width. This is intended as a preview of what the object will look
      * like when clicked
      *
-     * @param gc the graphics context of the canvas to draw onto
      * @param classBox the type of DrawableComponent to draw
      * @param clickX the X coordinate at the center of the object to draw
      * @param clickY the Y coordinate at the center of the object to draw
      * @param height the height of the object to draw
      * @param width the width of the object to draw
      */
-    private void drawPreviewComponent(GraphicsContext gc, Class<? extends DrawableComponent> classBox, double clickX, double clickY,
+    private void drawPreviewComponent(Class<? extends DrawableComponent> classBox, double clickX, double clickY,
                                       int height, int width) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        redrawPermanentCanvasComponents(gc);
-        drawComponent(gc, classBox, clickX, clickY, height, width, Color.LIGHTGRAY, "");
+        drawComponent(classBox, clickX, clickY, height, width, Color.LIGHTGRAY, "");
     }
 
     /**
      * method to draw a class box on the canvas at the location clicked
      *
-     * @param gc the context of the canvas to draw on
      * @param classBox the class of the object to draw on the canvas
      * @param clickX the x coordinate at the center of the draw
      * @param clickY the y coordinate of the center of the draw
@@ -159,7 +156,7 @@ public class Controller {
      * @param color the color to draw the box in
      * @param title the title to display on the box
      */
-    private DrawableComponent drawComponent(GraphicsContext gc, Class<? extends DrawableComponent> classBox, double clickX, double clickY,
+    private DrawableComponent drawComponent(Class<? extends DrawableComponent> classBox, double clickX, double clickY,
                               int height, int width, Color color, String title) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         //the click coordinates are the center of the box, so they are converted first to the corner to start drawing from
         final int startX = (int) (clickX - (width >> 1));
@@ -171,7 +168,7 @@ public class Controller {
                 .newInstance(title, startX, startY, height, width);
 
         //draw component in thread
-        issueDrawingCommand(() -> boxToDraw.draw(gc, color));
+        issueDrawingCommand(() -> boxToDraw.draw(gc, color, DRAW_THICKNESS));
 
         return boxToDraw;
     }
@@ -179,10 +176,9 @@ public class Controller {
     /**
      * Click event handler for the canvas to highlight/unhighlight components
      *
-     * @param gc the GraphicsContext of the canvas being drawn on
      * @param clickEvent the MouseEvent containing the location on the canvas clicked
      */
-    private void highlightDrawableComponentHandler(GraphicsContext gc, MouseEvent clickEvent){
+    private void highlightDrawableComponentHandler(MouseEvent clickEvent){
         issueDrawingCommand(() ->{
             double x = clickEvent.getX();
             double y = clickEvent.getY();
@@ -194,10 +190,10 @@ public class Controller {
                         component.getStartX() + component.getWidth() > x && component.getStartY() + component.getHeight() > y){
                     //highlight/unhighlight the clicked component
                     if(component.equals(highlightedComponent)){
-                        component.draw(gc, Color.BLACK);
+                        component.draw(gc, Color.BLACK, DRAW_THICKNESS);
                         highlightedComponent = null;
                     } else {
-                        component.draw(gc, Color.RED);
+                        component.draw(gc, Color.RED, HIGHLIGHT_THICKNESS);
                         newHighlightedComponent = component;
                     }
                     break;
@@ -206,22 +202,9 @@ public class Controller {
 
             //unhighlight any previously highlighted component
             if(highlightedComponent != null){
-                highlightedComponent.draw(gc, Color.BLACK);
+                highlightedComponent.draw(gc, Color.BLACK, DRAW_THICKNESS);
             }
             highlightedComponent = newHighlightedComponent;
-        });
-    }
-
-    /**clears the canvas of any temporary draws by resetting canvas and redrawing each permanent draw
-     *
-     * @param gc the GraphicsContext of the canvas being drawn on
-     */
-    private void redrawPermanentCanvasComponents(GraphicsContext gc){
-        issueDrawingCommand(() -> {
-            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-            for(DrawableComponent component : drawnComponents){
-                component.draw(gc, Color.BLACK);
-            }
         });
     }
 
@@ -231,6 +214,12 @@ public class Controller {
      * @param task the Runnable to execute
      */
     private void issueDrawingCommand(Runnable task){
+        Platform.runLater(() -> {
+            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            for(DrawableComponent component : drawnComponents){
+                component.draw(gc, Color.BLACK, DRAW_THICKNESS);
+            }
+        });
         Platform.runLater(task);
     }
 }

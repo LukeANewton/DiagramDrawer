@@ -23,5 +23,5 @@ public abstract class DrawableComponent {
         this.width = width;
     }
 
-    public abstract void draw(GraphicsContext gc, Color color);
+    public abstract void draw(GraphicsContext gc, Color color, int lineWidth);
 }
