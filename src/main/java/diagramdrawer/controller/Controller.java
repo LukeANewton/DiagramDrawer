@@ -10,6 +10,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import lombok.extern.slf4j.Slf4j;
@@ -36,9 +37,12 @@ public class Controller {
 
     //the components drawn on the canvas
     ArrayList<DrawableComponent> drawnComponents;
+    //the DrawableComponent currently highlighted
+    DrawableComponent highlightedComponent;
 
     public Controller() {
         drawnComponents = new ArrayList<>();
+        highlightedComponent = null;
     }
 
     @FXML
@@ -56,6 +60,9 @@ public class Controller {
         //add event on two section class box
         boxTwoSectionButton.setOnAction(event -> setNewComponentListeners(gc, TwoSectionClass.class,
                 DEFAULT_TWO_SECTION_BOX_HEIGHT, DEFAULT_TWO_SECTION_BOX_WIDTH));
+
+        //add event on canvas to highlight/unhighlight drawn components
+        canvas.setOnMouseEntered(event -> highlightDrawableComponentHandler(gc, event));
     }
 
     /**
@@ -71,11 +78,11 @@ public class Controller {
     private void setNewComponentListeners(GraphicsContext gc, Class<? extends DrawableComponent> classBox,
                                           int height, int width){
         //add listener to draw the object on left click, and cancel the operation on right click
-        canvas.setOnMouseClicked(clickEvent -> {
+        canvas.setOnMousePressed(clickEvent -> {
             if(clickEvent.getButton() == MouseButton.SECONDARY){
                 // a right click indicates cancelling the new component addition
-                cancelNewComponentListeners();
-                clearTempCanvasContents(gc);
+                cancelNewComponentListeners(gc);
+                redrawPermanentCanvasComponents(gc);
             } else if(clickEvent.getButton() == MouseButton.PRIMARY){
                 try {
                     drawFinalComponent(gc, classBox, clickEvent.getX(), clickEvent.getY(), height, width);
@@ -94,10 +101,13 @@ public class Controller {
         });
     }
 
-    /**used to reset the canvas mouse event handlers when they aree no longer needed*/
-    private void cancelNewComponentListeners(){
+    /**used to reset the canvas mouse event handlers when they are no longer needed
+     *
+     * @param gc the GraphicsContext of the canvas being drawn on
+     */
+    private void cancelNewComponentListeners(GraphicsContext gc){
         canvas.setOnMouseMoved(null);
-        canvas.setOnMouseClicked(null);
+        canvas.setOnMousePressed(event -> highlightDrawableComponentHandler(gc, event));
     }
 
     /**
@@ -114,7 +124,7 @@ public class Controller {
      */
     private void drawFinalComponent(GraphicsContext gc, Class<? extends DrawableComponent> classBox, double clickX, double clickY,
                                     int height, int width) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        cancelNewComponentListeners();
+        cancelNewComponentListeners(gc);
         DrawableComponent newComponent = drawComponent(gc, classBox, clickX, clickY, height, width, Color.BLACK, "Class");
         drawnComponents.add(newComponent);
     }
@@ -133,7 +143,7 @@ public class Controller {
      */
     private void drawPreviewComponent(GraphicsContext gc, Class<? extends DrawableComponent> classBox, double clickX, double clickY,
                                       int height, int width) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        clearTempCanvasContents(gc);
+        redrawPermanentCanvasComponents(gc);
         drawComponent(gc, classBox, clickX, clickY, height, width, Color.LIGHTGRAY, "");
     }
 
@@ -161,26 +171,66 @@ public class Controller {
                 .newInstance(title, startX, startY, height, width);
 
         //draw component in thread
-        Runnable task = () -> boxToDraw.draw(gc, color);
-
-        //run thread
-        Platform.runLater(task);
+        issueDrawingCommand(() -> boxToDraw.draw(gc, color));
 
         return boxToDraw;
     }
 
+    /**
+     * Click event handler for the canvas to highlight/unhighlight components
+     *
+     * @param gc the GraphicsContext of the canvas being drawn on
+     * @param clickEvent the MouseEvent containing the location on the canvas clicked
+     */
+    private void highlightDrawableComponentHandler(GraphicsContext gc, MouseEvent clickEvent){
+        issueDrawingCommand(() ->{
+            double x = clickEvent.getX();
+            double y = clickEvent.getY();
+            DrawableComponent newHighlightedComponent = null;
+
+            //check if click location is in the bound of a component
+            for(DrawableComponent component: drawnComponents){
+                if(component.getStartX() < x && component.getStartY() < y &&
+                        component.getStartX() + component.getWidth() > x && component.getStartY() + component.getHeight() > y){
+                    //highlight/unhighlight the clicked component
+                    if(component.equals(highlightedComponent)){
+                        component.draw(gc, Color.BLACK);
+                        highlightedComponent = null;
+                    } else {
+                        component.draw(gc, Color.RED);
+                        newHighlightedComponent = component;
+                    }
+                    break;
+                }
+            }
+
+            //unhighlight any previously highlighted component
+            if(highlightedComponent != null){
+                highlightedComponent.draw(gc, Color.BLACK);
+            }
+            highlightedComponent = newHighlightedComponent;
+        });
+    }
+
     /**clears the canvas of any temporary draws by resetting canvas and redrawing each permanent draw
      *
-     * @param gc the graphics context of the canvas
+     * @param gc the GraphicsContext of the canvas being drawn on
      */
-    private void clearTempCanvasContents(GraphicsContext gc){
-        Runnable task = () -> {
+    private void redrawPermanentCanvasComponents(GraphicsContext gc){
+        issueDrawingCommand(() -> {
             gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
             for(DrawableComponent component : drawnComponents){
                 component.draw(gc, Color.BLACK);
             }
-        };
+        });
+    }
 
+    /**
+     * used to run a GUI updating Runnable on the JavaFX application thread
+     *
+     * @param task the Runnable to execute
+     */
+    private void issueDrawingCommand(Runnable task){
         Platform.runLater(task);
     }
 }
