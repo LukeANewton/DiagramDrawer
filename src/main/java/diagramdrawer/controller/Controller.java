@@ -212,7 +212,7 @@ public class Controller {
         canvas.setOnMouseReleased((e) ->  {
             System.out.println("done dragging");
             canvas.setOnMouseReleased(null);
-            canvas.setOnMousePressed(null);
+            canvas.setOnMousePressed(this::highlightDrawableComponentHandler);
         });
         System.out.println("start dragging");
     }
