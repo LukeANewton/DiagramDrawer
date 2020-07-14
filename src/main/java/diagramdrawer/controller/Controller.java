@@ -9,7 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -82,6 +84,9 @@ public class Controller {
      */
     private void setNewComponentListeners(Class<? extends DrawableComponent> classBox,
                                           int height, int width){
+        //unhighlight any objects
+        highlightedComponent = null;
+
         //add listener to draw the object on left click, and cancel the operation on right click
         canvas.setOnMousePressed(clickEvent -> {
             if(clickEvent.getButton() == MouseButton.SECONDARY){
@@ -179,33 +184,37 @@ public class Controller {
      * @param clickEvent the MouseEvent containing the location on the canvas clicked
      */
     private void highlightDrawableComponentHandler(MouseEvent clickEvent){
-        issueDrawingCommand(() ->{
-            double x = clickEvent.getX();
-            double y = clickEvent.getY();
-            DrawableComponent newHighlightedComponent = null;
+        double x = clickEvent.getX();
+        double y = clickEvent.getY();
 
-            //check if click location is in the bound of a component
-            for(DrawableComponent component: drawnComponents){
-                if(component.getStartX() < x && component.getStartY() < y &&
-                        component.getStartX() + component.getWidth() > x && component.getStartY() + component.getHeight() > y){
-                    //highlight/unhighlight the clicked component
-                    if(component.equals(highlightedComponent)){
-                        component.draw(gc, Color.BLACK, DRAW_THICKNESS);
-                        highlightedComponent = null;
-                    } else {
-                        component.draw(gc, Color.RED, HIGHLIGHT_THICKNESS);
-                        newHighlightedComponent = component;
-                    }
-                    break;
+        //check if click location is in the bound of a component
+        for(DrawableComponent component: drawnComponents){
+            if(component.getStartX() < x && component.getStartY() < y &&
+                    component.getStartX() + component.getWidth() > x && component.getStartY() + component.getHeight() > y){
+                //highlight/unhighlight the clicked component
+                if(component.equals(highlightedComponent)) {
+                    highlightedComponent = null;
+                } else {
+                    highlightedComponent = component;
                 }
+                issueDrawingCommand(() -> {});
+                canvas.setOnDragDetected((dragEvent) -> dragComponentHandler(dragEvent, component));
+                return;
             }
+        }
+        //if we make it here, the background was clicked, and nothing should be highlighted
+        highlightedComponent = null;
+        issueDrawingCommand(() -> {});
+    }
 
-            //unhighlight any previously highlighted component
-            if(highlightedComponent != null){
-                highlightedComponent.draw(gc, Color.BLACK, DRAW_THICKNESS);
-            }
-            highlightedComponent = newHighlightedComponent;
+    private void dragComponentHandler(MouseEvent mouseEvent, DrawableComponent component){
+       canvas.setOnMouseDragged((e) -> System.out.println("dragging"));
+        canvas.setOnMouseReleased((e) ->  {
+            System.out.println("done dragging");
+            canvas.setOnMouseReleased(null);
+            canvas.setOnMousePressed(null);
         });
+        System.out.println("start dragging");
     }
 
     /**
@@ -217,7 +226,10 @@ public class Controller {
         Platform.runLater(() -> {
             gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
             for(DrawableComponent component : drawnComponents){
-                component.draw(gc, Color.BLACK, DRAW_THICKNESS);
+                if(component.equals(highlightedComponent))
+                    component.draw(gc, Color.RED, HIGHLIGHT_THICKNESS);
+                else
+                    component.draw(gc, Color.BLACK, DRAW_THICKNESS);
             }
         });
         Platform.runLater(task);
