@@ -11,14 +11,14 @@ import lombok.Setter;
 public abstract class DrawableComponent {
     protected int width;
     protected int height;
-    protected int startX;
-    protected int startY;
+    protected double startX;
+    protected double startY;
     protected String title;
 
-    public DrawableComponent(String title, int startX, int startY, int height, int width){
+    protected DrawableComponent(String title, double centerX, double centerY, int height, int width){
         this.title = title;
-        this.startX = startX;
-        this.startY = startY;
+        this.startX = centerX - (width >> 1);
+        this.startY = centerY - (height >> 1);
         this.height = height;
         this.width = width;
     }

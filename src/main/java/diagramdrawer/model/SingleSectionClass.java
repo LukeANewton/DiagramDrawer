@@ -8,8 +8,12 @@ import javafx.scene.text.Text;
 
 public class SingleSectionClass extends DrawableComponent{
 
-    public SingleSectionClass(String title, int startX, int startY, int height, int width){
-        super(title, startX, startY, height, width);
+    //default sizes for newly created components
+    private static final int DEFAULT_SINGLE_SECTION_BOX_HEIGHT = 50;
+    private static final int DEFAULT_SINGLE_SECTION_BOX_WIDTH = 100;
+
+    public SingleSectionClass(String title, double centerX, double centerY){
+        super(title, centerX, centerY, DEFAULT_SINGLE_SECTION_BOX_HEIGHT, DEFAULT_SINGLE_SECTION_BOX_WIDTH);
     }
 
     @Override

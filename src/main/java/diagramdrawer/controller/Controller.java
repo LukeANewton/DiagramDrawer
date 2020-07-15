@@ -9,9 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -30,12 +28,6 @@ public class Controller {
     private Button boxTwoSectionButton;
     @FXML
     private Canvas canvas;
-
-    //default sizes for newly created components
-    private final int DEFAULT_SINGLE_SECTION_BOX_HEIGHT = 50;
-    private final int DEFAULT_SINGLE_SECTION_BOX_WIDTH = 100;
-    private final int DEFAULT_TWO_SECTION_BOX_HEIGHT = 80;
-    private final int DEFAULT_TWO_SECTION_BOX_WIDTH = 100;
 
     //thicknesses for drawing lines
     private final int DRAW_THICKNESS = 1;       //"normal" width lines for drawing
@@ -62,12 +54,10 @@ public class Controller {
         canvas.heightProperty().bind(canvasPane.heightProperty());
 
         //add event on single section class box
-        boxOneSectionButton.setOnAction(event -> setNewComponentListeners(SingleSectionClass.class,
-                DEFAULT_SINGLE_SECTION_BOX_HEIGHT, DEFAULT_SINGLE_SECTION_BOX_WIDTH));
+        boxOneSectionButton.setOnAction(event -> setNewComponentListeners(SingleSectionClass.class));
 
         //add event on two section class box
-        boxTwoSectionButton.setOnAction(event -> setNewComponentListeners(TwoSectionClass.class,
-                DEFAULT_TWO_SECTION_BOX_HEIGHT, DEFAULT_TWO_SECTION_BOX_WIDTH));
+        boxTwoSectionButton.setOnAction(event -> setNewComponentListeners(TwoSectionClass.class));
 
         //add event on canvas to highlight/unhighlight drawn components
         canvas.setOnMouseEntered(this::highlightDrawableComponentHandler);
@@ -79,11 +69,8 @@ public class Controller {
      * DrawableComponent at the location clicked, or cancels the operation if the click is a right click
      *
      * @param classBox the class to draw on the canvas
-     * @param height the height of the new object to draw
-     * @param width the width of the new object ot draw
      */
-    private void setNewComponentListeners(Class<? extends DrawableComponent> classBox,
-                                          int height, int width){
+    private void setNewComponentListeners(Class<? extends DrawableComponent> classBox){
         //unhighlight any objects
         highlightedComponent = null;
 
@@ -94,7 +81,7 @@ public class Controller {
                 cancelNewComponentListeners();
             } else if(clickEvent.getButton() == MouseButton.PRIMARY){
                 try {
-                    drawFinalComponent(classBox, clickEvent.getX(), clickEvent.getY(), height, width);
+                    drawFinalComponent(classBox, clickEvent.getX(), clickEvent.getY());
                 } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
@@ -103,7 +90,7 @@ public class Controller {
         //add listener to draw preview on canvas whenever the mouse is moved to a new location
         canvas.setOnMouseMoved(moveEvent -> {
             try {
-                drawPreviewComponent(classBox, moveEvent.getX(), moveEvent.getY(), height, width);
+                drawPreviewComponent(classBox, moveEvent.getX(), moveEvent.getY());
             } catch (InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -124,13 +111,11 @@ public class Controller {
      * @param classBox the type of DrawableComponent to draw
      * @param clickX the X coordinate at the center of the object to draw
      * @param clickY the Y coordinate at the center of the object to draw
-     * @param height the height of the object to draw
-     * @param width the width of the object to draw
      */
-    private void drawFinalComponent(Class<? extends DrawableComponent> classBox, double clickX, double clickY,
-                                    int height, int width) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    private void drawFinalComponent(Class<? extends DrawableComponent> classBox, double clickX, double clickY)
+            throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         cancelNewComponentListeners();
-        DrawableComponent newComponent = drawComponent(classBox, clickX, clickY, height, width, Color.BLACK, "Class");
+        DrawableComponent newComponent = drawComponent(classBox, clickX, clickY, Color.BLACK, "Class");
         drawnComponents.add(newComponent);
     }
 
@@ -142,12 +127,10 @@ public class Controller {
      * @param classBox the type of DrawableComponent to draw
      * @param clickX the X coordinate at the center of the object to draw
      * @param clickY the Y coordinate at the center of the object to draw
-     * @param height the height of the object to draw
-     * @param width the width of the object to draw
      */
-    private void drawPreviewComponent(Class<? extends DrawableComponent> classBox, double clickX, double clickY,
-                                      int height, int width) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        drawComponent(classBox, clickX, clickY, height, width, Color.LIGHTGRAY, "");
+    private void drawPreviewComponent(Class<? extends DrawableComponent> classBox, double clickX, double clickY)
+            throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        drawComponent(classBox, clickX, clickY, Color.LIGHTGRAY, "");
     }
 
     /**
@@ -156,21 +139,14 @@ public class Controller {
      * @param classBox the class of the object to draw on the canvas
      * @param clickX the x coordinate at the center of the draw
      * @param clickY the y coordinate of the center of the draw
-     * @param height the height of the object to draw
-     * @param width the width of the object to draw
      * @param color the color to draw the box in
      * @param title the title to display on the box
      */
-    private DrawableComponent drawComponent(Class<? extends DrawableComponent> classBox, double clickX, double clickY,
-                              int height, int width, Color color, String title) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        //the click coordinates are the center of the box, so they are converted first to the corner to start drawing from
-        final int startX = (int) (clickX - (width >> 1));
-        final int startY = (int) (clickY - (height >> 1));
-
+    private DrawableComponent drawComponent(Class<? extends DrawableComponent> classBox, double clickX, double clickY, Color color, String title) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         //create new component to draw
         DrawableComponent boxToDraw = classBox.getConstructor(
-                new Class[]{String.class, int.class, int.class, int.class, int.class})
-                .newInstance(title, startX, startY, height, width);
+                new Class[]{String.class, double.class, double.class})
+                .newInstance(title, clickX, clickY);
 
         //draw component in thread
         issueDrawingCommand(() -> boxToDraw.draw(gc, color, DRAW_THICKNESS));

@@ -13,8 +13,12 @@ import lombok.Setter;
 public class TwoSectionClass extends DrawableComponent {
     private String sectionContents;
 
-    public TwoSectionClass(String title, int startX, int startY, int height, int width) {
-        super(title, startX, startY, height, width);
+    //default sizes for newly created components
+    private static final int DEFAULT_TWO_SECTION_BOX_HEIGHT = 80;
+    private static final int DEFAULT_TWO_SECTION_BOX_WIDTH = 100;
+
+    public TwoSectionClass(String title, double centerX, double centerY) {
+        super(title, centerX, centerY, DEFAULT_TWO_SECTION_BOX_HEIGHT, DEFAULT_TWO_SECTION_BOX_WIDTH);
         sectionContents = "";
     }
 
