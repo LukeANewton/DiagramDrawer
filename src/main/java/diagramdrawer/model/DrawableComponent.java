@@ -11,16 +11,23 @@ import lombok.Setter;
 public abstract class DrawableComponent {
     protected int width;
     protected int height;
-    protected double startX;
-    protected double startY;
+    protected double centerX;
+    protected double centerY;
     protected String title;
 
     protected DrawableComponent(String title, double centerX, double centerY, int height, int width){
         this.title = title;
-        this.startX = centerX - (width >> 1);
-        this.startY = centerY - (height >> 1);
+        this.centerX = centerX;
+        this.centerY = centerY;
         this.height = height;
         this.width = width;
+    }
+
+    public boolean checkPointInBounds(double x, double y){
+        double startX = centerX - (width >> 1);
+        double startY = centerY - (height >> 1);
+
+        return startX < x && startY < y && startX + width > x && startY + height > y;
     }
 
     public abstract void draw(GraphicsContext gc, Color color, int lineWidth);

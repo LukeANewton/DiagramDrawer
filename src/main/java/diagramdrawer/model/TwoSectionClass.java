@@ -17,6 +17,11 @@ public class TwoSectionClass extends DrawableComponent {
     private static final int DEFAULT_TWO_SECTION_BOX_HEIGHT = 80;
     private static final int DEFAULT_TWO_SECTION_BOX_WIDTH = 100;
 
+    public TwoSectionClass(){
+        super("Class", 0, 0, DEFAULT_TWO_SECTION_BOX_HEIGHT, DEFAULT_TWO_SECTION_BOX_WIDTH);
+        sectionContents = "";
+    }
+
     public TwoSectionClass(String title, double centerX, double centerY) {
         super(title, centerX, centerY, DEFAULT_TWO_SECTION_BOX_HEIGHT, DEFAULT_TWO_SECTION_BOX_WIDTH);
         sectionContents = "";
@@ -24,6 +29,9 @@ public class TwoSectionClass extends DrawableComponent {
 
     @Override
     public void draw(GraphicsContext gc, Color color, int lineWidth) {
+        double startX = centerX - (width >> 1);
+        double startY = centerY - (height >> 1);
+
         //draw surrounding box
         gc.setStroke(color);
         gc.setLineWidth(lineWidth);

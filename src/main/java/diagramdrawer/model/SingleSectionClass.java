@@ -12,12 +12,19 @@ public class SingleSectionClass extends DrawableComponent{
     private static final int DEFAULT_SINGLE_SECTION_BOX_HEIGHT = 50;
     private static final int DEFAULT_SINGLE_SECTION_BOX_WIDTH = 100;
 
+    public SingleSectionClass(){
+        super("Class", 0, 0, DEFAULT_SINGLE_SECTION_BOX_HEIGHT, DEFAULT_SINGLE_SECTION_BOX_WIDTH);
+    }
+
     public SingleSectionClass(String title, double centerX, double centerY){
         super(title, centerX, centerY, DEFAULT_SINGLE_SECTION_BOX_HEIGHT, DEFAULT_SINGLE_SECTION_BOX_WIDTH);
     }
 
     @Override
     public void draw(GraphicsContext gc, Color color, int lineWidth) {
+        double startX = centerX - (width >> 1);
+        double startY = centerY - (height >> 1);
+
         //draw shape
         gc.setStroke(color);
         gc.setLineWidth(lineWidth);
