@@ -5,18 +5,24 @@ import diagramdrawer.model.DrawableComponent;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 public abstract class CanvasState {
+    //the controller for the main window
     protected Controller controller;
+    //the canvas to draw on
     protected Canvas canvas;
 
     //thicknesses for drawing lines
     private final int DRAW_THICKNESS = 1;       //"normal" width lines for drawing
     private final int HIGHLIGHT_THICKNESS = 4;  //thicker lines to indicate which box is highlighted
 
+    /**
+     * Constructor
+     *
+     * @param controller the controller for the main window that uses this Canvas State object
+     */
     public CanvasState(Controller controller){
         this.controller = controller;
         this.canvas = controller.getCanvas();
@@ -25,9 +31,9 @@ public abstract class CanvasState {
 
     /**
      * draws a DrawableComponent in black onto the canvas at the specified X and Y coordinates,
-     * with a specified height and width. The component is added to the master list of canvas contents
-     * and the mouse event handlers for drawing a new component are removed
+     * with a specified height and width.
      *
+     * @param component the DrawableComponent to draw
      * @param clickX the X coordinate at the center of the object to draw
      * @param clickY the Y coordinate at the center of the object to draw
      */
@@ -39,6 +45,8 @@ public abstract class CanvasState {
      * draws a DrawableComponent in light gray onto the canvas at the specified X and Y coordinates,
      * with a specified height and width. This is intended as a preview of what the object will look
      * like when clicked
+     *
+     * @param component the DrawableComponent to draw
      *  @param clickX the X coordinate at the center of the object to draw
      *  @param clickY the Y coordinate at the center of the object to draw
      */
@@ -49,17 +57,17 @@ public abstract class CanvasState {
     /**
      * method to draw a class box on the canvas at the location clicked
      *
+     * @param boxToDraw  the DrawableComponent to draw
      * @param clickX the x coordinate at the center of the draw
      * @param clickY the y coordinate of the center of the draw
      * @param color the color to draw the box in
      * @param title the title to display on the box
+     * @return the component drawn on the canvas
      */
     protected DrawableComponent drawComponent(DrawableComponent boxToDraw, double clickX, double clickY, Color color, String title) {
         boxToDraw.setTitle(title);
         boxToDraw.setCenterX(clickX);
         boxToDraw.setCenterY(clickY);
-
-        //draw component in thread
         issueDrawingCommand(() -> boxToDraw.draw(canvas.getGraphicsContext2D(), color, DRAW_THICKNESS));
 
         return boxToDraw;
@@ -85,6 +93,7 @@ public abstract class CanvasState {
         Platform.runLater(task);
     }
 
+    /**Set the listeners for each event*/
     public void enterState(){
         canvas.setOnMousePressed(this::mousePressedHandler);
         canvas.setOnMouseMoved(this::mouseMoveHandler);
@@ -93,7 +102,10 @@ public abstract class CanvasState {
         canvas.setOnDragDetected(this::dragDetectedHandler);
     }
 
+    /**activities to be done before the next state is entered*/
     public void exitState(){}
+
+    /*listeners for each event to be optionally overridden for each state*/
     public void mousePressedHandler(MouseEvent mouseEvent){}
     public void mouseMoveHandler(MouseEvent mouseEvent){}
     public void mouseReleasedHandler(MouseEvent mouseEvent){}

@@ -6,6 +6,11 @@ import javafx.scene.input.MouseEvent;
 
 public class SelectComponentState extends CanvasState {
 
+    /**
+     * Constructor
+     *
+     * @param controller the controller for the main window using this state
+     */
     public SelectComponentState(Controller controller){
         super(controller);
     }

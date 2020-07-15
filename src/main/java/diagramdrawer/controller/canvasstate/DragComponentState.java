@@ -7,6 +7,12 @@ import javafx.scene.input.MouseEvent;
 public class DragComponentState extends CanvasState{
     DrawableComponent componentToDrag;
 
+    /**
+     * Constructor
+     *
+     * @param controller the controller for the main window using this state
+     * @param componentToDrag the component to move on the canvas
+     */
     public DragComponentState(Controller controller, DrawableComponent componentToDrag){
         super(controller);
         this.componentToDrag = componentToDrag;

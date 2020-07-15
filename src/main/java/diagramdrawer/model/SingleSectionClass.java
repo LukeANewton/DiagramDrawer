@@ -12,10 +12,18 @@ public class SingleSectionClass extends DrawableComponent{
     private static final int DEFAULT_SINGLE_SECTION_BOX_HEIGHT = 50;
     private static final int DEFAULT_SINGLE_SECTION_BOX_WIDTH = 100;
 
+    /**constructor*/
     public SingleSectionClass(){
         super("Class", 0, 0, DEFAULT_SINGLE_SECTION_BOX_HEIGHT, DEFAULT_SINGLE_SECTION_BOX_WIDTH);
     }
 
+    /**
+     * Constructor
+     *
+     * @param title the title to write on the component
+     * @param centerX the x coordinate in the center of the object to draw
+     * @param centerY the y coordinate in the center of the object to draw
+     */
     public SingleSectionClass(String title, double centerX, double centerY){
         super(title, centerX, centerY, DEFAULT_SINGLE_SECTION_BOX_HEIGHT, DEFAULT_SINGLE_SECTION_BOX_WIDTH);
     }

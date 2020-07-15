@@ -9,6 +9,12 @@ public class AddComponentState extends CanvasState {
 
     DrawableComponent newComponent;
 
+    /**
+     * Constructor
+     *
+     * @param controller the controller for the main window using this state
+     * @param newComponent the new component to draw on the canvas
+     */
     public AddComponentState(Controller controller, DrawableComponent newComponent){
         super(controller);
         this.newComponent = newComponent;

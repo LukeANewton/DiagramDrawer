@@ -29,8 +29,8 @@ public class Controller {
     private Canvas canvas;
 
     @Setter
+    //the state of the canvas
     CanvasState currentCanvasState;
-
     @Getter @Setter
     //the components drawn on the canvas
     ArrayList<DrawableComponent> drawnComponents;
@@ -38,6 +38,7 @@ public class Controller {
     //the DrawableComponent currently highlighted
     DrawableComponent highlightedComponent;
 
+    /**Constructor*/
     public Controller() {
         drawnComponents = new ArrayList<>();
         highlightedComponent = null;
@@ -60,6 +61,11 @@ public class Controller {
         currentCanvasState = new SelectComponentState(this);
     }
 
+    /**
+     * adds a component to the list of components in the diagram
+     *
+     * @param newComponent the component added to the list
+     */
     public void addComponent(DrawableComponent newComponent){
         drawnComponents.add(newComponent);
     }
