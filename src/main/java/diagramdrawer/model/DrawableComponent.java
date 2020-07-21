@@ -53,5 +53,14 @@ public abstract class DrawableComponent {
      * @param color the color to draw in
      * @param lineWidth the thickness of the lines to draw with
      */
-    public abstract void draw(GraphicsContext gc, Color color, int lineWidth);
+    public void draw(GraphicsContext gc, Color color, int lineWidth){
+        double startX = centerX - (width / 2);
+        double startY = centerY - (height / 2);
+        gc.setStroke(color);
+        gc.setLineWidth(lineWidth);
+        gc.strokeLine(startX, startY, startX, startY + height);
+        gc.strokeLine(startX, startY + height, startX + width, startY + height);
+        gc.strokeLine(startX + width, startY + height, startX + width, startY);
+        gc.strokeLine(startX + width, startY, startX, startY);
+    }
 }

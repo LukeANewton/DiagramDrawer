@@ -40,20 +40,11 @@ public class TwoSectionClass extends DrawableComponent {
         double startX = centerX - (width / 2);
         double startY = centerY - (height / 2);
 
-        //draw surrounding box
-        gc.setStroke(color);
-        gc.setLineWidth(lineWidth);
-        gc.strokeLine(startX, startY, startX, startY + height);
-        gc.strokeLine(startX, startY + height, startX + width, startY + height);
-        gc.strokeLine(startX + width, startY + height, startX + width, startY);
-        gc.strokeLine(startX + width, startY, startX, startY);
-
-        //determine height of title to determine where section divider should go and to center text
-        Text throwaway = new Text(title);
-        new Scene(new Group(throwaway));
+        //draw outside box
+        super.draw(gc, color, lineWidth);
 
         //center text in box by creating a throwaway scene to get text size
-        throwaway = new Text(title);
+        Text throwaway = new Text(title);
         new Scene(new Group(throwaway));
         gc.fillText(title, startX + (width / 2) - (throwaway.getLayoutBounds().getWidth()/2),
                 startY + throwaway.getLayoutBounds().getHeight());

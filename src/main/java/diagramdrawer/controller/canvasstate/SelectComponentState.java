@@ -7,6 +7,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class SelectComponentState extends CanvasState {
+    private static final double COMPONENT_EDGE_THRESHOLD = 15;
 
     /**
      * Constructor
@@ -50,7 +51,6 @@ public class SelectComponentState extends CanvasState {
             double rightEdge = componentToDrag.getCenterX() + (componentToDrag.getWidth() / 2);
             double bottomEdge = componentToDrag.getCenterY() + (componentToDrag.getHeight() / 2);
 
-
             if (checkCloseToEdge(rightEdge, x)){
                 controller.setCurrentCanvasState(new ResizeComponentState(
                         controller, componentToDrag, ResizeDirection.RIGHT));
@@ -70,7 +70,8 @@ public class SelectComponentState extends CanvasState {
     }
 
     private boolean checkCloseToEdge(double edgeCoordinate, double mouseCoordinate){
-        return mouseCoordinate < (edgeCoordinate + 15) && mouseCoordinate > (edgeCoordinate - 15);
+        return mouseCoordinate < (edgeCoordinate + COMPONENT_EDGE_THRESHOLD) &&
+                mouseCoordinate > (edgeCoordinate - COMPONENT_EDGE_THRESHOLD);
     }
 
     @Override

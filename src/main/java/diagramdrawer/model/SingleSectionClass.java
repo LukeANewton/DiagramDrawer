@@ -39,13 +39,8 @@ public class SingleSectionClass extends DrawableComponent{
         double titleWidth = throwaway.getLayoutBounds().getWidth();
         double titleHeight = throwaway.getLayoutBounds().getHeight();
 
-        //draw shape
-        gc.setStroke(color);
-        gc.setLineWidth(lineWidth);
-        gc.strokeLine(startX, startY, startX, startY + height);
-        gc.strokeLine(startX, startY + height, startX + width, startY + height);
-        gc.strokeLine(startX + width, startY + height, startX + width, startY);
-        gc.strokeLine(startX + width, startY, startX, startY);
+        //draw outside box
+        super.draw(gc, color, lineWidth);
 
         //center text in box
         gc.fillText(title, startX + (width / 2) - (titleWidth/2),
