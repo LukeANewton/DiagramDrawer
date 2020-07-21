@@ -2,6 +2,8 @@ package diagramdrawer.controller.canvasstate;
 
 import diagramdrawer.controller.Controller;
 import diagramdrawer.model.DrawableComponent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class SelectComponentState extends CanvasState {
@@ -69,5 +71,17 @@ public class SelectComponentState extends CanvasState {
 
     private boolean checkCloseToEdge(double edgeCoordinate, double mouseCoordinate){
         return mouseCoordinate < (edgeCoordinate + 15) && mouseCoordinate > (edgeCoordinate - 15);
+    }
+
+    @Override
+    public void keyStrokeHandler(KeyEvent keyEvent) {
+        if(keyEvent.getCode() == KeyCode.DELETE || keyEvent.getCode() == KeyCode.BACK_SPACE){
+            DrawableComponent componentToDelete = controller.getHighlightedComponent();
+            if(componentToDelete != null){
+                controller.removeComponent(componentToDelete);
+                controller.setHighlightedComponent(null);
+                super.redrawCanvas();
+            }
+        }
     }
 }

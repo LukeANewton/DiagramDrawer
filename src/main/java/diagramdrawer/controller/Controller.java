@@ -69,4 +69,13 @@ public class Controller {
     public void addComponent(DrawableComponent newComponent){
         drawnComponents.add(newComponent);
     }
+
+    /**
+     * removes a component to the list of components in the diagram
+     *
+     * @param componentToRemove the component to remove from the list
+     */
+    public void removeComponent(DrawableComponent componentToRemove){
+        drawnComponents.remove(componentToRemove);
+    }
 }
