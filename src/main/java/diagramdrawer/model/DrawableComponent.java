@@ -9,8 +9,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public abstract class DrawableComponent {
-    protected int width;
-    protected int height;
+    protected double width;
+    protected double height;
     protected double centerX;
     protected double centerY;
     protected String title;
@@ -24,7 +24,7 @@ public abstract class DrawableComponent {
      * @param height the height of the object to draw
      * @param width the width of the object to draw
      */
-    protected DrawableComponent(String title, double centerX, double centerY, int height, int width){
+    protected DrawableComponent(String title, double centerX, double centerY, double height, double width){
         this.title = title;
         this.centerX = centerX;
         this.centerY = centerY;
@@ -40,8 +40,8 @@ public abstract class DrawableComponent {
      * @return true if the point is inside the bounds of the component, otherwise false
      */
     public boolean checkPointInBounds(double x, double y){
-        double startX = centerX - (width >> 1);
-        double startY = centerY - (height >> 1);
+        double startX = centerX - (width / 2);
+        double startY = centerY - (height / 2);
 
         return startX < x && startY < y && startX + width > x && startY + height > y;
     }

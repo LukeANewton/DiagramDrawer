@@ -36,9 +36,38 @@ public class SelectComponentState extends CanvasState {
 
     @Override
     public void dragDetectedHandler(MouseEvent dragEvent) {
-        if(controller.getHighlightedComponent() != null) {
-            controller.setCurrentCanvasState(
-                    new MoveComponentState(controller, controller.getHighlightedComponent()));
+        DrawableComponent componentToDrag = controller.getHighlightedComponent();
+
+        if(componentToDrag != null) {
+            /*we need to check if the drag is on the edge of the component (to resize),
+            or in the center (to move)*/
+            double x = dragEvent.getX();
+            double y = dragEvent.getY();
+            double leftEdge = componentToDrag.getCenterX() - (componentToDrag.getWidth() / 2);
+            double topEdge = componentToDrag.getCenterY() - (componentToDrag.getHeight() / 2);
+            double rightEdge = componentToDrag.getCenterX() + (componentToDrag.getWidth() / 2);
+            double bottomEdge = componentToDrag.getCenterY() + (componentToDrag.getHeight() / 2);
+
+
+            if(checkCloseToEdge(leftEdge, x)) {
+                controller.setCurrentCanvasState(new ResizeComponentState(
+                        controller, componentToDrag, ResizeDirection.LEFT));
+            }else if (checkCloseToEdge(rightEdge, x)){
+                controller.setCurrentCanvasState(new ResizeComponentState(
+                        controller, componentToDrag, ResizeDirection.RIGHT));
+            }else if(checkCloseToEdge(topEdge, y)){
+                controller.setCurrentCanvasState(new ResizeComponentState(
+                        controller, componentToDrag, ResizeDirection.TOP));
+            }else if(checkCloseToEdge(bottomEdge, y)){
+                controller.setCurrentCanvasState(new ResizeComponentState(
+                        controller, componentToDrag, ResizeDirection.BOTTOM));
+            } else {
+                controller.setCurrentCanvasState(new MoveComponentState(controller, componentToDrag));
+            }
         }
+    }
+
+    private boolean checkCloseToEdge(double edgeCoordinate, double mouseCoordinate){
+        return mouseCoordinate < (edgeCoordinate + 15) && mouseCoordinate > (edgeCoordinate - 15);
     }
 }

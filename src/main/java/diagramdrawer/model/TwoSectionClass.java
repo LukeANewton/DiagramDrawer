@@ -37,8 +37,8 @@ public class TwoSectionClass extends DrawableComponent {
 
     @Override
     public void draw(GraphicsContext gc, Color color, int lineWidth) {
-        double startX = centerX - (width >> 1);
-        double startY = centerY - (height >> 1);
+        double startX = centerX - (width / 2);
+        double startY = centerY - (height / 2);
 
         //draw surrounding box
         gc.setStroke(color);
@@ -55,7 +55,7 @@ public class TwoSectionClass extends DrawableComponent {
         //center text in box by creating a throwaway scene to get text size
         throwaway = new Text(title);
         new Scene(new Group(throwaway));
-        gc.fillText(title, startX + (width >> 1) - (throwaway.getLayoutBounds().getWidth()/2),
+        gc.fillText(title, startX + (width / 2) - (throwaway.getLayoutBounds().getWidth()/2),
                 startY + throwaway.getLayoutBounds().getHeight());
 
         //draw line underneath title to divide sections
