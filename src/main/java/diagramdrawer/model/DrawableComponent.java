@@ -6,6 +6,8 @@ import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 public abstract class DrawableComponent {
@@ -54,6 +56,7 @@ public abstract class DrawableComponent {
      * @param lineWidth the thickness of the lines to draw with
      */
     public void draw(GraphicsContext gc, Color color, int lineWidth){
+        //draw outside box
         double startX = centerX - (width / 2);
         double startY = centerY - (height / 2);
         gc.setStroke(color);
@@ -63,4 +66,7 @@ public abstract class DrawableComponent {
         gc.strokeLine(startX + width, startY + height, startX + width, startY);
         gc.strokeLine(startX + width, startY, startX, startY);
     }
+
+    /**Creates a copy of the DrawableComponent*/
+    public abstract DrawableComponent createCopy();
 }

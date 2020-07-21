@@ -8,6 +8,8 @@ import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 public class TwoSectionClass extends DrawableComponent {
@@ -29,10 +31,13 @@ public class TwoSectionClass extends DrawableComponent {
      * @param title the title to write on the component
      * @param centerX the x coordinate in the center of the object to draw
      * @param centerY the y coordinate in the center of the object to draw
+     * @param height  the height of the box
+     * @param width the width of the box
+     * @param contents the contents to write into the second section
      */
-    public TwoSectionClass(String title, double centerX, double centerY) {
-        super(title, centerX, centerY, DEFAULT_TWO_SECTION_BOX_HEIGHT, DEFAULT_TWO_SECTION_BOX_WIDTH);
-        sectionContents = "";
+    public TwoSectionClass(String title, String contents, double centerX, double centerY, double height, double width) {
+        super(title, centerX, centerY, height, width);
+        sectionContents = contents;
     }
 
     @Override
@@ -55,5 +60,25 @@ public class TwoSectionClass extends DrawableComponent {
         if(dividerYcoord < startY + height) {
             gc.strokeLine(startX, dividerYcoord, startX + width, dividerYcoord);
         }
+    }
+
+    @Override
+    public DrawableComponent createCopy() {
+        return new TwoSectionClass(this.title, this.sectionContents, this.centerX, this.centerY, this.height, this.width);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TwoSectionClass that = (TwoSectionClass) o;
+        return title.equals(that.title) && sectionContents.equals(that.getSectionContents())
+                && centerX == that.getCenterX() && centerY == that.centerY && height == that.height
+                && width == that.width;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sectionContents);
     }
 }

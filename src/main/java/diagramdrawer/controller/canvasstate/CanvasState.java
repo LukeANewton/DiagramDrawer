@@ -3,7 +3,6 @@ package diagramdrawer.controller.canvasstate;
 import diagramdrawer.controller.Controller;
 import diagramdrawer.model.DrawableComponent;
 import javafx.application.Platform;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
@@ -11,8 +10,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-
-import java.util.List;
 
 public abstract class CanvasState {
     //the controller for the main window
@@ -100,7 +97,7 @@ public abstract class CanvasState {
     }
 
     /**redraw the canvas with no changes to the contents*/
-    protected void redrawCanvas(){
+    public void redrawCanvas(){
         issueDrawingCommand(() -> {});
     }
 
@@ -113,6 +110,8 @@ public abstract class CanvasState {
         canvas.setOnDragDetected(this::dragDetectedHandler);
         Stage.getWindows().stream().filter(Window::isShowing).findFirst().ifPresent(
                 currentWindow -> currentWindow.getScene().setOnKeyPressed(this::keyStrokeHandler));
+
+        controller.updateStateStack();
     }
 
     /**activities to be done before the next state is entered*/

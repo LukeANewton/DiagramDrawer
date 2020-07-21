@@ -24,6 +24,7 @@ public class ResizeComponentState extends CanvasState {
 
     @Override
     public void exitState(){
+        controller.updateStateStack();
         controller.setCurrentCanvasState(new SelectComponentState(controller));
     }
 

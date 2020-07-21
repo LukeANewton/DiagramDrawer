@@ -77,12 +77,15 @@ public class SelectComponentState extends CanvasState {
     @Override
     public void keyStrokeHandler(KeyEvent keyEvent) {
         if(keyEvent.getCode() == KeyCode.DELETE || keyEvent.getCode() == KeyCode.BACK_SPACE){
+            //delete the selected component
             DrawableComponent componentToDelete = controller.getHighlightedComponent();
             if(componentToDelete != null){
                 controller.removeComponent(componentToDelete);
                 controller.setHighlightedComponent(null);
                 super.redrawCanvas();
             }
+        } else if (keyEvent.getCode() == KeyCode.Z){
+            controller.undoLastAction();
         }
     }
 }

@@ -7,7 +7,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class SingleSectionClass extends DrawableComponent{
-
     //default sizes for newly created components
     private static final int DEFAULT_SINGLE_SECTION_BOX_HEIGHT = 50;
     private static final int DEFAULT_SINGLE_SECTION_BOX_WIDTH = 100;
@@ -23,9 +22,11 @@ public class SingleSectionClass extends DrawableComponent{
      * @param title the title to write on the component
      * @param centerX the x coordinate in the center of the object to draw
      * @param centerY the y coordinate in the center of the object to draw
+     * @param height the height of the box
+     * @param width  the width of the box
      */
-    public SingleSectionClass(String title, double centerX, double centerY){
-        super(title, centerX, centerY, DEFAULT_SINGLE_SECTION_BOX_HEIGHT, DEFAULT_SINGLE_SECTION_BOX_WIDTH);
+    public SingleSectionClass(String title, double centerX, double centerY, double height, double width){
+        super(title, centerX, centerY, height, width);
     }
 
     @Override
@@ -45,5 +46,19 @@ public class SingleSectionClass extends DrawableComponent{
         //center text in box
         gc.fillText(title, startX + (width / 2) - (titleWidth/2),
                 startY + (height / 2) + (titleHeight/4));
+    }
+
+    @Override
+    public DrawableComponent createCopy() {
+        return new SingleSectionClass(this.title, this.centerX, this.centerY, this.height, this.width);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SingleSectionClass that = (SingleSectionClass) o;
+        return title.equals(that.title) && centerX == that.getCenterX() && centerY == that.centerY
+                && height == that.height && width == that.width;
     }
 }

@@ -16,6 +16,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 @Slf4j
 public class Controller {
@@ -30,19 +31,23 @@ public class Controller {
 
     @Setter
     //the state of the canvas
-    CanvasState currentCanvasState;
+    private CanvasState currentCanvasState;
     @Getter @Setter
     //the components drawn on the canvas
-    ArrayList<DrawableComponent> drawnComponents;
+    private ArrayList<DrawableComponent> drawnComponents;
     @Getter @Setter
     //the DrawableComponent currently highlighted
-    DrawableComponent highlightedComponent;
+    private DrawableComponent highlightedComponent;
+    //a stack to allow actions to be undone
+    private Stack<ArrayList<DrawableComponent>> drawnComponentStateQueue;
 
     /**Constructor*/
     public Controller() {
         drawnComponents = new ArrayList<>();
         highlightedComponent = null;
         currentCanvasState = null;
+        drawnComponentStateQueue = new Stack<>();
+        drawnComponentStateQueue.add(new ArrayList<>());
     }
 
     @FXML
@@ -77,5 +82,25 @@ public class Controller {
      */
     public void removeComponent(DrawableComponent componentToRemove){
         drawnComponents.remove(componentToRemove);
+    }
+
+    public void updateStateStack(){
+        ArrayList<DrawableComponent> newStackState = new ArrayList<>();
+        drawnComponents.forEach(component -> newStackState.add(component.createCopy()));
+        drawnComponentStateQueue.push(newStackState);
+    }
+
+    /**
+     * undo the last update made to the list of drawn components
+     */
+    public void undoLastAction(){
+        if(drawnComponentStateQueue.size() > 0) {
+            ArrayList<DrawableComponent> newComponentSet;
+            do{
+                newComponentSet = new ArrayList<>(drawnComponentStateQueue.pop());
+            }while(newComponentSet.equals(drawnComponents) && drawnComponentStateQueue.size() > 0);
+            drawnComponents = new ArrayList<>(newComponentSet);
+            currentCanvasState.redrawCanvas();
+        }
     }
 }
