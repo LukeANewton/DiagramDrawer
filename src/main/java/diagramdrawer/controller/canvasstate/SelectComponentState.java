@@ -49,18 +49,18 @@ public class SelectComponentState extends CanvasState {
             double bottomEdge = componentToDrag.getCenterY() + (componentToDrag.getHeight() / 2);
 
 
-            if(checkCloseToEdge(leftEdge, x)) {
-                controller.setCurrentCanvasState(new ResizeComponentState(
-                        controller, componentToDrag, ResizeDirection.LEFT));
-            }else if (checkCloseToEdge(rightEdge, x)){
+            if (checkCloseToEdge(rightEdge, x)){
                 controller.setCurrentCanvasState(new ResizeComponentState(
                         controller, componentToDrag, ResizeDirection.RIGHT));
-            }else if(checkCloseToEdge(topEdge, y)){
-                controller.setCurrentCanvasState(new ResizeComponentState(
-                        controller, componentToDrag, ResizeDirection.TOP));
             }else if(checkCloseToEdge(bottomEdge, y)){
                 controller.setCurrentCanvasState(new ResizeComponentState(
                         controller, componentToDrag, ResizeDirection.BOTTOM));
+            }else if(checkCloseToEdge(topEdge, y)) {
+                controller.setCurrentCanvasState(new ResizeComponentState(
+                        controller, componentToDrag, ResizeDirection.TOP));
+            }else if(checkCloseToEdge(leftEdge, x)) {
+                    controller.setCurrentCanvasState(new ResizeComponentState(
+                            controller, componentToDrag, ResizeDirection.LEFT));
             } else {
                 controller.setCurrentCanvasState(new MoveComponentState(controller, componentToDrag));
             }

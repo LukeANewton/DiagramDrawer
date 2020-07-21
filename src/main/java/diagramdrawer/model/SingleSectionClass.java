@@ -33,6 +33,12 @@ public class SingleSectionClass extends DrawableComponent{
         double startX = centerX - (width / 2);
         double startY = centerY - (height / 2);
 
+        //get size of text by creating a throwaway scene to get text size
+        final Text throwaway = new Text(title);
+        new Scene(new Group(throwaway));
+        double titleWidth = throwaway.getLayoutBounds().getWidth();
+        double titleHeight = throwaway.getLayoutBounds().getHeight();
+
         //draw shape
         gc.setStroke(color);
         gc.setLineWidth(lineWidth);
@@ -41,10 +47,8 @@ public class SingleSectionClass extends DrawableComponent{
         gc.strokeLine(startX + width, startY + height, startX + width, startY);
         gc.strokeLine(startX + width, startY, startX, startY);
 
-        //center text in box by creating a throwaway scene to get text size
-        final Text throwaway = new Text(title);
-        new Scene(new Group(throwaway));
-        gc.fillText(title, startX + (width / 2) - (throwaway.getLayoutBounds().getWidth()/2),
-                startY + (height / 2) + (throwaway.getLayoutBounds().getHeight()/4));
+        //center text in box
+        gc.fillText(title, startX + (width / 2) - (titleWidth/2),
+                startY + (height / 2) + (titleHeight/4));
     }
 }

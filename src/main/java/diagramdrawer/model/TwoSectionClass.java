@@ -61,6 +61,8 @@ public class TwoSectionClass extends DrawableComponent {
         //draw line underneath title to divide sections
         //height of the text plus 5 padding on top and bottom
         double dividerYcoord = startY + throwaway.getLayoutBounds().getHeight() + 10;
-        gc.strokeLine(startX, dividerYcoord, startX + width, dividerYcoord);
+        if(dividerYcoord < startY + height) {
+            gc.strokeLine(startX, dividerYcoord, startX + width, dividerYcoord);
+        }
     }
 }
