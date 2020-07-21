@@ -4,7 +4,7 @@ import diagramdrawer.controller.Controller;
 import diagramdrawer.model.DrawableComponent;
 import javafx.scene.input.MouseEvent;
 
-public class DragComponentState extends CanvasState{
+public class MoveComponentState extends CanvasState{
     DrawableComponent componentToDrag;
 
     /**
@@ -13,15 +13,9 @@ public class DragComponentState extends CanvasState{
      * @param controller the controller for the main window using this state
      * @param componentToDrag the component to move on the canvas
      */
-    public DragComponentState(Controller controller, DrawableComponent componentToDrag){
+    public MoveComponentState(Controller controller, DrawableComponent componentToDrag){
         super(controller);
         this.componentToDrag = componentToDrag;
-    }
-
-    @Override
-    public void enterState() {
-        super.enterState();
-        System.out.println("start dragging");
     }
 
     @Override
@@ -31,12 +25,13 @@ public class DragComponentState extends CanvasState{
 
     @Override
     public void mouseDraggedHandler(MouseEvent mouseEvent) {
-        System.out.println("dragging");
+        super.drawPreviewComponent(controller.getHighlightedComponent(), mouseEvent.getX(), mouseEvent.getY());
     }
 
     @Override
     public void mouseReleasedHandler(MouseEvent mouseEvent) {
-        System.out.println("done dragging");
+        super.drawFinalComponent(controller.getHighlightedComponent(), mouseEvent.getX(), mouseEvent.getY());
+        super.redrawCanvas();
         exitState();
     }
 }

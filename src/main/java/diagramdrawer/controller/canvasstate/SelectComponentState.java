@@ -25,20 +25,20 @@ public class SelectComponentState extends CanvasState {
             if(component.checkPointInBounds(x, y)){
                 //highlight/unhighlight the clicked component
                 controller.setHighlightedComponent(component);
-                issueDrawingCommand(() -> {});
+                redrawCanvas();
                 return;
             }
         }
         //if we make it here, the background was clicked, and nothing should be highlighted
         controller.setHighlightedComponent(null);
-        issueDrawingCommand(() -> {});
+        redrawCanvas();
     }
 
     @Override
     public void dragDetectedHandler(MouseEvent dragEvent) {
         if(controller.getHighlightedComponent() != null) {
             controller.setCurrentCanvasState(
-                    new DragComponentState(controller, controller.getHighlightedComponent()));
+                    new MoveComponentState(controller, controller.getHighlightedComponent()));
         }
     }
 }

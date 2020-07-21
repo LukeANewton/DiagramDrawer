@@ -93,6 +93,11 @@ public abstract class CanvasState {
         Platform.runLater(task);
     }
 
+    /**redraw the canvas with no changes to the contents*/
+    protected void redrawCanvas(){
+        issueDrawingCommand(() -> {});
+    }
+
     /**Set the listeners for each event*/
     public void enterState(){
         canvas.setOnMousePressed(this::mousePressedHandler);

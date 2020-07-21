@@ -6,7 +6,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 public class AddComponentState extends CanvasState {
-
     DrawableComponent newComponent;
 
     /**
