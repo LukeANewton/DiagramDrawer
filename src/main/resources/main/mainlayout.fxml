@@ -6,7 +6,7 @@
 <?import javafx.scene.canvas.Canvas?>
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             xmlns="http://javafx.com/javafx"
-            fx:mainWindowController="diagramdrawer.mainWindowController.MainWindowController"
+            fx:controller="diagramdrawer.controller.MainWindowController"
             prefHeight="600.0" prefWidth="800.0"
             stylesheets="@mainlayout.css">
     <top>
