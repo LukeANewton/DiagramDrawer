@@ -29,7 +29,7 @@ public class SelectComponentState extends CanvasState {
                 if(mouseEvent.getClickCount() == 1){
                     //highlight/unhighlight the clicked component
                     canvasContentsController.setHighlightedComponent(component);
-                    redrawCanvas();
+                    canvasContentsController.getCanvasDrawController().redrawCanvas();
                     return;
                 } else if(mouseEvent.getClickCount() == 2){
                     canvasContentsController.setCurrentCanvasState(new EditComponentContentsState(canvasContentsController, component));
@@ -39,7 +39,7 @@ public class SelectComponentState extends CanvasState {
         }
         //if we make it here, the background was clicked, and nothing should be highlighted
         canvasContentsController.setHighlightedComponent(null);
-        redrawCanvas();
+        canvasContentsController.getCanvasDrawController().redrawCanvas();
     }
 
     @Override
@@ -87,7 +87,7 @@ public class SelectComponentState extends CanvasState {
             if(componentToDelete != null){
                 canvasContentsController.removeComponent(componentToDelete);
                 canvasContentsController.setHighlightedComponent(null);
-                super.redrawCanvas();
+                canvasContentsController.getCanvasDrawController().redrawCanvas();
             }
         } else if (keyEvent.getCode() == KeyCode.Z){
             canvasContentsController.undoLastCanvasChange();

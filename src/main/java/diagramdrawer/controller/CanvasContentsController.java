@@ -25,13 +25,17 @@ public class CanvasContentsController {
     private CanvasState currentCanvasState;
     //the canvas to be drawn on
     @Getter
-    Canvas canvas;
+    private Canvas canvas;
+    //the controller to perform draw commands on the canvas
+    @Getter
+    private CanvasDrawController canvasDrawController;
 
     public CanvasContentsController(Canvas canvas) {
         this.canvas = canvas;
         drawnComponents = new ArrayList<>();
         highlightedComponent = null;
         drawnComponentStateStack = new CanvasContentStateStack();
+        canvasDrawController = new CanvasDrawController(this);
 
         //set the starting state for the canvas
         currentCanvasState = new SelectComponentState(this);
@@ -58,6 +62,6 @@ public class CanvasContentsController {
     /**undo the last change made to the canvas drawing*/
     public void undoLastCanvasChange(){
         drawnComponents = drawnComponentStateStack.undoLastCanvasChange(drawnComponents);
-        currentCanvasState.redrawCanvas();
+        canvasDrawController.redrawCanvas();
     }
 }

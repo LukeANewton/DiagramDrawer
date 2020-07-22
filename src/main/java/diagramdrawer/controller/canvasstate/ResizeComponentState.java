@@ -65,13 +65,13 @@ public class ResizeComponentState extends CanvasState {
             componentToResize.setCenterX(oldCenterX);
         }
 
-        super.drawPreviewComponent(componentToResize, componentToResize.getCenterX(), componentToResize.getCenterY());
+        canvasContentsController.getCanvasDrawController().drawPreviewComponent(componentToResize, componentToResize.getCenterX(), componentToResize.getCenterY());
     }
 
     @Override
     public void mouseReleasedHandler(MouseEvent mouseEvent) {
-        super.drawFinalComponent(componentToResize, componentToResize.getCenterX(), componentToResize.getCenterY());
-        super.redrawCanvas();
+        canvasContentsController.getCanvasDrawController().drawFinalComponent(componentToResize, componentToResize.getCenterX(), componentToResize.getCenterY());
+        canvasContentsController.getCanvasDrawController().redrawCanvas();
         exitState();
     }
 }

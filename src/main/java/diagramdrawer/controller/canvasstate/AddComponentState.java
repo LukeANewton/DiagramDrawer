@@ -36,7 +36,7 @@ public class AddComponentState extends CanvasState {
             // a right click indicates cancelling the new component addition
             exitState();
         } else if(mouseEvent.getButton() == MouseButton.PRIMARY){
-            newComponent = drawFinalComponent(newComponent, mouseEvent.getX(), mouseEvent.getY());
+            newComponent = canvasContentsController.getCanvasDrawController().drawFinalComponent(newComponent, mouseEvent.getX(), mouseEvent.getY());
             canvasContentsController.addComponent(newComponent);
             exitState();
         }
@@ -44,6 +44,6 @@ public class AddComponentState extends CanvasState {
 
     @Override
     public void mouseMoveHandler(MouseEvent mouseEvent) {
-        drawPreviewComponent(newComponent, mouseEvent.getX(), mouseEvent.getY());
+        canvasContentsController.getCanvasDrawController().drawPreviewComponent(newComponent, mouseEvent.getX(), mouseEvent.getY());
     }
 }

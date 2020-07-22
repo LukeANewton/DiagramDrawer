@@ -74,7 +74,7 @@ public class MainWindowController {
     @FXML
     public void exportCanvasToImageOnClick(){
         canvasContentsController.setHighlightedComponent(null);
-        canvasContentsController.getCurrentCanvasState().issueDrawingCommand(() -> {
+        canvasContentsController.getCanvasDrawController().issueDrawingCommand(() -> {
             //capture canvas image
             WritableImage image = canvas.snapshot(new SnapshotParameters(), null);
 

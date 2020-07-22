@@ -25,13 +25,13 @@ public class MoveComponentState extends CanvasState{
 
     @Override
     public void mouseDraggedHandler(MouseEvent mouseEvent) {
-        super.drawPreviewComponent(componentToDrag, mouseEvent.getX(), mouseEvent.getY());
+        canvasContentsController.getCanvasDrawController().drawPreviewComponent(componentToDrag, mouseEvent.getX(), mouseEvent.getY());
     }
 
     @Override
     public void mouseReleasedHandler(MouseEvent mouseEvent) {
-        super.drawFinalComponent(componentToDrag, mouseEvent.getX(), mouseEvent.getY());
-        super.redrawCanvas();
+        canvasContentsController.getCanvasDrawController().drawFinalComponent(componentToDrag, mouseEvent.getX(), mouseEvent.getY());
+        canvasContentsController.getCanvasDrawController().redrawCanvas();
         exitState();
     }
 }
