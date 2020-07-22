@@ -1,6 +1,6 @@
 package diagramdrawer.controller.canvasstate;
 
-import diagramdrawer.controller.MainWindowController;
+import diagramdrawer.controller.CanvasContentsController;
 import diagramdrawer.model.DrawableComponent;
 import javafx.scene.input.MouseEvent;
 
@@ -13,19 +13,19 @@ public class ResizeComponentState extends CanvasState {
     /**
      * Constructor
      *
-     * @param mainWindowController the controller for the main window using this state
+     * @param canvasContentsController the controller for the main window using this state
      * @param componentToResize the component to resize on the canvas
      */
-    public ResizeComponentState(MainWindowController mainWindowController, DrawableComponent componentToResize, ResizeDirection resizeDirection){
-        super(mainWindowController);
+    public ResizeComponentState(CanvasContentsController canvasContentsController, DrawableComponent componentToResize, ResizeDirection resizeDirection){
+        super(canvasContentsController);
         this.componentToResize = componentToResize;
         this.resizeDirection = resizeDirection;
     }
 
     @Override
     public void exitState(){
-        mainWindowController.updateStateStack();
-        mainWindowController.setCurrentCanvasState(new SelectComponentState(mainWindowController));
+        canvasContentsController.updateStateStack();
+        canvasContentsController.setCurrentCanvasState(new SelectComponentState(canvasContentsController));
     }
 
     @Override

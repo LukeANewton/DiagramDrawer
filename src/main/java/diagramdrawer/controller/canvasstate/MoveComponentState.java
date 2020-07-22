@@ -1,6 +1,6 @@
 package diagramdrawer.controller.canvasstate;
 
-import diagramdrawer.controller.MainWindowController;
+import diagramdrawer.controller.CanvasContentsController;
 import diagramdrawer.model.DrawableComponent;
 import javafx.scene.input.MouseEvent;
 
@@ -10,17 +10,17 @@ public class MoveComponentState extends CanvasState{
     /**
      * Constructor
      *
-     * @param mainWindowController the controller for the main window using this state
+     * @param canvasContentsController the controller for the main window using this state
      * @param componentToDrag the component to move on the canvas
      */
-    public MoveComponentState(MainWindowController mainWindowController, DrawableComponent componentToDrag){
-        super(mainWindowController);
+    public MoveComponentState(CanvasContentsController canvasContentsController, DrawableComponent componentToDrag){
+        super(canvasContentsController);
         this.componentToDrag = componentToDrag;
     }
 
     @Override
     public void exitState(){
-        mainWindowController.setCurrentCanvasState(new SelectComponentState(mainWindowController));
+        canvasContentsController.setCurrentCanvasState(new SelectComponentState(canvasContentsController));
     }
 
     @Override

@@ -1,6 +1,6 @@
 package diagramdrawer.controller.canvasstate;
 
-import diagramdrawer.controller.MainWindowController;
+import diagramdrawer.controller.CanvasContentsController;
 import diagramdrawer.model.DrawableComponent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,10 +17,10 @@ public class EditComponentContentsState extends CanvasState {
     /**
      * Constructor
      *
-     * @param mainWindowController the controller for the main window that uses this Canvas State object
+     * @param canvasContentsController the controller for the main window that uses this Canvas State object
      */
-    public EditComponentContentsState(MainWindowController mainWindowController, DrawableComponent componentToEdit) {
-        super(mainWindowController);
+    public EditComponentContentsState(CanvasContentsController canvasContentsController, DrawableComponent componentToEdit) {
+        super(canvasContentsController);
         this.componentToEdit = componentToEdit;
         dialog = new Stage();
         openDialogBox();
@@ -42,6 +42,7 @@ public class EditComponentContentsState extends CanvasState {
         Scene dialogScene = new Scene(vBox);
         dialogScene.getStylesheets().add(String.valueOf(getClass().getResource("/drawablecomponent/drawablecomponent.css")));
         dialog.setScene(dialogScene);
+        dialog.setOnCloseRequest((e) -> exitState());
         dialog.show();
     }
 
@@ -49,6 +50,6 @@ public class EditComponentContentsState extends CanvasState {
     public void exitState() {
         componentToEdit.updateContents();
         dialog.close();
-        mainWindowController.setCurrentCanvasState(new SelectComponentState(mainWindowController));
+        canvasContentsController.setCurrentCanvasState(new SelectComponentState(canvasContentsController));
     }
 }

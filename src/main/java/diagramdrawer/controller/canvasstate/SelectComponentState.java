@@ -1,6 +1,6 @@
 package diagramdrawer.controller.canvasstate;
 
-import diagramdrawer.controller.MainWindowController;
+import diagramdrawer.controller.CanvasContentsController;
 import diagramdrawer.model.DrawableComponent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -12,10 +12,10 @@ public class SelectComponentState extends CanvasState {
     /**
      * Constructor
      *
-     * @param mainWindowController the controller for the main window using this state
+     * @param canvasContentsController the controller for the main window using this state
      */
-    public SelectComponentState(MainWindowController mainWindowController){
-        super(mainWindowController);
+    public SelectComponentState(CanvasContentsController canvasContentsController){
+        super(canvasContentsController);
     }
 
     @Override
@@ -24,27 +24,27 @@ public class SelectComponentState extends CanvasState {
         double y = mouseEvent.getY();
 
         //check if click location is in the bound of a component
-        for(DrawableComponent component: mainWindowController.getDrawnComponents()){
+        for(DrawableComponent component: canvasContentsController.getDrawnComponents()){
             if(component.checkPointInBounds(x, y)){
                 if(mouseEvent.getClickCount() == 1){
                     //highlight/unhighlight the clicked component
-                    mainWindowController.setHighlightedComponent(component);
+                    canvasContentsController.setHighlightedComponent(component);
                     redrawCanvas();
                     return;
                 } else if(mouseEvent.getClickCount() == 2){
-                    mainWindowController.setCurrentCanvasState(new EditComponentContentsState(mainWindowController, component));
+                    canvasContentsController.setCurrentCanvasState(new EditComponentContentsState(canvasContentsController, component));
                 }
 
             }
         }
         //if we make it here, the background was clicked, and nothing should be highlighted
-        mainWindowController.setHighlightedComponent(null);
+        canvasContentsController.setHighlightedComponent(null);
         redrawCanvas();
     }
 
     @Override
     public void dragDetectedHandler(MouseEvent dragEvent) {
-        DrawableComponent componentToDrag = mainWindowController.getHighlightedComponent();
+        DrawableComponent componentToDrag = canvasContentsController.getHighlightedComponent();
 
         if(componentToDrag != null) {
             /*we need to check if the drag is on the edge of the component (to resize),
@@ -57,19 +57,19 @@ public class SelectComponentState extends CanvasState {
             double bottomEdge = componentToDrag.getCenterY() + (componentToDrag.getHeight() / 2);
 
             if (checkCloseToEdge(rightEdge, x)){
-                mainWindowController.setCurrentCanvasState(new ResizeComponentState(
-                        mainWindowController, componentToDrag, ResizeDirection.RIGHT));
+                canvasContentsController.setCurrentCanvasState(new ResizeComponentState(
+                        canvasContentsController, componentToDrag, ResizeDirection.RIGHT));
             }else if(checkCloseToEdge(bottomEdge, y)){
-                mainWindowController.setCurrentCanvasState(new ResizeComponentState(
-                        mainWindowController, componentToDrag, ResizeDirection.BOTTOM));
+                canvasContentsController.setCurrentCanvasState(new ResizeComponentState(
+                        canvasContentsController, componentToDrag, ResizeDirection.BOTTOM));
             }else if(checkCloseToEdge(topEdge, y)) {
-                mainWindowController.setCurrentCanvasState(new ResizeComponentState(
-                        mainWindowController, componentToDrag, ResizeDirection.TOP));
+                canvasContentsController.setCurrentCanvasState(new ResizeComponentState(
+                        canvasContentsController, componentToDrag, ResizeDirection.TOP));
             }else if(checkCloseToEdge(leftEdge, x)) {
-                    mainWindowController.setCurrentCanvasState(new ResizeComponentState(
-                            mainWindowController, componentToDrag, ResizeDirection.LEFT));
+                canvasContentsController.setCurrentCanvasState(new ResizeComponentState(
+                        canvasContentsController, componentToDrag, ResizeDirection.LEFT));
             } else {
-                mainWindowController.setCurrentCanvasState(new MoveComponentState(mainWindowController, componentToDrag));
+                canvasContentsController.setCurrentCanvasState(new MoveComponentState(canvasContentsController, componentToDrag));
             }
         }
     }
@@ -83,14 +83,14 @@ public class SelectComponentState extends CanvasState {
     public void keyStrokeHandler(KeyEvent keyEvent) {
         if(keyEvent.getCode() == KeyCode.DELETE || keyEvent.getCode() == KeyCode.BACK_SPACE){
             //delete the selected component
-            DrawableComponent componentToDelete = mainWindowController.getHighlightedComponent();
+            DrawableComponent componentToDelete = canvasContentsController.getHighlightedComponent();
             if(componentToDelete != null){
-                mainWindowController.removeComponent(componentToDelete);
-                mainWindowController.setHighlightedComponent(null);
+                canvasContentsController.removeComponent(componentToDelete);
+                canvasContentsController.setHighlightedComponent(null);
                 super.redrawCanvas();
             }
         } else if (keyEvent.getCode() == KeyCode.Z){
-            mainWindowController.undoLastAction();
+            canvasContentsController.undoLastAction();
         }
     }
 }

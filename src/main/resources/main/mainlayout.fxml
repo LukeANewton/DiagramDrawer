@@ -8,26 +8,27 @@
             xmlns="http://javafx.com/javafx"
             fx:controller="diagramdrawer.controller.MainWindowController"
             prefHeight="600.0" prefWidth="800.0"
-            stylesheets="@mainlayout.css">
+            stylesheets="@mainlayout.css"
+            fx:id="root">
     <top>
         <HBox id="menubar">
-            <Button id="menubutton" fx:id="saveButton" text="Save"/>
-            <Button id="menubutton" fx:id="loadButton" text="Load"/>
-            <Button id="menubutton" fx:id="exportButton" text="Export as Image"/>
+            <Button id="menubutton" onAction="#saveCurrentCanvasContents" text="Save"/>
+            <Button id="menubutton" onAction="#loadCanvasContents" text="Load"/>
+            <Button id="menubutton" onAction="#exportCanvasToImageOnClick"
+                    text="Export as Image"/>
         </HBox>
     </top>
     <left>
         <VBox id="toolbox">
             <Label id="toolbox-title" text="Tools"/>
-            <Button id="boxOneSectionButton" fx:id="boxOneSectionButton" text="Single Section Class"/>
-            <Button id="boxTwoSectionButton" fx:id="boxTwoSectionButton" text="Two Section Class"/>
+            <Button id="boxOneSectionButton" onAction="#drawNewSingleSectionClass"
+                    text="Single Section Class"/>
+            <Button id="boxTwoSectionButton"  onAction="#drawNewTwoSectionClass" text="Two Section Class"/>
         </VBox>
     </left>
     <center>
         <Pane id="canvaspane" fx:id="canvasPane">
-            <Canvas fx:id="canvas">
-
-            </Canvas>
+            <Canvas fx:id="canvas"/>
         </Pane>
     </center>
 

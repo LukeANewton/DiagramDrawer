@@ -1,6 +1,6 @@
 package diagramdrawer.controller.canvasstate;
 
-import diagramdrawer.controller.MainWindowController;
+import diagramdrawer.controller.CanvasContentsController;
 import diagramdrawer.model.DrawableComponent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -11,23 +11,23 @@ public class AddComponentState extends CanvasState {
     /**
      * Constructor
      *
-     * @param mainWindowController the controller for the main window using this state
+     * @param canvasContentsController the controller for the main window using this state
      * @param newComponent the new component to draw on the canvas
      */
-    public AddComponentState(MainWindowController mainWindowController, DrawableComponent newComponent){
-        super(mainWindowController);
+    public AddComponentState(CanvasContentsController canvasContentsController, DrawableComponent newComponent){
+        super(canvasContentsController);
         this.newComponent = newComponent;
     }
 
     @Override
     public void exitState() {
-        mainWindowController.setCurrentCanvasState(new SelectComponentState(mainWindowController));
+        canvasContentsController.setCurrentCanvasState(new SelectComponentState(canvasContentsController));
     }
 
     @Override
     public void enterState() {
         super.enterState();
-        mainWindowController.setHighlightedComponent(null);
+        canvasContentsController.setHighlightedComponent(null);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class AddComponentState extends CanvasState {
             exitState();
         } else if(mouseEvent.getButton() == MouseButton.PRIMARY){
             newComponent = drawFinalComponent(newComponent, mouseEvent.getX(), mouseEvent.getY());
-            mainWindowController.addComponent(newComponent);
+            canvasContentsController.addComponent(newComponent);
             exitState();
         }
     }
