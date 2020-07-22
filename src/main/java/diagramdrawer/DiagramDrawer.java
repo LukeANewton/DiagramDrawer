@@ -5,12 +5,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class DiagramDrawer extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(
-                Main.class.getResource("/main/mainlayout.fxml"));
+                DiagramDrawer.class.getResource("/main/mainlayout.fxml"));
         Scene scene = new Scene(loader.load());
 
         primaryStage.setTitle("Diagram Drawer");

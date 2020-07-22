@@ -32,7 +32,7 @@ public class SelectComponentState extends CanvasState {
                     redrawCanvas();
                     return;
                 } else if(mouseEvent.getClickCount() == 2){
-                    controller.setCurrentCanvasState(new EditComponentContents(controller, component));
+                    controller.setCurrentCanvasState(new EditComponentContentsState(controller, component));
                 }
 
             }

@@ -10,7 +10,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 
-public class EditComponentContents extends CanvasState {
+public class EditComponentContentsState extends CanvasState {
     private DrawableComponent componentToEdit;
     private Stage dialog;
 
@@ -19,7 +19,7 @@ public class EditComponentContents extends CanvasState {
      *
      * @param controller the controller for the main window that uses this Canvas State object
      */
-    public EditComponentContents(Controller controller, DrawableComponent componentToEdit) {
+    public EditComponentContentsState(Controller controller, DrawableComponent componentToEdit) {
         super(controller);
         this.componentToEdit = componentToEdit;
         dialog = new Stage();
