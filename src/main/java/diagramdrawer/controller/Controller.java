@@ -8,15 +8,22 @@ import diagramdrawer.model.DrawableComponent;
 import diagramdrawer.model.SingleSectionClass;
 import diagramdrawer.model.TwoSectionClass;
 import javafx.fxml.FXML;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
+import javafx.embed.swing.SwingFXUtils;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Stack;
+import javax.imageio.ImageIO;
 
 @Slf4j
 public class Controller {
@@ -28,6 +35,14 @@ public class Controller {
     private Button boxTwoSectionButton;
     @FXML @Getter
     private Canvas canvas;
+
+    //top menu bar
+    @FXML
+    private Button saveButton;
+    @FXML
+    private Button loadButton;
+    @FXML
+    private Button exportButton;
 
     @Setter
     //the state of the canvas
@@ -61,6 +76,38 @@ public class Controller {
 
         //add event on two section class box
         boxTwoSectionButton.setOnAction(event -> new AddComponentState(this, new TwoSectionClass()));
+
+        //set events on top menu bar
+        saveButton.setOnAction(event -> {
+
+        });
+        loadButton.setOnAction(event -> {
+
+        });
+        exportButton.setOnAction(event -> {
+            highlightedComponent = null;
+            currentCanvasState.issueDrawingCommand(() -> {
+                //capture canvas image
+                WritableImage image = canvas.snapshot(new SnapshotParameters(), null);
+
+                //set up file save dialog
+                FileChooser fileChooser = new FileChooser();
+                FileChooser.ExtensionFilter extFilter =
+                        new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
+                fileChooser.getExtensionFilters().add(extFilter);
+
+                //Show save file dialog
+                File selectedFile = fileChooser.showSaveDialog(canvasPane.getScene().getWindow());
+                if (selectedFile != null) {
+                    try {
+                        //save file
+                        ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", selectedFile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        });
 
         //add event on canvas to highlight/unhighlight drawn components
         currentCanvasState = new SelectComponentState(this);

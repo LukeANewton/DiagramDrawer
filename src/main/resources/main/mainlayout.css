@@ -8,7 +8,7 @@
     -fx-min-width: 200px;
 }
 
-#menubar {
+#menubutton {
 
 }
 
@@ -20,4 +20,3 @@
 #canvaspane {
     -fx-background-color: white
 }
-

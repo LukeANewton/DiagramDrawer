@@ -72,7 +72,7 @@ public abstract class CanvasState {
      *
      * @param task the Runnable to execute
      */
-    protected void issueDrawingCommand(Runnable task){
+    public void issueDrawingCommand(Runnable task){
         Platform.runLater(() -> {
             GraphicsContext gc = canvas.getGraphicsContext2D();
 

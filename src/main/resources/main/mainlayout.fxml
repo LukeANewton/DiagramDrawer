@@ -11,7 +11,9 @@
             stylesheets="@mainlayout.css">
     <top>
         <HBox id="menubar">
-            <Label id="file" text="File"/>
+            <Button id="menubutton" fx:id="saveButton" text="Save"/>
+            <Button id="menubutton" fx:id="loadButton" text="Load"/>
+            <Button id="menubutton" fx:id="exportButton" text="Export as Image"/>
         </HBox>
     </top>
     <left>
