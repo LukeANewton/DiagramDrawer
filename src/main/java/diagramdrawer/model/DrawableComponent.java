@@ -1,7 +1,12 @@
 package diagramdrawer.model;
 
+import javafx.event.EventHandler;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.Setter;
@@ -69,4 +74,8 @@ public abstract class DrawableComponent {
 
     /**Creates a copy of the DrawableComponent*/
     public abstract DrawableComponent createCopy();
+
+    public abstract VBox getUpdateContentsDialog();
+
+    public abstract void updateContents();
 }

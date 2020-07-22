@@ -26,10 +26,15 @@ public class SelectComponentState extends CanvasState {
         //check if click location is in the bound of a component
         for(DrawableComponent component: controller.getDrawnComponents()){
             if(component.checkPointInBounds(x, y)){
-                //highlight/unhighlight the clicked component
-                controller.setHighlightedComponent(component);
-                redrawCanvas();
-                return;
+                if(mouseEvent.getClickCount() == 1){
+                    //highlight/unhighlight the clicked component
+                    controller.setHighlightedComponent(component);
+                    redrawCanvas();
+                    return;
+                } else if(mouseEvent.getClickCount() == 2){
+                    controller.setCurrentCanvasState(new EditComponentContents(controller, component));
+                }
+
             }
         }
         //if we make it here, the background was clicked, and nothing should be highlighted

@@ -3,16 +3,20 @@ package diagramdrawer.model;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Objects;
-
-@Getter
-@Setter
 public class TwoSectionClass extends DrawableComponent {
+    private TextField titleTextField;
+    private TextArea contentsTextArea;
+    @Getter @Setter
     private String sectionContents;
 
     //default sizes for newly created components
@@ -60,11 +64,43 @@ public class TwoSectionClass extends DrawableComponent {
         if(dividerYcoord < startY + height) {
             gc.strokeLine(startX, dividerYcoord, startX + width, dividerYcoord);
         }
+
+        //draw text for section contents
+        gc.fillText(sectionContents, startX + 10, dividerYcoord + throwaway.getLayoutBounds().getHeight());
     }
 
     @Override
     public DrawableComponent createCopy() {
         return new TwoSectionClass(this.title, this.sectionContents, this.centerX, this.centerY, this.height, this.width);
+    }
+
+    @Override
+    public VBox getUpdateContentsDialog() {
+        VBox vbox = new VBox();
+        HBox hbox = new HBox();
+        HBox hbox2 = new HBox();
+        Label titleLabel = new Label("Title: ");
+        Label contentsLabel = new Label("Contents: ");
+        titleTextField = new TextField(title);
+        contentsTextArea = new TextArea(sectionContents);
+        hbox.getChildren().add(titleLabel);
+        hbox.getChildren().add(titleTextField);
+        hbox2.getChildren().add(contentsLabel);
+        hbox2.getChildren().add(contentsTextArea);
+        vbox.getChildren().add(hbox);
+        vbox.getChildren().add(hbox2);
+        titleLabel.setId("title");
+        contentsLabel.setId("title");
+        vbox.setId("border");
+        hbox.setId("hbox");
+        hbox.setId("hbox");
+        return vbox;
+    }
+
+    @Override
+    public void updateContents() {
+        title = titleTextField.getText();
+        sectionContents = contentsTextArea.getText();
     }
 
     @Override
@@ -75,10 +111,5 @@ public class TwoSectionClass extends DrawableComponent {
         return title.equals(that.title) && sectionContents.equals(that.getSectionContents())
                 && centerX == that.getCenterX() && centerY == that.centerY && height == that.height
                 && width == that.width;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(sectionContents);
     }
 }

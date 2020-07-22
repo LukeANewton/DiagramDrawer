@@ -21,7 +21,7 @@ import java.util.Stack;
 @Slf4j
 public class Controller {
     @FXML
-    public Pane canvasPane;
+    private Pane canvasPane;
     @FXML
     private Button boxOneSectionButton;
     @FXML

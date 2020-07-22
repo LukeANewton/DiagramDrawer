@@ -10,7 +10,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(
-                Main.class.getResource("/mainlayout.fxml"));
+                Main.class.getResource("/main/mainlayout.fxml"));
         Scene scene = new Scene(loader.load());
 
         primaryStage.setTitle("Diagram Drawer");

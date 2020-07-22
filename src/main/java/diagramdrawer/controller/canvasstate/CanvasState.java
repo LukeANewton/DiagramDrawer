@@ -41,7 +41,11 @@ public abstract class CanvasState {
      * @param clickY the Y coordinate at the center of the object to draw
      */
     protected DrawableComponent drawFinalComponent(DrawableComponent component, double clickX, double clickY) {
-        return drawComponent(component, clickX, clickY, Color.BLACK, "Class");
+        component.setCenterX(clickX);
+        component.setCenterY(clickY);
+        issueDrawingCommand(() -> component.draw(canvas.getGraphicsContext2D(), Color.BLACK, DRAW_THICKNESS));
+
+        return component;
     }
 
     /**
@@ -54,26 +58,13 @@ public abstract class CanvasState {
      *  @param clickY the Y coordinate at the center of the object to draw
      */
     protected void drawPreviewComponent(DrawableComponent component, double clickX, double clickY) {
-        drawComponent(component, clickX, clickY, Color.LIGHTGRAY, "");
-    }
-
-    /**
-     * method to draw a class box on the canvas at the location clicked
-     *
-     * @param boxToDraw  the DrawableComponent to draw
-     * @param clickX the x coordinate at the center of the draw
-     * @param clickY the y coordinate of the center of the draw
-     * @param color the color to draw the box in
-     * @param title the title to display on the box
-     * @return the component drawn on the canvas
-     */
-    protected DrawableComponent drawComponent(DrawableComponent boxToDraw, double clickX, double clickY, Color color, String title) {
-        boxToDraw.setTitle(title);
-        boxToDraw.setCenterX(clickX);
-        boxToDraw.setCenterY(clickY);
-        issueDrawingCommand(() -> boxToDraw.draw(canvas.getGraphicsContext2D(), color, DRAW_THICKNESS));
-
-        return boxToDraw;
+        issueDrawingCommand(() -> {
+            GraphicsContext gc = canvas.getGraphicsContext2D();
+            gc.setLineWidth(DRAW_THICKNESS);
+            gc.setStroke(Color.LIGHTGRAY);
+            gc.strokeRect(clickX - (component.getWidth()/2), clickY - (component.getHeight()/2),
+                    component.getWidth(), component.getHeight());
+        });
     }
 
     /**
@@ -112,6 +103,7 @@ public abstract class CanvasState {
                 currentWindow -> currentWindow.getScene().setOnKeyPressed(this::keyStrokeHandler));
 
         controller.updateStateStack();
+        redrawCanvas();
     }
 
     /**activities to be done before the next state is entered*/
