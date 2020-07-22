@@ -40,9 +40,8 @@ public class MainWindowController {
         canvas.widthProperty().bind(canvasPane.widthProperty());
         canvas.heightProperty().bind(canvasPane.heightProperty());
 
+        //initialize the canvas content management controller
         canvasContentsController = new CanvasContentsController(canvas);
-
-
     }
 
     /**handler for adding a new SingleSectionClassBox to the canvas*/
