@@ -10,7 +10,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 
-public class CanvasContentsController {
+public class CanvasContentManagementController {
     //the components drawn on the canvas
     @Getter @Setter
     private ArrayList<DrawableComponent> drawnComponents;
@@ -30,7 +30,7 @@ public class CanvasContentsController {
     @Getter
     private CanvasDrawController canvasDrawController;
 
-    public CanvasContentsController(Canvas canvas) {
+    public CanvasContentManagementController(Canvas canvas) {
         this.canvas = canvas;
         drawnComponents = new ArrayList<>();
         highlightedComponent = null;

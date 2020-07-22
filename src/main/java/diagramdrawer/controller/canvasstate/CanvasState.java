@@ -1,6 +1,6 @@
 package diagramdrawer.controller.canvasstate;
 
-import diagramdrawer.controller.CanvasContentsController;
+import diagramdrawer.controller.CanvasContentManagementController;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -9,18 +9,18 @@ import javafx.stage.Window;
 
 public abstract class CanvasState {
     //the controller for the main window
-    protected CanvasContentsController canvasContentsController;
+    protected CanvasContentManagementController canvasContentManagementController;
     //the canvas to draw on
     protected Canvas canvas;
 
     /**
      * Constructor
      *
-     * @param canvasContentsController the controller for the main window that uses this Canvas State object
+     * @param canvasContentManagementController the controller for the main window that uses this Canvas State object
      */
-    public CanvasState(CanvasContentsController canvasContentsController){
-        this.canvasContentsController = canvasContentsController;
-        this.canvas = canvasContentsController.getCanvas();
+    public CanvasState(CanvasContentManagementController canvasContentManagementController){
+        this.canvasContentManagementController = canvasContentManagementController;
+        this.canvas = canvasContentManagementController.getCanvas();
         enterState();
     }
 
@@ -34,8 +34,8 @@ public abstract class CanvasState {
         Stage.getWindows().stream().filter(Window::isShowing).findFirst().ifPresent(
                 currentWindow -> currentWindow.getScene().setOnKeyPressed(this::keyStrokeHandler));
 
-        canvasContentsController.getDrawnComponentStateStack().updateStateStack(canvasContentsController.getDrawnComponents());
-        canvasContentsController.getCanvasDrawController().redrawCanvas();
+        canvasContentManagementController.getDrawnComponentStateStack().updateStateStack(canvasContentManagementController.getDrawnComponents());
+        canvasContentManagementController.getCanvasDrawController().redrawCanvas();
     }
 
     /**activities to be done before the next state is entered*/

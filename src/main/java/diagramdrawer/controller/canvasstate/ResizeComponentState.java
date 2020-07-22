@@ -1,6 +1,6 @@
 package diagramdrawer.controller.canvasstate;
 
-import diagramdrawer.controller.CanvasContentsController;
+import diagramdrawer.controller.CanvasContentManagementController;
 import diagramdrawer.model.drawablecomponent.DrawableComponent;
 import javafx.scene.input.MouseEvent;
 
@@ -13,18 +13,18 @@ public class ResizeComponentState extends CanvasState {
     /**
      * Constructor
      *
-     * @param canvasContentsController the controller for the main window using this state
+     * @param canvasContentManagementController the controller for the main window using this state
      * @param componentToResize the component to resize on the canvas
      */
-    public ResizeComponentState(CanvasContentsController canvasContentsController, DrawableComponent componentToResize, ResizeDirection resizeDirection){
-        super(canvasContentsController);
+    public ResizeComponentState(CanvasContentManagementController canvasContentManagementController, DrawableComponent componentToResize, ResizeDirection resizeDirection){
+        super(canvasContentManagementController);
         this.componentToResize = componentToResize;
         this.resizeDirection = resizeDirection;
     }
 
     @Override
     public void exitState(){
-        canvasContentsController.setCurrentCanvasState(new SelectComponentState(canvasContentsController));
+        canvasContentManagementController.setCurrentCanvasState(new SelectComponentState(canvasContentManagementController));
     }
 
     @Override
@@ -65,13 +65,13 @@ public class ResizeComponentState extends CanvasState {
             componentToResize.setCenterX(oldCenterX);
         }
 
-        canvasContentsController.getCanvasDrawController().drawPreviewComponent(componentToResize, componentToResize.getCenterX(), componentToResize.getCenterY());
+        canvasContentManagementController.getCanvasDrawController().drawPreviewComponent(componentToResize, componentToResize.getCenterX(), componentToResize.getCenterY());
     }
 
     @Override
     public void mouseReleasedHandler(MouseEvent mouseEvent) {
-        canvasContentsController.getCanvasDrawController().drawFinalComponent(componentToResize, componentToResize.getCenterX(), componentToResize.getCenterY());
-        canvasContentsController.getCanvasDrawController().redrawCanvas();
+        canvasContentManagementController.getCanvasDrawController().drawFinalComponent(componentToResize, componentToResize.getCenterX(), componentToResize.getCenterY());
+        canvasContentManagementController.getCanvasDrawController().redrawCanvas();
         exitState();
     }
 }

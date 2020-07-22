@@ -12,15 +12,15 @@ public class CanvasDrawController {
     //the graphics context of the canvas to draw on
     private GraphicsContext gc;
     //the controller that manages the canvas content
-    private CanvasContentsController canvasContentsController;
+    private CanvasContentManagementController canvasContentManagementController;
 
     //thicknesses for drawing lines
     private final int DRAW_THICKNESS = 1;       //"normal" width lines for drawing
     private final int HIGHLIGHT_THICKNESS = 4;  //thicker lines to indicate which box is highlighted
 
-    public CanvasDrawController(CanvasContentsController canvasContentsController){
-        this.canvasContentsController = canvasContentsController;
-        this.canvas = canvasContentsController.getCanvas();
+    public CanvasDrawController(CanvasContentManagementController canvasContentManagementController){
+        this.canvasContentManagementController = canvasContentManagementController;
+        this.canvas = canvasContentManagementController.getCanvas();
         this.gc = canvas.getGraphicsContext2D();
     }
 
@@ -66,8 +66,8 @@ public class CanvasDrawController {
     public void issueDrawingCommand(Runnable task){
         Platform.runLater(() -> {
             gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-            for(DrawableComponent component : canvasContentsController.getDrawnComponents()){
-                if(component.equals(canvasContentsController.getHighlightedComponent()))
+            for(DrawableComponent component : canvasContentManagementController.getDrawnComponents()){
+                if(component.equals(canvasContentManagementController.getHighlightedComponent()))
                     component.draw(gc, Color.RED, HIGHLIGHT_THICKNESS);
                 else
                     component.draw(gc, Color.BLACK, DRAW_THICKNESS);

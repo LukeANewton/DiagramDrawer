@@ -1,6 +1,6 @@
 package diagramdrawer.controller.canvasstate;
 
-import diagramdrawer.controller.CanvasContentsController;
+import diagramdrawer.controller.CanvasContentManagementController;
 import diagramdrawer.model.drawablecomponent.DrawableComponent;
 import javafx.scene.input.MouseEvent;
 
@@ -10,28 +10,28 @@ public class MoveComponentState extends CanvasState{
     /**
      * Constructor
      *
-     * @param canvasContentsController the controller for the main window using this state
+     * @param canvasContentManagementController the controller for the main window using this state
      * @param componentToDrag the component to move on the canvas
      */
-    public MoveComponentState(CanvasContentsController canvasContentsController, DrawableComponent componentToDrag){
-        super(canvasContentsController);
+    public MoveComponentState(CanvasContentManagementController canvasContentManagementController, DrawableComponent componentToDrag){
+        super(canvasContentManagementController);
         this.componentToDrag = componentToDrag;
     }
 
     @Override
     public void exitState(){
-        canvasContentsController.setCurrentCanvasState(new SelectComponentState(canvasContentsController));
+        canvasContentManagementController.setCurrentCanvasState(new SelectComponentState(canvasContentManagementController));
     }
 
     @Override
     public void mouseDraggedHandler(MouseEvent mouseEvent) {
-        canvasContentsController.getCanvasDrawController().drawPreviewComponent(componentToDrag, mouseEvent.getX(), mouseEvent.getY());
+        canvasContentManagementController.getCanvasDrawController().drawPreviewComponent(componentToDrag, mouseEvent.getX(), mouseEvent.getY());
     }
 
     @Override
     public void mouseReleasedHandler(MouseEvent mouseEvent) {
-        canvasContentsController.getCanvasDrawController().drawFinalComponent(componentToDrag, mouseEvent.getX(), mouseEvent.getY());
-        canvasContentsController.getCanvasDrawController().redrawCanvas();
+        canvasContentManagementController.getCanvasDrawController().drawFinalComponent(componentToDrag, mouseEvent.getX(), mouseEvent.getY());
+        canvasContentManagementController.getCanvasDrawController().redrawCanvas();
         exitState();
     }
 }

@@ -31,7 +31,7 @@ public class MainWindowController {
     private Canvas canvas;
 
     //the controller for the Canvas contents
-    private CanvasContentsController canvasContentsController;
+    private CanvasContentManagementController canvasContentManagementController;
 
     /**initialize method once FXML loads*/
     @FXML
@@ -41,21 +41,21 @@ public class MainWindowController {
         canvas.heightProperty().bind(canvasPane.heightProperty());
 
         //initialize the canvas content management controller
-        canvasContentsController = new CanvasContentsController(canvas);
+        canvasContentManagementController = new CanvasContentManagementController(canvas);
     }
 
     /**handler for adding a new SingleSectionClassBox to the canvas*/
     @FXML
     public void drawNewSingleSectionClass(){
-        canvasContentsController.setCurrentCanvasState(
-                new AddComponentState(canvasContentsController, new SingleSectionClass()));
+        canvasContentManagementController.setCurrentCanvasState(
+                new AddComponentState(canvasContentManagementController, new SingleSectionClass()));
     }
 
     /**handler for adding a new TwoSectionClassBox to the canvas*/
     @FXML
     public void drawNewTwoSectionClass(){
-        canvasContentsController.setCurrentCanvasState(
-                new AddComponentState(canvasContentsController, new TwoSectionClass()));
+        canvasContentManagementController.setCurrentCanvasState(
+                new AddComponentState(canvasContentManagementController, new TwoSectionClass()));
     }
 
     /**handler for loading a new set of DrawableComponents onto the canvas*/
@@ -73,8 +73,8 @@ public class MainWindowController {
     /**handler for saving the current set of DrawableComponents on the canvas as a PNG image**/
     @FXML
     public void exportCanvasToImageOnClick(){
-        canvasContentsController.setHighlightedComponent(null);
-        canvasContentsController.getCanvasDrawController().issueDrawingCommand(() -> {
+        canvasContentManagementController.setHighlightedComponent(null);
+        canvasContentManagementController.getCanvasDrawController().issueDrawingCommand(() -> {
             //capture canvas image
             WritableImage image = canvas.snapshot(new SnapshotParameters(), null);
 
