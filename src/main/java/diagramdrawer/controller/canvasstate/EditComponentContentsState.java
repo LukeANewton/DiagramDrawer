@@ -1,6 +1,6 @@
 package diagramdrawer.controller.canvasstate;
 
-import diagramdrawer.controller.Controller;
+import diagramdrawer.controller.MainWindowController;
 import diagramdrawer.model.DrawableComponent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -17,10 +17,10 @@ public class EditComponentContentsState extends CanvasState {
     /**
      * Constructor
      *
-     * @param controller the controller for the main window that uses this Canvas State object
+     * @param mainWindowController the controller for the main window that uses this Canvas State object
      */
-    public EditComponentContentsState(Controller controller, DrawableComponent componentToEdit) {
-        super(controller);
+    public EditComponentContentsState(MainWindowController mainWindowController, DrawableComponent componentToEdit) {
+        super(mainWindowController);
         this.componentToEdit = componentToEdit;
         dialog = new Stage();
         openDialogBox();
@@ -49,6 +49,6 @@ public class EditComponentContentsState extends CanvasState {
     public void exitState() {
         componentToEdit.updateContents();
         dialog.close();
-        controller.setCurrentCanvasState(new SelectComponentState(controller));
+        mainWindowController.setCurrentCanvasState(new SelectComponentState(mainWindowController));
     }
 }

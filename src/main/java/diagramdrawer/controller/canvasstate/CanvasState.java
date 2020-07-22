@@ -1,6 +1,6 @@
 package diagramdrawer.controller.canvasstate;
 
-import diagramdrawer.controller.Controller;
+import diagramdrawer.controller.MainWindowController;
 import diagramdrawer.model.DrawableComponent;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
@@ -13,7 +13,7 @@ import javafx.stage.Window;
 
 public abstract class CanvasState {
     //the controller for the main window
-    protected Controller controller;
+    protected MainWindowController mainWindowController;
     //the canvas to draw on
     protected Canvas canvas;
 
@@ -24,11 +24,11 @@ public abstract class CanvasState {
     /**
      * Constructor
      *
-     * @param controller the controller for the main window that uses this Canvas State object
+     * @param mainWindowController the controller for the main window that uses this Canvas State object
      */
-    public CanvasState(Controller controller){
-        this.controller = controller;
-        this.canvas = controller.getCanvas();
+    public CanvasState(MainWindowController mainWindowController){
+        this.mainWindowController = mainWindowController;
+        this.canvas = mainWindowController.getCanvas();
         enterState();
     }
 
@@ -77,8 +77,8 @@ public abstract class CanvasState {
             GraphicsContext gc = canvas.getGraphicsContext2D();
 
             gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-            for(DrawableComponent component : controller.getDrawnComponents()){
-                if(component.equals(controller.getHighlightedComponent()))
+            for(DrawableComponent component : mainWindowController.getDrawnComponents()){
+                if(component.equals(mainWindowController.getHighlightedComponent()))
                     component.draw(gc, Color.RED, HIGHLIGHT_THICKNESS);
                 else
                     component.draw(gc, Color.BLACK, DRAW_THICKNESS);
@@ -102,7 +102,7 @@ public abstract class CanvasState {
         Stage.getWindows().stream().filter(Window::isShowing).findFirst().ifPresent(
                 currentWindow -> currentWindow.getScene().setOnKeyPressed(this::keyStrokeHandler));
 
-        controller.updateStateStack();
+        mainWindowController.updateStateStack();
         redrawCanvas();
     }
 

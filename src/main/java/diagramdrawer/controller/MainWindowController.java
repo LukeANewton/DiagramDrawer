@@ -26,7 +26,7 @@ import java.util.Stack;
 import javax.imageio.ImageIO;
 
 @Slf4j
-public class Controller {
+public class MainWindowController {
     @FXML
     private Pane canvasPane;
     @FXML
@@ -57,7 +57,7 @@ public class Controller {
     private Stack<ArrayList<DrawableComponent>> drawnComponentStateQueue;
 
     /**Constructor*/
-    public Controller() {
+    public MainWindowController() {
         drawnComponents = new ArrayList<>();
         highlightedComponent = null;
         currentCanvasState = null;
