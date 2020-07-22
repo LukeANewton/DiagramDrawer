@@ -1,7 +1,7 @@
 package diagramdrawer.controller.canvasstate;
 
 import diagramdrawer.controller.CanvasContentsController;
-import diagramdrawer.model.DrawableComponent;
+import diagramdrawer.model.drawablecomponent.DrawableComponent;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -102,7 +102,7 @@ public abstract class CanvasState {
         Stage.getWindows().stream().filter(Window::isShowing).findFirst().ifPresent(
                 currentWindow -> currentWindow.getScene().setOnKeyPressed(this::keyStrokeHandler));
 
-        canvasContentsController.updateStateStack();
+        canvasContentsController.getDrawnComponentStateStack().updateStateStack(canvasContentsController.getDrawnComponents());
         redrawCanvas();
     }
 

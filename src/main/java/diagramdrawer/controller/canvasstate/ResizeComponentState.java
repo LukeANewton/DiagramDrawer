@@ -1,7 +1,7 @@
 package diagramdrawer.controller.canvasstate;
 
 import diagramdrawer.controller.CanvasContentsController;
-import diagramdrawer.model.DrawableComponent;
+import diagramdrawer.model.drawablecomponent.DrawableComponent;
 import javafx.scene.input.MouseEvent;
 
 public class ResizeComponentState extends CanvasState {
@@ -24,7 +24,6 @@ public class ResizeComponentState extends CanvasState {
 
     @Override
     public void exitState(){
-        canvasContentsController.updateStateStack();
         canvasContentsController.setCurrentCanvasState(new SelectComponentState(canvasContentsController));
     }
 

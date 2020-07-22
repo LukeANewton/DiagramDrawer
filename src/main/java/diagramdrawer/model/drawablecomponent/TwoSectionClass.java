@@ -1,4 +1,4 @@
-package diagramdrawer.model;
+package diagramdrawer.model.drawablecomponent;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;

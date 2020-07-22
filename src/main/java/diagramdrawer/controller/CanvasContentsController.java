@@ -2,13 +2,13 @@ package diagramdrawer.controller;
 
 import diagramdrawer.controller.canvasstate.CanvasState;
 import diagramdrawer.controller.canvasstate.SelectComponentState;
-import diagramdrawer.model.DrawableComponent;
+import diagramdrawer.model.CanvasContentStateStack;
+import diagramdrawer.model.drawablecomponent.DrawableComponent;
 import javafx.scene.canvas.Canvas;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.Stack;
 
 public class CanvasContentsController {
     //the components drawn on the canvas
@@ -18,7 +18,8 @@ public class CanvasContentsController {
     @Getter @Setter
     private DrawableComponent highlightedComponent;
     //a stack to allow actions to be undone
-    private Stack<ArrayList<DrawableComponent>> drawnComponentStateQueue;
+    @Getter
+    private CanvasContentStateStack drawnComponentStateStack;
     //the state of the canvas
     @Setter @Getter
     private CanvasState currentCanvasState;
@@ -30,8 +31,7 @@ public class CanvasContentsController {
         this.canvas = canvas;
         drawnComponents = new ArrayList<>();
         highlightedComponent = null;
-        drawnComponentStateQueue = new Stack<>();
-        drawnComponentStateQueue.add(new ArrayList<>());
+        drawnComponentStateStack = new CanvasContentStateStack();
 
         //set the starting state for the canvas
         currentCanvasState = new SelectComponentState(this);
@@ -55,24 +55,9 @@ public class CanvasContentsController {
         drawnComponents.remove(componentToRemove);
     }
 
-    /**push the current contents of the canvas onto the stack of canvas states*/
-    public void updateStateStack(){
-        ArrayList<DrawableComponent> newStackState = new ArrayList<>();
-        drawnComponents.forEach(component -> newStackState.add(component.createCopy()));
-        drawnComponentStateQueue.push(newStackState);
-    }
-
-    /**
-     * undo the last update made to the list of drawn components
-     */
-    public void undoLastAction(){
-        if(drawnComponentStateQueue.size() > 0) {
-            ArrayList<DrawableComponent> newComponentSet;
-            do{
-                newComponentSet = new ArrayList<>(drawnComponentStateQueue.pop());
-            }while(newComponentSet.equals(drawnComponents) && drawnComponentStateQueue.size() > 0);
-            drawnComponents = new ArrayList<>(newComponentSet);
-            currentCanvasState.redrawCanvas();
-        }
+    /**undo the last change made to the canvas drawing*/
+    public void undoLastCanvasChange(){
+        drawnComponents = drawnComponentStateStack.undoLastCanvasChange(drawnComponents);
+        currentCanvasState.redrawCanvas();
     }
 }

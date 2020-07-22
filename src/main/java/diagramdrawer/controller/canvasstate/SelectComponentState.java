@@ -1,7 +1,7 @@
 package diagramdrawer.controller.canvasstate;
 
 import diagramdrawer.controller.CanvasContentsController;
-import diagramdrawer.model.DrawableComponent;
+import diagramdrawer.model.drawablecomponent.DrawableComponent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -90,7 +90,7 @@ public class SelectComponentState extends CanvasState {
                 super.redrawCanvas();
             }
         } else if (keyEvent.getCode() == KeyCode.Z){
-            canvasContentsController.undoLastAction();
+            canvasContentsController.undoLastCanvasChange();
         }
     }
 }

@@ -1,7 +1,7 @@
 package diagramdrawer.controller.canvasstate;
 
 import diagramdrawer.controller.CanvasContentsController;
-import diagramdrawer.model.DrawableComponent;
+import diagramdrawer.model.drawablecomponent.DrawableComponent;
 import javafx.scene.input.MouseEvent;
 
 public class MoveComponentState extends CanvasState{

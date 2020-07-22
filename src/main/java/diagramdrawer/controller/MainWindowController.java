@@ -2,8 +2,8 @@ package diagramdrawer.controller;
 
 
 import diagramdrawer.controller.canvasstate.AddComponentState;
-import diagramdrawer.model.SingleSectionClass;
-import diagramdrawer.model.TwoSectionClass;
+import diagramdrawer.model.drawablecomponent.SingleSectionClass;
+import diagramdrawer.model.drawablecomponent.TwoSectionClass;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
