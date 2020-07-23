@@ -56,7 +56,19 @@ public class SelectComponentState extends CanvasState {
             double rightEdge = componentToDrag.getCenterX() + (componentToDrag.getWidth() / 2);
             double bottomEdge = componentToDrag.getCenterY() + (componentToDrag.getHeight() / 2);
 
-            if (checkCloseToEdge(rightEdge, x)){
+            if (checkCloseToEdge(topEdge, y) && checkCloseToEdge(leftEdge, x)){
+                canvasContentManagementController.setCurrentCanvasState(new ResizeComponentState(
+                        canvasContentManagementController, componentToDrag, ResizeDirection.TOP_LEFT));
+            } else if (checkCloseToEdge(topEdge, y) && checkCloseToEdge(rightEdge, x)){
+                canvasContentManagementController.setCurrentCanvasState(new ResizeComponentState(
+                        canvasContentManagementController, componentToDrag, ResizeDirection.TOP_RIGHT));
+            } else if (checkCloseToEdge(bottomEdge, y) && checkCloseToEdge(leftEdge, x)){
+                canvasContentManagementController.setCurrentCanvasState(new ResizeComponentState(
+                        canvasContentManagementController, componentToDrag, ResizeDirection.BOTTOM_LEFT));
+            } else if (checkCloseToEdge(bottomEdge, y) && checkCloseToEdge(rightEdge, x)){
+                canvasContentManagementController.setCurrentCanvasState(new ResizeComponentState(
+                        canvasContentManagementController, componentToDrag, ResizeDirection.BOTTOM_RIGHT));
+            } else if (checkCloseToEdge(rightEdge, x)){
                 canvasContentManagementController.setCurrentCanvasState(new ResizeComponentState(
                         canvasContentManagementController, componentToDrag, ResizeDirection.RIGHT));
             }else if(checkCloseToEdge(bottomEdge, y)){

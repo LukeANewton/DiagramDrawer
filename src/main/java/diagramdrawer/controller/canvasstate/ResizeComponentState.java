@@ -38,20 +38,32 @@ public class ResizeComponentState extends CanvasState {
         double bottomEdge = componentToResize.getCenterY() + (componentToResize.getHeight() / 2);
         switch(resizeDirection){
             case LEFT:
-                componentToResize.setWidth(rightEdge - mouseEvent.getX());
-                componentToResize.setCenterX(mouseEvent.getX() + (componentToResize.getWidth() / 2));
+                resizeHorizontalLeft(rightEdge, mouseEvent.getX());
                 break;
             case RIGHT:
-                componentToResize.setWidth(mouseEvent.getX() - leftEdge);
-                componentToResize.setCenterX(mouseEvent.getX() - (componentToResize.getWidth() / 2));
+                resizeHorizontalRight(leftEdge, mouseEvent.getX());
                 break;
             case TOP:
-                componentToResize.setHeight(bottomEdge - mouseEvent.getY());
-                componentToResize.setCenterY(mouseEvent.getY() + (componentToResize.getHeight() / 2));
+                resizeVerticalUp(bottomEdge, mouseEvent.getY());
                 break;
             case BOTTOM:
-                componentToResize.setHeight(mouseEvent.getY() - topEdge);
-                componentToResize.setCenterY(mouseEvent.getY() - (componentToResize.getHeight() / 2));
+                resizeVerticalDown(topEdge, mouseEvent.getY());
+                break;
+            case TOP_LEFT:
+                resizeHorizontalLeft(rightEdge, mouseEvent.getX());
+                resizeVerticalUp(bottomEdge, mouseEvent.getY());
+                break;
+            case TOP_RIGHT:
+                resizeHorizontalRight(leftEdge, mouseEvent.getX());
+                resizeVerticalUp(bottomEdge, mouseEvent.getY());
+                break;
+            case BOTTOM_LEFT:
+                resizeHorizontalLeft(rightEdge, mouseEvent.getX());
+                resizeVerticalDown(topEdge, mouseEvent.getY());
+                break;
+            case BOTTOM_RIGHT:
+                resizeHorizontalRight(leftEdge, mouseEvent.getX());
+                resizeVerticalDown(topEdge, mouseEvent.getY());
                 break;
         }
 
@@ -73,5 +85,49 @@ public class ResizeComponentState extends CanvasState {
         canvasContentManagementController.getCanvasDrawController().drawFinalComponent(componentToResize, componentToResize.getCenterX(), componentToResize.getCenterY());
         canvasContentManagementController.getCanvasDrawController().redrawCanvas();
         exitState();
+    }
+
+    /**
+     * resize the selected component horizontally on the left side
+     *
+     * @param oppositeEdge the x coordinate of the right edge of the box to resize
+     * @param xClickCoord the x coordinate of the mouse to resize with
+     */
+    private void resizeHorizontalLeft(double oppositeEdge, double xClickCoord){
+        componentToResize.setWidth(oppositeEdge - xClickCoord);
+        componentToResize.setCenterX(xClickCoord + (componentToResize.getWidth() / 2));
+    }
+
+    /**
+     * resize the selected component horizontally on the right side
+     *
+     * @param oppositeEdge the x coordinate of the left edge of the box to resize
+     * @param xClickCoord the x coordinate of the mouse to resize with
+     */
+    private void resizeHorizontalRight(double oppositeEdge, double xClickCoord){
+        componentToResize.setWidth(xClickCoord - oppositeEdge);
+        componentToResize.setCenterX(xClickCoord - (componentToResize.getWidth() / 2));
+    }
+
+    /**
+     * resize the selected component vertically on the top side
+     *
+     * @param oppositeEdge the y coordinate of the bottom edge of the box to resize
+     * @param yClickCoord the y coordinate of the mouse to resize with
+     */
+    private void resizeVerticalUp(double oppositeEdge, double yClickCoord){
+        componentToResize.setHeight(oppositeEdge - yClickCoord);
+        componentToResize.setCenterY(yClickCoord + (componentToResize.getHeight() / 2));
+    }
+
+    /**
+     * resize the selected component vertically on the bottom side
+     *
+     * @param oppositeEdge the y coordinate of the top edge of the box to resize
+     * @param yClickCoord the y coordinate of the mouse to resize with
+     */
+    private void resizeVerticalDown(double oppositeEdge, double yClickCoord){
+        componentToResize.setHeight(yClickCoord - oppositeEdge);
+        componentToResize.setCenterY(yClickCoord - (componentToResize.getHeight() / 2));
     }
 }
