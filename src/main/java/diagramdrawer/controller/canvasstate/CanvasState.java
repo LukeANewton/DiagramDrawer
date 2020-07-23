@@ -7,6 +7,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+/**Sets the events performed on each possible action depending on which implementation is active*/
 public abstract class CanvasState {
     //the controller for the main window
     protected CanvasContentManagementController canvasContentManagementController;

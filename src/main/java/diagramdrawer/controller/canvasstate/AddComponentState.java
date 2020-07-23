@@ -5,7 +5,9 @@ import diagramdrawer.model.drawablecomponent.DrawableComponent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
+/**Handles the addition of a DrawableComponent onto the canvas*/
 public class AddComponentState extends CanvasState {
+    //the component to add onto the canvas drawing
     DrawableComponent newComponent;
 
     /**
@@ -36,6 +38,7 @@ public class AddComponentState extends CanvasState {
             // a right click indicates cancelling the new component addition
             exitState();
         } else if(mouseEvent.getButton() == MouseButton.PRIMARY){
+            //draw the component on the canvas
             newComponent = canvasContentManagementController.getCanvasDrawController().drawFinalComponent(newComponent, mouseEvent.getX(), mouseEvent.getY());
             canvasContentManagementController.addComponent(newComponent);
             exitState();
@@ -44,6 +47,7 @@ public class AddComponentState extends CanvasState {
 
     @Override
     public void mouseMoveHandler(MouseEvent mouseEvent) {
+        //draw a preview of where the component will be drawn on the canvas
         canvasContentManagementController.getCanvasDrawController().drawPreviewComponent(newComponent, mouseEvent.getX(), mouseEvent.getY());
     }
 }

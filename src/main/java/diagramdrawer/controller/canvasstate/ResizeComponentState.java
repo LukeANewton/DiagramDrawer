@@ -4,8 +4,11 @@ import diagramdrawer.controller.CanvasContentManagementController;
 import diagramdrawer.model.drawablecomponent.DrawableComponent;
 import javafx.scene.input.MouseEvent;
 
+/**Handles the resizing of a component on the canvas*/
 public class ResizeComponentState extends CanvasState {
+    //the component to resize
     private DrawableComponent componentToResize;
+    //the direction in which to resize the component
     private ResizeDirection resizeDirection;
 
     private static final double MINIMUM_COMPONENT_SIZE = 5;
@@ -29,7 +32,7 @@ public class ResizeComponentState extends CanvasState {
 
     @Override
     public void mouseDraggedHandler(MouseEvent mouseEvent) {
-        //set new size
+        //set new size based on direction specified
         double oldCenterX = componentToResize.getCenterX();
         double oldCenterY = componentToResize.getCenterY();
         double leftEdge = componentToResize.getCenterX() - (componentToResize.getWidth() / 2);
@@ -77,11 +80,13 @@ public class ResizeComponentState extends CanvasState {
             componentToResize.setCenterX(oldCenterX);
         }
 
+        //draw preview of resizing
         canvasContentManagementController.getCanvasDrawController().drawPreviewComponent(componentToResize, componentToResize.getCenterX(), componentToResize.getCenterY());
     }
 
     @Override
     public void mouseReleasedHandler(MouseEvent mouseEvent) {
+        //draw final resized component
         canvasContentManagementController.getCanvasDrawController().drawFinalComponent(componentToResize, componentToResize.getCenterX(), componentToResize.getCenterY());
         canvasContentManagementController.getCanvasDrawController().redrawCanvas();
         exitState();
