@@ -10,7 +10,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+/**Represents a class box with a single section for the class name*/
 public class SingleSectionClass extends DrawableComponent{
+    //the text field used to edit the title of the component
     private TextField textField;
 
     //default sizes for newly created components
@@ -37,6 +39,7 @@ public class SingleSectionClass extends DrawableComponent{
 
     @Override
     public void draw(GraphicsContext gc, Color color, int lineWidth) {
+        //get the top left of the component to draw
         double startX = centerX - (width / 2);
         double startY = centerY - (height / 2);
 
@@ -61,6 +64,7 @@ public class SingleSectionClass extends DrawableComponent{
 
     @Override
     public VBox getUpdateContentsDialog() {
+        //a VBox with a single HBox containing a label and associated textfield to edit the component's title
         VBox vbox = new VBox();
         HBox hbox = new HBox();
         Label titleLabel = new Label("Title: ");

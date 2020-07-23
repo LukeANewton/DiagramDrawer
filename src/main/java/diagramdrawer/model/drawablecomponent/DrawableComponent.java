@@ -7,13 +7,19 @@ import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
+/**Contains the information about a component to be drawn on the application canvas, and the methods
+ * to draw and edit that component*/
+@Setter @Getter
 public abstract class DrawableComponent {
+    //the width of the component
     protected double width;
+    //the height of the component
     protected double height;
+    //the x coordinate of the center of the component
     protected double centerX;
+    //the y coordinate of the center of the component
     protected double centerY;
+    //the title to be written on the component
     protected String title;
 
     /**
@@ -69,7 +75,13 @@ public abstract class DrawableComponent {
     /**Creates a copy of the DrawableComponent*/
     public abstract DrawableComponent createCopy();
 
+    /**
+     * Return a VBox containing the contents to populate a dialog box with to edit this object's contents
+     *
+     * @return a VBox containing the contents to populate a dialog box with to edit this object's contents
+     */
     public abstract VBox getUpdateContentsDialog();
 
+    /**Updates the contents of this DrawableComponent after closing the edit dialog*/
     public abstract void updateContents();
 }

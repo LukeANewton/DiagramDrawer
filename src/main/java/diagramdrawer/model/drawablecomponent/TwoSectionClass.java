@@ -13,9 +13,13 @@ import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.Setter;
 
+/**Represents a class box that contains two sections: one for the class title, and one for text information*/
 public class TwoSectionClass extends DrawableComponent {
+    //the text field used to edit the component's title
     private TextField titleTextField;
+    //the text area used to edit the component's textual contents
     private TextArea contentsTextArea;
+    //the textual contents of the class box
     @Getter @Setter
     private String sectionContents;
 
@@ -46,6 +50,7 @@ public class TwoSectionClass extends DrawableComponent {
 
     @Override
     public void draw(GraphicsContext gc, Color color, int lineWidth) {
+        //get the top left of the class box to draw
         double startX = centerX - (width / 2);
         double startY = centerY - (height / 2);
 
@@ -76,6 +81,8 @@ public class TwoSectionClass extends DrawableComponent {
 
     @Override
     public VBox getUpdateContentsDialog() {
+        /* VBox containing two HBoxes: each with a label and text box.
+        The first is used to update the class title. The second is used to update the contents*/
         VBox vbox = new VBox();
         HBox hbox = new HBox();
         HBox hbox2 = new HBox();

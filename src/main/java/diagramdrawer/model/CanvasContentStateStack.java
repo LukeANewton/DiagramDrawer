@@ -5,10 +5,12 @@ import diagramdrawer.model.drawablecomponent.DrawableComponent;
 import java.util.ArrayList;
 import java.util.Stack;
 
+/**A stack to keep track of the last state of the canvas*/
 public class CanvasContentStateStack {
     //a stack to allow actions to be undone
     private Stack<ArrayList<DrawableComponent>> drawnComponentStateQueue;
 
+    /**Constructor*/
     public CanvasContentStateStack(){
         drawnComponentStateQueue = new Stack<>();
         drawnComponentStateQueue.add(new ArrayList<>());

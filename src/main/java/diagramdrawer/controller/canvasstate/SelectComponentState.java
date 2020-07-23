@@ -115,7 +115,7 @@ public class SelectComponentState extends CanvasState {
                 canvasContentManagementController.getCanvasDrawController().redrawCanvas();
             }
         } else if (keyEvent.getCode() == KeyCode.Z){
-            //undo the last change made to the canvas 
+            //undo the last change made to the canvas
             canvasContentManagementController.undoLastCanvasChange();
         }
     }
