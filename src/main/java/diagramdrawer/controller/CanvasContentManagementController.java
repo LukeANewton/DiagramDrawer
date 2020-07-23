@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 
+/**Keeps track of the contents of the canvas and the history of changes made to the canvas*/
 public class CanvasContentManagementController {
     //the components drawn on the canvas
     @Getter @Setter

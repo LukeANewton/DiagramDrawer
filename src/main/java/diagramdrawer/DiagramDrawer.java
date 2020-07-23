@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**Contains the main method to start the application*/
 public class DiagramDrawer extends Application {
 
     @Override

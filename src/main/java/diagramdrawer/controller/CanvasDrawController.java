@@ -6,6 +6,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+/**Controls drawing on the application Canvas*/
 public class CanvasDrawController {
     //the canvas to draw on
     private Canvas canvas;
