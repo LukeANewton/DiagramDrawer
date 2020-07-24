@@ -11,7 +11,7 @@
             stylesheets="@mainlayout.css"
             fx:id="root">
     <top>
-        <HBox id="menubar">
+        <HBox id="menubar" spacing="5">
             <Button id="menubutton" onAction="#saveCurrentCanvasContents" text="Save"/>
             <Button id="menubutton" onAction="#loadCanvasContents" text="Load"/>
             <Button id="menubutton" onAction="#exportCanvasToImageOnClick"
@@ -19,11 +19,12 @@
         </HBox>
     </top>
     <left>
-        <VBox id="toolbox">
+        <VBox id="toolbox" spacing="5">
             <Label id="toolbox-title" text="Tools"/>
-            <Button id="boxOneSectionButton" onAction="#drawNewSingleSectionClass"
+            <Button id="newClassBoxButton" onAction="#drawNewSingleSectionClass"
                     text="Single Section Class"/>
-            <Button id="boxTwoSectionButton"  onAction="#drawNewTwoSectionClass" text="Two Section Class"/>
+            <Button id="newClassBoxButton"  onAction="#drawNewTwoSectionClass" text="Two Section Class"/>
+            <Button id="newClassBoxButton"  onAction="#drawNewThreeSectionClass" text="Three Section Class"/>
         </VBox>
     </left>
     <center>

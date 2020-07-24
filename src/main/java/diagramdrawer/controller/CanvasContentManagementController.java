@@ -4,6 +4,7 @@ import diagramdrawer.controller.canvasstate.CanvasState;
 import diagramdrawer.controller.canvasstate.SelectComponentState;
 import diagramdrawer.model.CanvasContentStateStack;
 import diagramdrawer.model.drawablecomponent.DrawableComponent;
+import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import lombok.Getter;
 import lombok.Setter;

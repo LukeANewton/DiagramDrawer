@@ -14,7 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**Represents a class box that contains two sections: one for the class title, and one for text information*/
-public class TwoSectionClass extends DrawableComponent {
+public class TwoSectionClassBox extends DrawableComponent {
     //the text field used to edit the component's title
     private TextField titleTextField;
     //the text area used to edit the component's textual contents
@@ -28,7 +28,7 @@ public class TwoSectionClass extends DrawableComponent {
     private static final int DEFAULT_TWO_SECTION_BOX_WIDTH = 100;
 
     /**Constructor*/
-    public TwoSectionClass(){
+    public TwoSectionClassBox(){
         super("Class", 0, 0, DEFAULT_TWO_SECTION_BOX_HEIGHT, DEFAULT_TWO_SECTION_BOX_WIDTH);
         sectionContents = "";
     }
@@ -43,7 +43,7 @@ public class TwoSectionClass extends DrawableComponent {
      * @param width the width of the box
      * @param contents the contents to write into the second section
      */
-    public TwoSectionClass(String title, String contents, double centerX, double centerY, double height, double width) {
+    public TwoSectionClassBox(String title, String contents, double centerX, double centerY, double height, double width) {
         super(title, centerX, centerY, height, width);
         sectionContents = contents;
     }
@@ -76,7 +76,7 @@ public class TwoSectionClass extends DrawableComponent {
 
     @Override
     public DrawableComponent createCopy() {
-        return new TwoSectionClass(this.title, this.sectionContents, this.centerX, this.centerY, this.height, this.width);
+        return new TwoSectionClassBox(this.title, this.sectionContents, this.centerX, this.centerY, this.height, this.width);
     }
 
     @Override
@@ -114,7 +114,7 @@ public class TwoSectionClass extends DrawableComponent {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TwoSectionClass that = (TwoSectionClass) o;
+        TwoSectionClassBox that = (TwoSectionClassBox) o;
         return title.equals(that.title) && sectionContents.equals(that.getSectionContents())
                 && centerX == that.getCenterX() && centerY == that.centerY && height == that.height
                 && width == that.width;

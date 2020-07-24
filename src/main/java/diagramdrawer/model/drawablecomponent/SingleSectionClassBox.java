@@ -11,7 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**Represents a class box with a single section for the class name*/
-public class SingleSectionClass extends DrawableComponent{
+public class SingleSectionClassBox extends DrawableComponent{
     //the text field used to edit the title of the component
     private TextField textField;
 
@@ -20,7 +20,7 @@ public class SingleSectionClass extends DrawableComponent{
     private static final int DEFAULT_SINGLE_SECTION_BOX_WIDTH = 100;
 
     /**constructor*/
-    public SingleSectionClass(){
+    public SingleSectionClassBox(){
         super("Class", 0, 0, DEFAULT_SINGLE_SECTION_BOX_HEIGHT, DEFAULT_SINGLE_SECTION_BOX_WIDTH);
     }
 
@@ -33,7 +33,7 @@ public class SingleSectionClass extends DrawableComponent{
      * @param height the height of the box
      * @param width  the width of the box
      */
-    public SingleSectionClass(String title, double centerX, double centerY, double height, double width){
+    public SingleSectionClassBox(String title, double centerX, double centerY, double height, double width){
         super(title, centerX, centerY, height, width);
     }
 
@@ -59,7 +59,7 @@ public class SingleSectionClass extends DrawableComponent{
 
     @Override
     public DrawableComponent createCopy() {
-        return new SingleSectionClass(this.title, this.centerX, this.centerY, this.height, this.width);
+        return new SingleSectionClassBox(this.title, this.centerX, this.centerY, this.height, this.width);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class SingleSectionClass extends DrawableComponent{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SingleSectionClass that = (SingleSectionClass) o;
+        SingleSectionClassBox that = (SingleSectionClassBox) o;
         return title.equals(that.title) && centerX == that.getCenterX() && centerY == that.centerY
                 && height == that.height && width == that.width;
     }

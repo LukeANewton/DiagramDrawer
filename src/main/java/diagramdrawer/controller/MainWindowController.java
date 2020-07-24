@@ -2,8 +2,9 @@ package diagramdrawer.controller;
 
 
 import diagramdrawer.controller.canvasstate.AddComponentState;
-import diagramdrawer.model.drawablecomponent.SingleSectionClass;
-import diagramdrawer.model.drawablecomponent.TwoSectionClass;
+import diagramdrawer.model.drawablecomponent.SingleSectionClassBox;
+import diagramdrawer.model.drawablecomponent.ThreeSectionClassBox;
+import diagramdrawer.model.drawablecomponent.TwoSectionClassBox;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
@@ -48,14 +49,21 @@ public class MainWindowController {
     @FXML
     public void drawNewSingleSectionClass(){
         canvasContentManagementController.setCurrentCanvasState(
-                new AddComponentState(canvasContentManagementController, new SingleSectionClass()));
+                new AddComponentState(canvasContentManagementController, new SingleSectionClassBox()));
     }
 
     /**handler for adding a new TwoSectionClassBox to the canvas*/
     @FXML
     public void drawNewTwoSectionClass(){
         canvasContentManagementController.setCurrentCanvasState(
-                new AddComponentState(canvasContentManagementController, new TwoSectionClass()));
+                new AddComponentState(canvasContentManagementController, new TwoSectionClassBox()));
+    }
+
+    /**handler for adding a new ThreeSectionClassBox to the canvas*/
+    @FXML
+    public void drawNewThreeSectionClass(){
+        canvasContentManagementController.setCurrentCanvasState(
+                new AddComponentState(canvasContentManagementController, new ThreeSectionClassBox()));
     }
 
     /**handler for loading a new set of DrawableComponents onto the canvas*/
