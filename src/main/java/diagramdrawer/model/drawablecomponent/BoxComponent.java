@@ -1,7 +1,10 @@
 package diagramdrawer.model.drawablecomponent;
 
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 /**Represents DrawableComponents that are box-shaped*/
 public abstract class BoxComponent extends DrawableComponent {
@@ -38,5 +41,16 @@ public abstract class BoxComponent extends DrawableComponent {
         gc.strokeLine(startX, startY + height, startX + width, startY + height);
         gc.strokeLine(startX + width, startY + height, startX + width, startY);
         gc.strokeLine(startX + width, startY, startX, startY);
+
+        final Text throwaway = new Text(title);
+        new Scene(new Group(throwaway));
+        gc.fillText(title,centerX - (throwaway.getLayoutBounds().getWidth()/2), getTitleYCoord());
     }
+
+    /**
+     * fetch the y coordinate to draw the component's title
+     *
+     * @return the y coordinate to draw the component's title
+     */
+    protected abstract double getTitleYCoord();
 }

@@ -63,32 +63,40 @@ public class ThreeSectionClassBox extends BoxComponent{
         //draw outside box
         super.draw(gc, color, lineWidth);
 
-        //center title text in box by creating a throwaway scene to get text size
-        Text throwaway = new Text(title);
-        new Scene(new Group(throwaway));
-        gc.fillText(title, startX + (width / 2) - (throwaway.getLayoutBounds().getWidth()/2),
-                startY + throwaway.getLayoutBounds().getHeight());
-
-        //draw line to divide title and fields
-        //height of the text plus 5 padding on top and bottom
-        double dividerYcoord = startY + throwaway.getLayoutBounds().getHeight() + 10;
-        if(dividerYcoord < startY + height) {
-            gc.strokeLine(startX, dividerYcoord, startX + width, dividerYcoord);
-            //draw text for fields
-            gc.fillText(fields, startX + 10, dividerYcoord + throwaway.getLayoutBounds().getHeight());
-        }
-
-        //draw line to divide field and methods
-        throwaway = new Text(fields);
-        new Scene(new Group(throwaway));
-        dividerYcoord = dividerYcoord + throwaway.getLayoutBounds().getHeight() + 10;
-        if(dividerYcoord < startY + height) {
-            gc.strokeLine(startX, dividerYcoord, startX + width, dividerYcoord);
-            //draw text for methods
-            gc.fillText(methods, startX + 10, dividerYcoord + 17);
-        }
+        //draw first divider and field text
+        double topOfFieldSection = drawDividerAndText(gc, title, fields, startX, startY);
+        drawDividerAndText(gc, fields, methods, startX, topOfFieldSection);
     }
 
+    /**
+     * draws a horizontal line as a section divider and draws the text for that section
+     *
+     * @param gc the GraphicsContext of the canvas to draw on
+     * @param textInPreviousSection the text in the previous section to calculate offset for divider
+     * @param textToDraw the text to draw
+     * @param startX the x coordinate of the left side of the component
+     * @param topOfPreviousSection the y coordinate of the top of the previous section of the component
+     * @return th y coorinate of the top of the newly drawn section
+     */
+    private double drawDividerAndText(GraphicsContext gc, String textInPreviousSection, String textToDraw,
+                                      double startX, double topOfPreviousSection){
+        Text throwaway = new Text(textInPreviousSection);
+        new Scene(new Group(throwaway));
+        double topOfThisSection = topOfPreviousSection + throwaway.getLayoutBounds().getHeight() + 10;
+        //only draw the divider and text if the start of the section would be before the bottom of the component
+        if(topOfThisSection < centerY - (height / 2) + height) {
+            gc.strokeLine(startX, topOfThisSection, startX + width, topOfThisSection);
+            gc.fillText(textToDraw, startX + 10, topOfThisSection + 17);
+        }
+        return topOfThisSection;
+    }
+
+    @Override
+    protected double getTitleYCoord(){
+        final Text throwaway = new Text(title);
+        new Scene(new Group(throwaway));
+        return centerY - (height / 2) + throwaway.getLayoutBounds().getHeight();
+    }
 
     @Override
     public DrawableComponent createCopy() {

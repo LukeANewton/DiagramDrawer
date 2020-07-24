@@ -51,17 +51,15 @@ public class TwoSectionClassBox extends BoxComponent {
         double startX = centerX - (width / 2);
         double startY = centerY - (height / 2);
 
-        //draw outside box
+        //draw outside box and title
         super.draw(gc, color, lineWidth);
 
-        //center text in box by creating a throwaway scene to get text size
+        //get the height of text to position the section divider from a throwaway scene
         Text throwaway = new Text(title);
         new Scene(new Group(throwaway));
-        gc.fillText(title, startX + (width / 2) - (throwaway.getLayoutBounds().getWidth()/2),
-                startY + throwaway.getLayoutBounds().getHeight());
 
         //draw line underneath title to divide sections
-        //height of the text plus 5 padding on top and bottom
+        //height of the title plus 5 padding on top and bottom
         double dividerYcoord = startY + throwaway.getLayoutBounds().getHeight() + 10;
         if(dividerYcoord < startY + height) {
             gc.strokeLine(startX, dividerYcoord, startX + width, dividerYcoord);
@@ -69,6 +67,13 @@ public class TwoSectionClassBox extends BoxComponent {
 
         //draw text for section contents
         gc.fillText(sectionContents, startX + 10, dividerYcoord + throwaway.getLayoutBounds().getHeight());
+    }
+
+    @Override
+    protected double getTitleYCoord(){
+        final Text throwaway = new Text(title);
+        new Scene(new Group(throwaway));
+        return centerY - (height / 2) + throwaway.getLayoutBounds().getHeight();
     }
 
     @Override

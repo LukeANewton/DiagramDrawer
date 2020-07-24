@@ -2,8 +2,6 @@ package diagramdrawer.model.drawablecomponent;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**Represents a class box with a single section for the class name*/
@@ -31,23 +29,10 @@ public class SingleSectionClassBox extends BoxComponent{
     }
 
     @Override
-    public void draw(GraphicsContext gc, Color color, int lineWidth) {
-        //get the top left of the component to draw
-        double startX = centerX - (width / 2);
-        double startY = centerY - (height / 2);
-
-        //get size of text by creating a throwaway scene to get text size
+    protected double getTitleYCoord(){
         final Text throwaway = new Text(title);
         new Scene(new Group(throwaway));
-        double titleWidth = throwaway.getLayoutBounds().getWidth();
-        double titleHeight = throwaway.getLayoutBounds().getHeight();
-
-        //draw outside box
-        super.draw(gc, color, lineWidth);
-
-        //center text in box
-        gc.fillText(title, startX + (width / 2) - (titleWidth/2),
-                startY + (height / 2) + (titleHeight/4));
+        return centerY + (throwaway.getLayoutBounds().getHeight()/4);
     }
 
     @Override
