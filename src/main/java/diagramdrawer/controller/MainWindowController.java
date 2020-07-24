@@ -5,6 +5,7 @@ import diagramdrawer.controller.canvasstate.AddComponentState;
 import diagramdrawer.model.drawablecomponent.SingleSectionClassBox;
 import diagramdrawer.model.drawablecomponent.ThreeSectionClassBox;
 import diagramdrawer.model.drawablecomponent.TwoSectionClassBox;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
@@ -43,6 +44,15 @@ public class MainWindowController {
 
         //initialize the canvas content management controller
         canvasContentManagementController = new CanvasContentManagementController(canvas);
+
+        //set a listener to redraw the canvas when the window is resized
+        ChangeListener<Number> stageSizeListener = (observable, oldValue, newValue) ->
+                canvasContentManagementController.getCanvasDrawController().redrawCanvas();
+        root.sceneProperty().addListener((observableScene, oldScene, newScene) ->
+                newScene.windowProperty().addListener((observableWindow, oldWindow, newWindow) -> {
+                    root.getScene().getWindow().widthProperty().addListener(stageSizeListener);
+                    root.getScene().getWindow().heightProperty().addListener(stageSizeListener);
+        }));
     }
 
     /**handler for adding a new SingleSectionClassBox to the canvas*/
