@@ -1,5 +1,6 @@
-package diagramdrawer.model.drawablecomponent;
+package diagramdrawer.model.drawablecomponent.boxcomponent;
 
+import diagramdrawer.model.drawablecomponent.DrawableComponent;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
@@ -13,7 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**Represents a class box that contains three sections: for the class title, fields, and methods*/
-public class ThreeSectionClassBox extends BoxComponent{
+public class ThreeSectionClassBox extends BoxComponent {
     //the text area used to edit the component's fields
     private TextArea fieldTextArea;
     //the text area used to edit the component's fields

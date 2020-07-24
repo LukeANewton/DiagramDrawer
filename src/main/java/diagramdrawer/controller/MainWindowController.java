@@ -2,9 +2,9 @@ package diagramdrawer.controller;
 
 
 import diagramdrawer.controller.canvasstate.AddComponentState;
-import diagramdrawer.model.drawablecomponent.SingleSectionClassBox;
-import diagramdrawer.model.drawablecomponent.ThreeSectionClassBox;
-import diagramdrawer.model.drawablecomponent.TwoSectionClassBox;
+import diagramdrawer.model.drawablecomponent.boxcomponent.SingleSectionClassBox;
+import diagramdrawer.model.drawablecomponent.boxcomponent.ThreeSectionClassBox;
+import diagramdrawer.model.drawablecomponent.boxcomponent.TwoSectionClassBox;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;

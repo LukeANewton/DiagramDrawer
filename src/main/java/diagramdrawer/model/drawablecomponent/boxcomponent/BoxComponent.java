@@ -1,5 +1,6 @@
-package diagramdrawer.model.drawablecomponent;
+package diagramdrawer.model.drawablecomponent.boxcomponent;
 
+import diagramdrawer.model.drawablecomponent.DrawableComponent;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;

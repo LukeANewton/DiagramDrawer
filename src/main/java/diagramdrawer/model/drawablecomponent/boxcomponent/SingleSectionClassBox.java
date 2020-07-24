@@ -1,11 +1,12 @@
-package diagramdrawer.model.drawablecomponent;
+package diagramdrawer.model.drawablecomponent.boxcomponent;
 
+import diagramdrawer.model.drawablecomponent.DrawableComponent;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 
 /**Represents a class box with a single section for the class name*/
-public class SingleSectionClassBox extends BoxComponent{
+public class SingleSectionClassBox extends BoxComponent {
     //default sizes for newly created components
     private static final int DEFAULT_SINGLE_SECTION_BOX_HEIGHT = 50;
     private static final int DEFAULT_SINGLE_SECTION_BOX_WIDTH = 100;
