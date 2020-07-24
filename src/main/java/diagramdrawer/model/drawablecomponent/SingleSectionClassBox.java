@@ -3,18 +3,11 @@ package diagramdrawer.model.drawablecomponent;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**Represents a class box with a single section for the class name*/
-public class SingleSectionClassBox extends DrawableComponent{
-    //the text field used to edit the title of the component
-    private TextField textField;
-
+public class SingleSectionClassBox extends BoxComponent{
     //default sizes for newly created components
     private static final int DEFAULT_SINGLE_SECTION_BOX_HEIGHT = 50;
     private static final int DEFAULT_SINGLE_SECTION_BOX_WIDTH = 100;
@@ -60,27 +53,6 @@ public class SingleSectionClassBox extends DrawableComponent{
     @Override
     public DrawableComponent createCopy() {
         return new SingleSectionClassBox(this.title, this.centerX, this.centerY, this.height, this.width);
-    }
-
-    @Override
-    public VBox getUpdateContentsDialog() {
-        //a VBox with a single HBox containing a label and associated textfield to edit the component's title
-        VBox vbox = new VBox();
-        HBox hbox = new HBox();
-        Label titleLabel = new Label("Title: ");
-        textField = new TextField(title);
-        hbox.getChildren().add(titleLabel);
-        hbox.getChildren().add(textField);
-        vbox.getChildren().add(hbox);
-        titleLabel.setId("title");
-        vbox.setId("border");
-        hbox.setId("hbox");
-        return vbox;
-    }
-
-    @Override
-    public void updateContents() {
-        title = textField.getText();
     }
 
     @Override

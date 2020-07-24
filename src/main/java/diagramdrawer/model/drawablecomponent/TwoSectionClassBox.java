@@ -5,7 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -14,9 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**Represents a class box that contains two sections: one for the class title, and one for text information*/
-public class TwoSectionClassBox extends DrawableComponent {
-    //the text field used to edit the component's title
-    private TextField titleTextField;
+public class TwoSectionClassBox extends BoxComponent {
     //the text area used to edit the component's textual contents
     private TextArea contentsTextArea;
     //the textual contents of the class box
@@ -83,30 +80,19 @@ public class TwoSectionClassBox extends DrawableComponent {
     public VBox getUpdateContentsDialog() {
         /* VBox containing two HBoxes: each with a label and text box.
         The first is used to update the class title. The second is used to update the contents*/
-        VBox vbox = new VBox();
+        VBox vbox = super.getUpdateContentsDialog();
         HBox hbox = new HBox();
-        HBox hbox2 = new HBox();
-        Label titleLabel = new Label("Title: ");
         Label contentsLabel = new Label("Contents: ");
-        titleTextField = new TextField(title);
         contentsTextArea = new TextArea(sectionContents);
-        hbox.getChildren().add(titleLabel);
-        hbox.getChildren().add(titleTextField);
-        hbox2.getChildren().add(contentsLabel);
-        hbox2.getChildren().add(contentsTextArea);
+        hbox.getChildren().add(contentsLabel);
+        hbox.getChildren().add(contentsTextArea);
         vbox.getChildren().add(hbox);
-        vbox.getChildren().add(hbox2);
-        titleLabel.setId("title");
-        contentsLabel.setId("title");
-        vbox.setId("border");
-        hbox.setId("hbox");
-        hbox.setId("hbox");
         return vbox;
     }
 
     @Override
     public void updateContents() {
-        title = titleTextField.getText();
+        super.updateContents();
         sectionContents = contentsTextArea.getText();
     }
 

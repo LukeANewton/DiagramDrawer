@@ -5,7 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -14,9 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**Represents a class box that contains three sections: for the class title, fields, and methods*/
-public class ThreeSectionClassBox extends DrawableComponent{
-    //the text field used to edit the component's title
-    private TextField titleTextField;
+public class ThreeSectionClassBox extends BoxComponent{
     //the text area used to edit the component's fields
     private TextArea fieldTextArea;
     //the text area used to edit the component's fields
@@ -104,38 +101,25 @@ public class ThreeSectionClassBox extends DrawableComponent{
         /* VBox containing three HBoxes: each with a label and text box.
         The first is used to update the class title. The second is used to update the fields.
         The third is used to update the methods*/
-        VBox vbox = new VBox();
+        VBox vbox = super.getUpdateContentsDialog();
         HBox hbox = new HBox();
         HBox hbox2 = new HBox();
-        HBox hbox3 = new HBox();
-        Label titleLabel = new Label("Title: ");
         Label fieldLabel = new Label("Fields: ");
         Label methodLabel = new Label("Methods: ");
-        titleTextField = new TextField(title);
         fieldTextArea = new TextArea(fields);
         methodTextArea = new TextArea(methods);
-        hbox.getChildren().add(titleLabel);
-        hbox.getChildren().add(titleTextField);
-        hbox2.getChildren().add(fieldLabel);
-        hbox2.getChildren().add(fieldTextArea);
-        hbox3.getChildren().add(methodLabel);
-        hbox3.getChildren().add(methodTextArea);
+        hbox.getChildren().add(fieldLabel);
+        hbox.getChildren().add(fieldTextArea);
+        hbox2.getChildren().add(methodLabel);
+        hbox2.getChildren().add(methodTextArea);
         vbox.getChildren().add(hbox);
         vbox.getChildren().add(hbox2);
-        vbox.getChildren().add(hbox3);
-        titleLabel.setId("title");
-        fieldLabel.setId("title");
-        methodLabel.setId("title");
-        vbox.setId("border");
-        hbox.setId("hbox");
-        hbox2.setId("hbox");
-        hbox3.setId("hbox");
         return vbox;
     }
 
     @Override
     public void updateContents() {
-        title = titleTextField.getText();
+        super.updateContents();
         fields = fieldTextArea.getText();
         methods = methodTextArea.getText().trim();
     }
