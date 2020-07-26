@@ -46,7 +46,6 @@ public class SelectComponentState extends CanvasState {
                     }
                 } else if(mouseEvent.getButton() == MouseButton.SECONDARY){//right click
                     //draw a connection between two points
-
                     canvasContentManagementController.setCurrentCanvasState(
                             new AddConnectionState(canvasContentManagementController,
                                     new Connection(mouseEvent.getX(), mouseEvent.getY())));
