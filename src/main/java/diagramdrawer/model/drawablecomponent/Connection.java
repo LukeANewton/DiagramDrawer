@@ -24,7 +24,11 @@ public class Connection extends DrawableComponent {
 
     @Override
     public boolean checkPointInBounds(double x, double y) {
-        return false;
+        //build a string line through between the points
+        double m = (end.getY() - start.getY()) / (end.getX() - start.getX());
+        double b = start.getY() - m * start.getX();
+        //since the lines are so thin, we'll give some wiggle room: 5 pixels on either side
+        return Math.abs(m*x + b - y) <= 5;
     }
 
     @Override
@@ -41,7 +45,7 @@ public class Connection extends DrawableComponent {
 
     @Override
     public VBox getUpdateContentsDialog() {
-        return null;
+        return new VBox();
     }
 
     @Override
