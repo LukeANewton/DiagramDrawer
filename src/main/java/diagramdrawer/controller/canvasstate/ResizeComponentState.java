@@ -82,13 +82,13 @@ public class ResizeComponentState extends CanvasState {
         }
 
         //draw preview of resizing
-        canvasContentManagementController.getCanvasDrawController().drawPreviewComponent(componentToResize, componentToResize.getCenterX(), componentToResize.getCenterY());
+        canvasContentManagementController.getCanvasDrawController().drawPreviewComponent(componentToResize);
     }
 
     @Override
     public void mouseReleasedHandler(MouseEvent mouseEvent) {
         //draw final resized component
-        canvasContentManagementController.getCanvasDrawController().drawFinalComponent(componentToResize, componentToResize.getCenterX(), componentToResize.getCenterY());
+        canvasContentManagementController.getCanvasDrawController().drawFinalComponent(componentToResize);
         canvasContentManagementController.getCanvasDrawController().redrawCanvas();
         exitState();
     }

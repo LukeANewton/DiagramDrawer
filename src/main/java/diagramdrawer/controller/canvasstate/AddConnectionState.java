@@ -43,10 +43,8 @@ public class AddConnectionState extends CanvasState {
             exitState();
         } else if(mouseEvent.getButton() == MouseButton.PRIMARY){
             //draw the component on the canvas
-            Point2D p = findPointOnComponentEdge(mouseEvent.getX(), mouseEvent.getY());
-           // ((Connection) newComponent).setEnd(findPointOnComponentEdge(mouseEvent));
-            canvasContentManagementController.getCanvasDrawController().drawFinalComponent(
-                    newConnection, p.getX(), p.getY());
+            newConnection.setEnd(findPointOnComponentEdge(mouseEvent.getX(), mouseEvent.getY()));
+            canvasContentManagementController.getCanvasDrawController().drawFinalComponent(newConnection);
             canvasContentManagementController.addComponent(newConnection);
             exitState();
         }
@@ -55,8 +53,8 @@ public class AddConnectionState extends CanvasState {
     @Override
     public void mouseMoveHandler(MouseEvent mouseEvent) {
         //draw a preview of where the component will be drawn on the canvas
-        canvasContentManagementController.getCanvasDrawController().drawPreviewComponent(
-                newConnection, mouseEvent.getX(), mouseEvent.getY());
+        newConnection.setEnd(new Point2D(mouseEvent.getX(), mouseEvent.getY()));
+        canvasContentManagementController.getCanvasDrawController().drawPreviewComponent(newConnection);
     }
 
     /**

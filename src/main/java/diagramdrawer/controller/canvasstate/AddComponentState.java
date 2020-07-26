@@ -1,14 +1,14 @@
 package diagramdrawer.controller.canvasstate;
 
 import diagramdrawer.controller.CanvasContentManagementController;
-import diagramdrawer.model.drawablecomponent.DrawableComponent;
+import diagramdrawer.model.drawablecomponent.boxcomponent.BoxComponent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 /**Handles the addition of a DrawableComponent onto the canvas*/
 public class AddComponentState extends CanvasState {
     //the component to add onto the canvas drawing
-    protected DrawableComponent newComponent;
+    protected BoxComponent newComponent;
 
     /**
      * Constructor
@@ -16,7 +16,7 @@ public class AddComponentState extends CanvasState {
      * @param canvasContentManagementController the controller for the main window using this state
      * @param newComponent the new component to draw on the canvas
      */
-    public AddComponentState(CanvasContentManagementController canvasContentManagementController, DrawableComponent newComponent){
+    public AddComponentState(CanvasContentManagementController canvasContentManagementController, BoxComponent newComponent){
         super(canvasContentManagementController);
         this.newComponent = newComponent;
     }
@@ -39,7 +39,9 @@ public class AddComponentState extends CanvasState {
             exitState();
         } else if(mouseEvent.getButton() == MouseButton.PRIMARY){
             //draw the component on the canvas
-            newComponent = canvasContentManagementController.getCanvasDrawController().drawFinalComponent(newComponent, mouseEvent.getX(), mouseEvent.getY());
+            newComponent.setCenterX(mouseEvent.getX());
+            newComponent.setCenterY(mouseEvent.getY());
+            canvasContentManagementController.getCanvasDrawController().drawFinalComponent(newComponent);
             canvasContentManagementController.addComponent(newComponent);
             exitState();
         }
@@ -48,6 +50,8 @@ public class AddComponentState extends CanvasState {
     @Override
     public void mouseMoveHandler(MouseEvent mouseEvent) {
         //draw a preview of where the component will be drawn on the canvas
-        canvasContentManagementController.getCanvasDrawController().drawPreviewComponent(newComponent, mouseEvent.getX(), mouseEvent.getY());
+        newComponent.setCenterX(mouseEvent.getX());
+        newComponent.setCenterY(mouseEvent.getY());
+        canvasContentManagementController.getCanvasDrawController().drawPreviewComponent(newComponent);
     }
 }

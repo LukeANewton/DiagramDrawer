@@ -1,10 +1,7 @@
 package diagramdrawer.controller;
 
-import diagramdrawer.model.drawablecomponent.Connection;
 import diagramdrawer.model.drawablecomponent.DrawableComponent;
-import diagramdrawer.model.drawablecomponent.boxcomponent.BoxComponent;
 import javafx.application.Platform;
-import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -33,19 +30,9 @@ public class CanvasDrawController {
      * with a specified height and width.
      *
      * @param component the DrawableComponent to draw
-     * @param clickX the X coordinate at the center of the object to draw
-     * @param clickY the Y coordinate at the center of the object to draw
      */
-    public DrawableComponent drawFinalComponent(DrawableComponent component, double clickX, double clickY) {
-        if(component instanceof BoxComponent){
-            ((BoxComponent) component).setCenterX(clickX);
-            ((BoxComponent) component).setCenterY(clickY);
-        } else if (component instanceof Connection){
-            ((Connection) component).setEnd(new Point2D(clickX, clickY));
-        }
+    public void drawFinalComponent(DrawableComponent component) {
         issueDrawingCommand(() -> component.draw(canvas.getGraphicsContext2D(), Color.BLACK, DRAW_THICKNESS));
-
-        return component;
     }
 
     /**
@@ -54,24 +41,9 @@ public class CanvasDrawController {
      * like when clicked
      *
      * @param component the DrawableComponent to draw
-     *  @param clickX the X coordinate at the center of the object to draw
-     *  @param clickY the Y coordinate at the center of the object to draw
      */
-    public void drawPreviewComponent(DrawableComponent component, double clickX, double clickY) {
-        if(component instanceof BoxComponent){
-            ((BoxComponent) component).setCenterX(clickX);
-            ((BoxComponent) component).setCenterY(clickY);
-        } else if (component instanceof Connection){
-            ((Connection) component).setEnd(new Point2D(clickX, clickY));
-        }
+    public void drawPreviewComponent(DrawableComponent component) {
         issueDrawingCommand(() -> component.draw(canvas.getGraphicsContext2D(), Color.LIGHTGRAY, DRAW_THICKNESS));
-
-        /*issueDrawingCommand(() -> {
-            gc.setLineWidth(DRAW_THICKNESS);
-            gc.setStroke(Color.LIGHTGRAY);
-            gc.strokeRect(clickX - (component.getWidth()/2), clickY - (component.getHeight()/2),
-                    component.getWidth(), component.getHeight());
-        });*/
     }
 
     /**

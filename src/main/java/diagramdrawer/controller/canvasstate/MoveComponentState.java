@@ -1,13 +1,13 @@
 package diagramdrawer.controller.canvasstate;
 
 import diagramdrawer.controller.CanvasContentManagementController;
-import diagramdrawer.model.drawablecomponent.DrawableComponent;
+import diagramdrawer.model.drawablecomponent.boxcomponent.BoxComponent;
 import javafx.scene.input.MouseEvent;
 
 /**Handles the repositioning of a component on the canvas*/
 public class MoveComponentState extends CanvasState{
     //the component to reposition on the canvas
-    DrawableComponent componentToDrag;
+    BoxComponent componentToDrag;
 
     /**
      * Constructor
@@ -15,7 +15,7 @@ public class MoveComponentState extends CanvasState{
      * @param canvasContentManagementController the controller for the main window using this state
      * @param componentToDrag the component to move on the canvas
      */
-    public MoveComponentState(CanvasContentManagementController canvasContentManagementController, DrawableComponent componentToDrag){
+    public MoveComponentState(CanvasContentManagementController canvasContentManagementController, BoxComponent componentToDrag){
         super(canvasContentManagementController);
         this.componentToDrag = componentToDrag;
     }
@@ -28,14 +28,17 @@ public class MoveComponentState extends CanvasState{
     @Override
     public void mouseDraggedHandler(MouseEvent mouseEvent) {
         //draw a preview of where the component will now be drawn
-        canvasContentManagementController.getCanvasDrawController().drawPreviewComponent(componentToDrag, mouseEvent.getX(), mouseEvent.getY());
+        componentToDrag.setCenterX(mouseEvent.getX());
+        componentToDrag.setCenterY(mouseEvent.getY());
+        canvasContentManagementController.getCanvasDrawController().drawPreviewComponent(componentToDrag);
     }
 
     @Override
     public void mouseReleasedHandler(MouseEvent mouseEvent) {
         //redraw the component in it's new canvas position
-        canvasContentManagementController.getCanvasDrawController().drawFinalComponent(componentToDrag, mouseEvent.getX(), mouseEvent.getY());
-        canvasContentManagementController.getCanvasDrawController().redrawCanvas();
+        componentToDrag.setCenterX(mouseEvent.getX());
+        componentToDrag.setCenterY(mouseEvent.getY());
+        canvasContentManagementController.getCanvasDrawController().drawFinalComponent(componentToDrag);
         exitState();
     }
 }
