@@ -1,7 +1,12 @@
 package diagramdrawer.model.drawablecomponent;
 
+import diagramdrawer.model.connectiontype.ConnectionType;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import lombok.Getter;
@@ -12,14 +17,20 @@ import lombok.Setter;
 public class Connection extends DrawableComponent {
     private Point2D start;
     private Point2D end;
+    private ConnectionType connectionType;
+    private ComboBox<ConnectionType> comboBox;
 
     public Connection(double startX, double startY){
         this.start = new Point2D(startX, startY);
+        connectionType = ConnectionType.None;
+        comboBox = new ComboBox<>();
     }
 
-    public Connection(double startX, double startY, double endX, double endY){
+    public Connection(double startX, double startY, double endX, double endY, ConnectionType connectionHead){
         this.start = new Point2D(startX, startY);
         this.end = new Point2D(endX, endY);
+        this.connectionType = connectionHead;
+        comboBox = new ComboBox<>();
     }
 
     @Override
@@ -40,17 +51,30 @@ public class Connection extends DrawableComponent {
 
     @Override
     public DrawableComponent createCopy() {
-        return new Connection(this.start.getX(), this.start.getY(), this.end.getX(), this.end.getY());
+        return new Connection(this.start.getX(), this.start.getY(), this.end.getX(), this.end.getY(), this.connectionType);
     }
 
     @Override
     public VBox getUpdateContentsDialog() {
-        return new VBox();
+        //the layout has two main components: a drop down menu to select the connection type,
+        // and a button to switch the direction of the connection
+        VBox vbox = new VBox();
+        HBox hbox = new HBox();
+        Label titleLabel = new Label("Connection type: ");
+        comboBox.getItems().setAll(ConnectionType.values());
+        comboBox.getSelectionModel().select(connectionType);
+        Button switchButton = new Button("Switch Direction");
+        switchButton.setOnAction((e) -> switchDirection());
+        hbox.getChildren().add(titleLabel);
+        hbox.getChildren().add(comboBox);
+        vbox.getChildren().add(hbox);
+        vbox.getChildren().add(switchButton);
+        return vbox;
     }
 
     @Override
     public void updateContents() {
-
+        connectionType = comboBox.getValue();
     }
 
     @Override
@@ -58,7 +82,14 @@ public class Connection extends DrawableComponent {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Connection that = (Connection) o;
-        return start.getX() == that.start.getX() && start.getY() == that.start.getY()
-                && end.getX() == that.end.getX() && end.getY() == that.end.getY();
+        return start.getX() == that.getStart().getX() && start.getY() == that.getStart().getY()
+                && end.getX() == that.getEnd().getX() && end.getY() == that.getEnd().getY()
+                && connectionType == that.getConnectionType();
+    }
+
+    private void switchDirection(){
+        Point2D temp = start;
+        start = end;
+        end = temp;
     }
 }
