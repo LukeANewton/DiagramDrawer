@@ -76,19 +76,13 @@ public class AddConnectionState extends CanvasState {
                 double leftX = boxComponent.getCenterX() - (boxComponent.getWidth() / 2);
                 double rightX = leftX + boxComponent.getWidth();
 
-                if (checkIfFirstCoordinateCloser(clickX, leftX, clickX, rightX) &&
-                        checkIfFirstCoordinateCloser(clickX, leftX, clickY, topY) &&
-                        checkIfFirstCoordinateCloser(clickX, leftX, clickY, bottomY)) {
+                if (checkIfFirstPairClosest(clickX, leftX, rightX, clickY, topY, bottomY)) {
                     //the click is closest to the left edge
                     return new Point2D(leftX, clickY);
-                } else if (checkIfFirstCoordinateCloser(clickX, rightX, clickX, leftX) &&
-                        checkIfFirstCoordinateCloser(clickX, rightX, clickY, topY) &&
-                        checkIfFirstCoordinateCloser(clickX, rightX, clickY, bottomY)) {
+                } else if (checkIfFirstPairClosest(clickX, rightX, leftX, clickY, topY, bottomY)) {
                     //the click is closest to the right edge
                     return new Point2D(rightX, clickY);
-                } else if (checkIfFirstCoordinateCloser(clickY, topY, clickY, bottomY) &&
-                        checkIfFirstCoordinateCloser(clickY, topY, clickX, leftX) &&
-                        checkIfFirstCoordinateCloser(clickY, topY, clickX, rightX)) {
+                } else if (checkIfFirstPairClosest(clickY, topY, bottomY, clickX, leftX, rightX)) {
                     //the click is closest to the top edge
                     return new Point2D(clickX, topY);
                 } else {
@@ -98,6 +92,25 @@ public class AddConnectionState extends CanvasState {
             }
         }
         return new Point2D(clickX, clickY);
+    }
+
+    /**
+     * compares each combination of the 6 values passed to check if the first
+     * two values are more similar than any other combination of the values
+     *
+     * @param d1 the first value
+     * @param d2 the second value
+     * @param d3 the third value
+     * @param d4 the fourth value
+     * @param d5 the fifth value
+     * @param d6 the sixth value
+     * @return true if the first two values are closer to each other than any othe combination of the passed values
+     */
+    private boolean checkIfFirstPairClosest(
+           double d1, double d2, double d3, double d4, double  d5, double d6){
+        return (checkIfFirstCoordinateCloser(d1, d2, d1, d3) &&
+                checkIfFirstCoordinateCloser(d1, d2, d4, d5) &&
+                checkIfFirstCoordinateCloser(d1, d2, d4, d6));
     }
 
     /**
