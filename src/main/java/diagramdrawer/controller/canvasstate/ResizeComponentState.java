@@ -1,13 +1,13 @@
 package diagramdrawer.controller.canvasstate;
 
 import diagramdrawer.controller.CanvasContentManagementController;
-import diagramdrawer.model.drawablecomponent.DrawableComponent;
+import diagramdrawer.model.drawablecomponent.boxcomponent.BoxComponent;
 import javafx.scene.input.MouseEvent;
 
 /**Handles the resizing of a component on the canvas*/
 public class ResizeComponentState extends CanvasState {
     //the component to resize
-    private DrawableComponent componentToResize;
+    private BoxComponent componentToResize;
     //the direction in which to resize the component
     private ResizeDirection resizeDirection;
 
@@ -19,7 +19,8 @@ public class ResizeComponentState extends CanvasState {
      * @param canvasContentManagementController the controller for the main window using this state
      * @param componentToResize the component to resize on the canvas
      */
-    public ResizeComponentState(CanvasContentManagementController canvasContentManagementController, DrawableComponent componentToResize, ResizeDirection resizeDirection){
+    public ResizeComponentState(CanvasContentManagementController canvasContentManagementController,
+                                BoxComponent componentToResize, ResizeDirection resizeDirection){
         super(canvasContentManagementController);
         this.componentToResize = componentToResize;
         this.resizeDirection = resizeDirection;

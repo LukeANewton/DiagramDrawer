@@ -8,7 +8,7 @@ import javafx.scene.input.MouseEvent;
 /**Handles the addition of a DrawableComponent onto the canvas*/
 public class AddComponentState extends CanvasState {
     //the component to add onto the canvas drawing
-    DrawableComponent newComponent;
+    protected DrawableComponent newComponent;
 
     /**
      * Constructor
