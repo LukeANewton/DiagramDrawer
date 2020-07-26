@@ -4,14 +4,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public abstract class ConnectionHead {
-
-    /**
-     * return the name describing the connection type
-     *
-     * @return the name describing the connection type
-     */
-    public abstract String getName();
-
     /**
      * draws the head on the given GraphicsContext with the specified color and line thickness
      *

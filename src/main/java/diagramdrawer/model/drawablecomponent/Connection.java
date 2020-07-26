@@ -47,6 +47,7 @@ public class Connection extends DrawableComponent {
         gc.setLineWidth(lineWidth);
         gc.setStroke(color);
         gc.strokeLine(start.getX(), start.getY(), end.getX(), end.getY());
+        connectionType.drawHead(gc, color, lineWidth);
     }
 
     @Override
@@ -87,6 +88,7 @@ public class Connection extends DrawableComponent {
                 && connectionType == that.getConnectionType();
     }
 
+    /**swaps the start and end points of this Connection*/
     private void switchDirection(){
         Point2D temp = start;
         start = end;
