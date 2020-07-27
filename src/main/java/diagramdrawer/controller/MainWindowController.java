@@ -34,14 +34,12 @@ public class MainWindowController {
 
     //the controller for the Canvas contents
     private CanvasContentManagementController canvasContentManagementController;
+    //the maximum dimension for the canvas drawing
+    private static final double CANVAS_MAX_SIZE = 4000;
 
     /**initialize method once FXML loads*/
     @FXML
     private void initialize() {
-        //set canvas size of center pane
-        canvas.widthProperty().bind(scrollPane.widthProperty());
-        canvas.heightProperty().bind(scrollPane.heightProperty());
-
         //initialize the canvas content management controller
         canvasContentManagementController = new CanvasContentManagementController(canvas);
 
@@ -53,6 +51,25 @@ public class MainWindowController {
                     root.getScene().getWindow().widthProperty().addListener(stageSizeListener);
                     root.getScene().getWindow().heightProperty().addListener(stageSizeListener);
         }));
+
+        //set canvas size of center pane
+        canvasContentManagementController.getCanvasDrawController().issueDrawingCommand(() -> {
+            canvas.heightProperty().setValue(scrollPane.heightProperty().getValue());
+            canvas.widthProperty().setValue(scrollPane.widthProperty().getValue());
+        });
+        //set listeners to grow canvas size
+        scrollPane.vvalueProperty().addListener((observableValue, number, t1) -> {
+            if (t1.doubleValue() == scrollPane.getVmax() && canvas.heightProperty().getValue() < CANVAS_MAX_SIZE) {
+                canvasContentManagementController.getCanvasDrawController().issueDrawingCommand(() ->
+                        canvas.heightProperty().setValue(canvas.heightProperty().getValue() + 100));
+            }
+        });
+        scrollPane.hvalueProperty().addListener((observableValue, number, t1) -> {
+            if(t1.doubleValue() == scrollPane.getHmax() && canvas.widthProperty().getValue() < CANVAS_MAX_SIZE){
+                canvasContentManagementController.getCanvasDrawController().issueDrawingCommand(() ->
+                        canvas.widthProperty().setValue(canvas.widthProperty().getValue() + 100));
+            }
+        });
     }
 
     /**handler for adding a new SingleSectionClassBox to the canvas*/
