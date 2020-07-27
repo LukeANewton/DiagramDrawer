@@ -14,7 +14,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Connection extends DrawableComponent {
+public class Connection implements DrawableComponent {
     private Point2D start;
     private Point2D end;
     private ConnectionType connectionType;

@@ -6,12 +6,12 @@ import javafx.scene.paint.Color;
 /**Enum defining the possible connection types between two components*/
 public enum ConnectionType {
     None(null),
-    Dependency(null),
-    Association(null),
+    Dependency(new Dependency()),
+    Association(new Association()),
     Aggregation(new Aggregation()),
-    Composition(null),
-    Inheritance(null),
-    Implementation(null);
+    Composition(new Composition()),
+    Inheritance(new Inheritance()),
+    Implementation(new Implementation());
 
     private ConnectionHead connectionHead;
 
