@@ -8,15 +8,8 @@
     -fx-min-width: 200px;
 }
 
-#menubutton {
-
-}
 
 #toolbox-title {
     -fx-padding: 0px 0px 10px 0px;
     -fx-font-size: 18px;
-}
-
-#canvaspane {
-    -fx-background-color: white
 }

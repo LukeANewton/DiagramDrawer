@@ -10,9 +10,9 @@ import javafx.fxml.FXML;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.embed.swing.SwingFXUtils;
 
@@ -27,7 +27,7 @@ public class MainWindowController {
     public BorderPane root;
     //the fxml Pane node containing the canvas
     @FXML
-    private Pane canvasPane;
+    private ScrollPane scrollPane;
     //the fxml canvas node to be drawn on
     @FXML
     private Canvas canvas;
@@ -39,8 +39,8 @@ public class MainWindowController {
     @FXML
     private void initialize() {
         //set canvas size of center pane
-        canvas.widthProperty().bind(canvasPane.widthProperty());
-        canvas.heightProperty().bind(canvasPane.heightProperty());
+        canvas.widthProperty().bind(scrollPane.widthProperty());
+        canvas.heightProperty().bind(scrollPane.heightProperty());
 
         //initialize the canvas content management controller
         canvasContentManagementController = new CanvasContentManagementController(canvas);
@@ -58,6 +58,8 @@ public class MainWindowController {
     /**handler for adding a new SingleSectionClassBox to the canvas*/
     @FXML
     public void drawNewSingleSectionClass(){
+        System.out.println(canvas.getWidth());
+        System.out.println(canvas.getHeight());
         canvasContentManagementController.setCurrentCanvasState(
                 new AddComponentState(canvasContentManagementController, new SingleSectionClassBox()));
     }
