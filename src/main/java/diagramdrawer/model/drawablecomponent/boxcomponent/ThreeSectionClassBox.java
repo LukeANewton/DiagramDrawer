@@ -13,6 +13,8 @@ import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
+
 /**Represents a class box that contains three sections: for the class title, fields, and methods*/
 public class ThreeSectionClassBox extends BoxComponent {
     //the text area used to edit the component's fields
@@ -131,6 +133,26 @@ public class ThreeSectionClassBox extends BoxComponent {
         super.updateContents();
         fields = fieldTextArea.getText();
         methods = methodTextArea.getText().trim();
+    }
+
+    @Override
+    public String toXML() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("title", title);
+        map.put("height", String.valueOf(height));
+        map.put("width", String.valueOf(width));
+        map.put("centerX", String.valueOf(centerX));
+        map.put("centerY", String.valueOf(centerY));
+        map.put("fields", fields);
+        map.put("methods", methods);
+
+        return buildXML(map);
+    }
+
+    public static DrawableComponent fromXML(HashMap<String, String> arguments) {
+        return new ThreeSectionClassBox(arguments.get("title"), arguments.get("fields"), arguments.get("methods"),
+                Double.parseDouble(arguments.get("centerX")), Double.parseDouble(arguments.get("centerY")),
+                Double.parseDouble(arguments.get("height")), Double.parseDouble(arguments.get("width")));
     }
 
     @Override

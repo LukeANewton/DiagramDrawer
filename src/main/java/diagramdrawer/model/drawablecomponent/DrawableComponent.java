@@ -5,9 +5,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**Contains the information about a component to be drawn on the application canvas, and the methods
  * to draw and edit that component*/
-public interface DrawableComponent {
+public abstract class DrawableComponent {
 
     /**
      * checks if the given point is inside the bounds of this component
@@ -16,7 +19,7 @@ public interface DrawableComponent {
      * @param y the y coordinate of the point to check
      * @return true if the point is inside the bounds of the component, otherwise false
      */
-    boolean checkPointInBounds(double x, double y);
+    public abstract boolean checkPointInBounds(double x, double y);
 
     /**
      * draws the component on the given GraphicsContext with the specified color and line thickness
@@ -25,18 +28,42 @@ public interface DrawableComponent {
      * @param color the color to draw in
      * @param lineWidth the thickness of the lines to draw with
      */
-    void draw(GraphicsContext gc, Color color, int lineWidth);
+    public abstract void draw(GraphicsContext gc, Color color, int lineWidth);
 
     /**Creates a copy of the DrawableComponent*/
-    DrawableComponent createCopy();
+    public abstract DrawableComponent createCopy();
 
     /**
      * Return a VBox containing the contents to populate a dialog box with to edit this object's contents
      *
      * @return a VBox containing the contents to populate a dialog box with to edit this object's contents
      */
-    VBox getUpdateContentsDialog();
+    public abstract VBox getUpdateContentsDialog();
 
     /**Updates the contents of this DrawableComponent after closing the edit dialog*/
-    void updateContents();
+    public abstract void updateContents();
+
+    /**Convert the contents of the object to an XML string*/
+    public abstract String toXML();
+
+
+    public static DrawableComponent fromXML(HashMap<String, String> arguments) {
+        return null;
+    }
+
+    /**
+     * builds an XML tag for the calling class with fields specified in the passed hash map
+     *
+     * @param arguments the fields to include in the tag
+     * @return a String containing an XML tag to represent the object
+     */
+    protected String buildXML(HashMap<String, String> arguments){
+        StringBuilder s = new StringBuilder();
+        s.append("<").append(this.getClass().getName());
+        for(Map.Entry<String, String> entry : arguments.entrySet()) {
+            s.append(" ").append(entry.getKey()).append("=\"").append(entry.getValue()).append("\"");
+        }
+        s.append("/>");
+        return s.toString();
+    }
 }

@@ -15,7 +15,7 @@ import lombok.Setter;
 
 /**Represents DrawableComponents that are box-shaped*/
 @Setter @Getter
-public abstract class BoxComponent implements DrawableComponent {
+public abstract class BoxComponent extends DrawableComponent {
     //the width of the component
     protected double width;
     //the height of the component

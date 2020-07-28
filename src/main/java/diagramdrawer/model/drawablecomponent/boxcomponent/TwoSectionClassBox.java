@@ -13,6 +13,8 @@ import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
+
 /**Represents a class box that contains two sections: one for the class title, and one for text information*/
 public class TwoSectionClassBox extends BoxComponent {
     //the text area used to edit the component's textual contents
@@ -100,6 +102,26 @@ public class TwoSectionClassBox extends BoxComponent {
     public void updateContents() {
         super.updateContents();
         sectionContents = contentsTextArea.getText();
+    }
+
+    @Override
+    public String toXML() {
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put("title", title);
+        map.put("height", String.valueOf(height));
+        map.put("width", String.valueOf(width));
+        map.put("centerX", String.valueOf(centerX));
+        map.put("centerY", String.valueOf(centerY));
+        map.put("sectionContents", sectionContents);
+
+        return buildXML(map);
+    }
+
+    public static DrawableComponent fromXML(HashMap<String, String> arguments) {
+        return new TwoSectionClassBox(arguments.get("title"), arguments.get("sectionContents"),
+                Double.parseDouble(arguments.get("centerX")), Double.parseDouble(arguments.get("centerY")),
+                Double.parseDouble(arguments.get("height")), Double.parseDouble(arguments.get("width")));
     }
 
     @Override

@@ -12,9 +12,11 @@ import javafx.scene.paint.Color;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
+
 @Getter
 @Setter
-public class Connection implements DrawableComponent {
+public class Connection extends DrawableComponent {
     private Point2D start;
     private Point2D end;
     private ConnectionType connectionType;
@@ -76,6 +78,24 @@ public class Connection implements DrawableComponent {
     @Override
     public void updateContents() {
         connectionType = comboBox.getValue();
+    }
+
+    @Override
+    public String toXML() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("type", connectionType.toString());
+        map.put("startX", String.valueOf(start.getX()));
+        map.put("startY", String.valueOf(start.getY()));
+        map.put("endX", String.valueOf(end.getX()));
+        map.put("endY", String.valueOf(end.getY()));
+
+        return buildXML(map);
+    }
+
+    public static DrawableComponent fromXML(HashMap<String, String> arguments) {
+        return new Connection(Double.parseDouble(arguments.get("startX")), Double.parseDouble(arguments.get("startY")),
+                Double.parseDouble(arguments.get("endX")), Double.parseDouble(arguments.get("endY")),
+                ConnectionType.valueOf(arguments.get("type")));
     }
 
     @Override
