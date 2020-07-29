@@ -1,10 +1,6 @@
 package diagramdrawer.controller;
 
-import diagramdrawer.model.drawablecomponent.Connection;
 import diagramdrawer.model.drawablecomponent.DrawableComponent;
-import diagramdrawer.model.drawablecomponent.boxcomponent.SingleSectionClassBox;
-import diagramdrawer.model.drawablecomponent.boxcomponent.ThreeSectionClassBox;
-import diagramdrawer.model.drawablecomponent.boxcomponent.TwoSectionClassBox;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
@@ -102,8 +98,9 @@ public class FileController {
                 //since we have to fetch by tag name, we iterate through each subclass of DrawableComponent
                 //and find all the tags that are for that subclass. Each tag for that subclass is converted
                 //into an object of that type and added to the drawableComponents list
-                for(Class<?> c : reflections.getSubTypesOf(DrawableComponent.class)){
-                    NodeList componentTags = document.getElementsByTagName(c.getName());
+                Set<Class<? extends DrawableComponent>> subclasses = reflections.getSubTypesOf(DrawableComponent.class);
+                for(Class<?> subclass : subclasses){
+                    NodeList componentTags = document.getElementsByTagName(subclass.getName());
                     for(int i = 0; i < componentTags.getLength(); i++){
                         HashMap<String, String> fieldValueMap = new HashMap<>();
                         Node component = componentTags.item(i);
@@ -113,21 +110,17 @@ public class FileController {
                             fieldValueMap.put(componentField.getNodeName(), componentField.getTextContent());
                         }
 
-                        String tagName = component.getNodeName();
-                        if(tagName.equals(Connection.class.getName())){
-                            drawableComponents.add(Connection.fromXML(fieldValueMap));
-                        } else if(tagName.equals(SingleSectionClassBox.class.getName())){
-                            drawableComponents.add(SingleSectionClassBox.fromXML(fieldValueMap));
-                        } else if(tagName.equals(TwoSectionClassBox.class.getName())){
-                            drawableComponents.add(TwoSectionClassBox.fromXML(fieldValueMap));
-                        } else if(tagName.equals(ThreeSectionClassBox.class.getName())){
-                            drawableComponents.add(ThreeSectionClassBox.fromXML(fieldValueMap));
+                        for(Class<?> c : subclasses){
+                            if(c.getName().equals(component.getNodeName())){
+                                Method m = c.getMethod("fromXML", HashMap.class);
+                                drawableComponents.add((DrawableComponent) m.invoke(null, fieldValueMap));
+                            }
                         }
-
                     }
                 }
             } catch(Exception e){
                 //print error alert
+                e.printStackTrace();
                 showErrorAlert("Load failed:", e.getMessage());
             }
         }
