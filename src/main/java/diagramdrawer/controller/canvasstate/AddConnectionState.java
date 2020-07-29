@@ -5,7 +5,7 @@ import diagramdrawer.model.drawablecomponent.Connection;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
-import javafx.geometry.Point2D;
+import org.javatuples.Pair;
 
 public class AddConnectionState extends CanvasState {
     //the new connection to draw on the canvas
@@ -20,7 +20,8 @@ public class AddConnectionState extends CanvasState {
     public AddConnectionState(CanvasContentManagementController canvasContentManagementController, Connection newConnection) {
         super(canvasContentManagementController);
         this.newConnection = newConnection;
-        newConnection.setStart(canvasContentManagementController.findClosestPointOnComponentEdge(newConnection.getStart().getX(), newConnection.getStart().getY()));
+        newConnection.setStart(canvasContentManagementController.findClosestPointOnComponentEdge(newConnection.getStart().getValue0(),
+                newConnection.getStart().getValue1()));
     }
 
     @Override
@@ -51,7 +52,7 @@ public class AddConnectionState extends CanvasState {
     @Override
     public void mouseMoveHandler(MouseEvent mouseEvent) {
         //draw a preview of where the component will be drawn on the canvas
-        newConnection.setEnd(new Point2D(mouseEvent.getX(), mouseEvent.getY()));
+        newConnection.setEnd(new Pair<Double, Double>(mouseEvent.getX(), mouseEvent.getY()));
         canvasContentManagementController.getCanvasDrawController().drawPreviewComponent(newConnection);
     }
 }

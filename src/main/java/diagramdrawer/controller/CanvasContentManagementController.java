@@ -5,10 +5,10 @@ import diagramdrawer.controller.canvasstate.SelectComponentState;
 import diagramdrawer.model.CanvasContentStateStack;
 import diagramdrawer.model.drawablecomponent.DrawableComponent;
 import diagramdrawer.model.drawablecomponent.boxcomponent.BoxComponent;
-import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import lombok.Getter;
 import lombok.Setter;
+import org.javatuples.Pair;
 
 import java.util.ArrayList;
 
@@ -76,7 +76,7 @@ public class CanvasContentManagementController {
      * @param clickY the y coordinate of the point to check
      * @return the closest point on the edge of the component that the passed coordinates lies inside
      */
-    public Point2D findClosestPointOnComponentEdge(double clickX, double clickY){
+    public Pair<Double, Double> findClosestPointOnComponentEdge(double clickX, double clickY){
         for(DrawableComponent component: drawnComponents){
             if(component.checkPointInBounds(clickX, clickY) && component instanceof BoxComponent) {
                 BoxComponent boxComponent = (BoxComponent) component;
@@ -87,20 +87,20 @@ public class CanvasContentManagementController {
 
                 if (checkIfFirstPairClosest(clickX, leftX, rightX, clickY, topY, bottomY)) {
                     //the click is closest to the left edge
-                    return new Point2D(leftX, clickY);
+                    return new Pair<>(leftX, clickY);
                 } else if (checkIfFirstPairClosest(clickX, rightX, leftX, clickY, topY, bottomY)) {
                     //the click is closest to the right edge
-                    return new Point2D(rightX, clickY);
+                    return new Pair<>(rightX, clickY);
                 } else if (checkIfFirstPairClosest(clickY, topY, bottomY, clickX, leftX, rightX)) {
                     //the click is closest to the top edge
-                    return new Point2D(clickX, topY);
+                    return new Pair<>(clickX, topY);
                 } else {
                     //the click is closest to the bottom edge
-                    return new Point2D(clickX, bottomY);
+                    return new Pair<>(clickX, bottomY);
                 }
             }
         }
-        return new Point2D(clickX, clickY);
+        return new Pair<>(clickX, clickY);
     }
 
     /**

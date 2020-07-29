@@ -33,7 +33,7 @@ public class EditComponentContentsState extends CanvasState {
         dialog.initModality(Modality.APPLICATION_MODAL);
 
         //get the dialog box contents
-        VBox vBox = componentToEdit.getUpdateContentsDialog();
+        VBox vBox = componentToEdit.fetchUpdateContentsDialog();
         Button doneButton = new Button("Done");
         doneButton.setId("donebutton");
 

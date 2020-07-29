@@ -85,10 +85,10 @@ public class TwoSectionClassBox extends BoxComponent {
     }
 
     @Override
-    public VBox getUpdateContentsDialog() {
+    public VBox fetchUpdateContentsDialog() {
         /* VBox containing two HBoxes: each with a label and text box.
         The first is used to update the class title. The second is used to update the contents*/
-        VBox vbox = super.getUpdateContentsDialog();
+        VBox vbox = super.fetchUpdateContentsDialog();
         HBox hbox = new HBox();
         Label contentsLabel = new Label("Contents: ");
         contentsTextArea = new TextArea(sectionContents);
@@ -104,24 +104,10 @@ public class TwoSectionClassBox extends BoxComponent {
         sectionContents = contentsTextArea.getText();
     }
 
-    @Override
-    public String toXML() {
-        HashMap<String, String> map = new HashMap<>();
-
-        map.put("title", title);
-        map.put("height", String.valueOf(height));
-        map.put("width", String.valueOf(width));
-        map.put("centerX", String.valueOf(centerX));
-        map.put("centerY", String.valueOf(centerY));
-        map.put("sectionContents", sectionContents);
-
-        return buildXML(map);
-    }
-
     public static DrawableComponent fromXML(HashMap<String, String> arguments) {
-        return new TwoSectionClassBox(arguments.get("title"), arguments.get("sectionContents"),
-                Double.parseDouble(arguments.get("centerX")), Double.parseDouble(arguments.get("centerY")),
-                Double.parseDouble(arguments.get("height")), Double.parseDouble(arguments.get("width")));
+        return new TwoSectionClassBox(arguments.get("Title"), arguments.get("SectionContents"),
+                Double.parseDouble(arguments.get("CenterX")), Double.parseDouble(arguments.get("CenterY")),
+                Double.parseDouble(arguments.get("Height")), Double.parseDouble(arguments.get("Width")));
     }
 
     @Override

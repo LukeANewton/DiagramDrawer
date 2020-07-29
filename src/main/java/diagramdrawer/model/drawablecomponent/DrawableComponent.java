@@ -38,14 +38,10 @@ public abstract class DrawableComponent {
      *
      * @return a VBox containing the contents to populate a dialog box with to edit this object's contents
      */
-    public abstract VBox getUpdateContentsDialog();
+    public abstract VBox fetchUpdateContentsDialog();
 
     /**Updates the contents of this DrawableComponent after closing the edit dialog*/
     public abstract void updateContents();
-
-    /**Convert the contents of the object to an XML string*/
-    public abstract String toXML();
-
 
     public static DrawableComponent fromXML(HashMap<String, String> arguments) {
         return null;

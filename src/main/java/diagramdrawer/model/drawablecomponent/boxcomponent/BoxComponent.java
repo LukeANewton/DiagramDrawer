@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,6 +28,7 @@ public abstract class BoxComponent extends DrawableComponent {
     //the title to be written on the component
     protected String title;
     //the text field used to edit the title of the component
+    @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE)
     protected TextField titleTextField;
 
     /**
@@ -47,7 +49,7 @@ public abstract class BoxComponent extends DrawableComponent {
     }
 
     @Override
-    public VBox getUpdateContentsDialog(){
+    public VBox fetchUpdateContentsDialog(){
         VBox vbox = new VBox();
         HBox hbox = new HBox();
         Label titleLabel = new Label("Title: ");

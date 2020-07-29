@@ -108,11 +108,11 @@ public class ThreeSectionClassBox extends BoxComponent {
     }
 
     @Override
-    public VBox getUpdateContentsDialog() {
+    public VBox fetchUpdateContentsDialog() {
         /* VBox containing three HBoxes: each with a label and text box.
         The first is used to update the class title. The second is used to update the fields.
         The third is used to update the methods*/
-        VBox vbox = super.getUpdateContentsDialog();
+        VBox vbox = super.fetchUpdateContentsDialog();
         HBox hbox = new HBox();
         HBox hbox2 = new HBox();
         Label fieldLabel = new Label("Fields: ");
@@ -135,24 +135,10 @@ public class ThreeSectionClassBox extends BoxComponent {
         methods = methodTextArea.getText().trim();
     }
 
-    @Override
-    public String toXML() {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("title", title);
-        map.put("height", String.valueOf(height));
-        map.put("width", String.valueOf(width));
-        map.put("centerX", String.valueOf(centerX));
-        map.put("centerY", String.valueOf(centerY));
-        map.put("fields", fields);
-        map.put("methods", methods);
-
-        return buildXML(map);
-    }
-
     public static DrawableComponent fromXML(HashMap<String, String> arguments) {
-        return new ThreeSectionClassBox(arguments.get("title"), arguments.get("fields"), arguments.get("methods"),
-                Double.parseDouble(arguments.get("centerX")), Double.parseDouble(arguments.get("centerY")),
-                Double.parseDouble(arguments.get("height")), Double.parseDouble(arguments.get("width")));
+        return new ThreeSectionClassBox(arguments.get("Title"), arguments.get("Fields"), arguments.get("Methods"),
+                Double.parseDouble(arguments.get("CenterX")), Double.parseDouble(arguments.get("CenterY")),
+                Double.parseDouble(arguments.get("Height")), Double.parseDouble(arguments.get("Width")));
     }
 
     @Override
