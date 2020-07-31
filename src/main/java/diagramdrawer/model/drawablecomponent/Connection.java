@@ -24,6 +24,11 @@ public class Connection extends DrawableComponent {
     @Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE)
     private ComboBox<ConnectionType> comboBox;
 
+    public Connection(){
+        connectionType = ConnectionType.None;
+        comboBox = new ComboBox<>();
+    }
+
     public Connection(double startX, double startY){
         this.start = new Pair<>(startX, startY);
         connectionType = ConnectionType.None;
@@ -81,19 +86,6 @@ public class Connection extends DrawableComponent {
     @Override
     public void updateContents() {
         connectionType = comboBox.getValue();
-    }
-
-    public static DrawableComponent fromXML(HashMap<String, String> arguments) {
-        Pair<Double, Double> start = makePair(arguments.get("Start"));
-        Pair<Double, Double> end = makePair(arguments.get("End"));
-
-        return new Connection(start.getValue0(), start.getValue1(), end.getValue0(), end.getValue1(),
-                ConnectionType.valueOf(arguments.get("ConnectionType")));
-    }
-
-    private static Pair<Double, Double> makePair(String text){
-        String[] pairAsTextList = text.substring(1, text.length()-1).split(", ");
-        return new Pair<>(Double.parseDouble(pairAsTextList[0]), Double.parseDouble(pairAsTextList[1]));
     }
 
     @Override

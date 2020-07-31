@@ -5,9 +5,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**Contains the information about a component to be drawn on the application canvas, and the methods
  * to draw and edit that component*/
 public abstract class DrawableComponent {
@@ -42,24 +39,4 @@ public abstract class DrawableComponent {
 
     /**Updates the contents of this DrawableComponent after closing the edit dialog*/
     public abstract void updateContents();
-
-    public static DrawableComponent fromXML(HashMap<String, String> arguments) {
-        return null;
-    }
-
-    /**
-     * builds an XML tag for the calling class with fields specified in the passed hash map
-     *
-     * @param arguments the fields to include in the tag
-     * @return a String containing an XML tag to represent the object
-     */
-    protected String buildXML(HashMap<String, String> arguments){
-        StringBuilder s = new StringBuilder();
-        s.append("<").append(this.getClass().getName());
-        for(Map.Entry<String, String> entry : arguments.entrySet()) {
-            s.append(" ").append(entry.getKey()).append("=\"").append(entry.getValue()).append("\"");
-        }
-        s.append("/>");
-        return s.toString();
-    }
 }

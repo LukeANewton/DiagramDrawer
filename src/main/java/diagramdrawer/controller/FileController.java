@@ -1,5 +1,6 @@
 package diagramdrawer.controller;
 
+import diagramdrawer.model.connectiontype.ConnectionType;
 import diagramdrawer.model.drawablecomponent.DrawableComponent;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.SnapshotParameters;
@@ -8,12 +9,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.image.WritableImage;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import org.javatuples.Pair;
 import org.reflections.ReflectionUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.reflections.Reflections;
 
 import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilder;
@@ -27,13 +28,14 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Set;
 
 /**Handles file operations for the system*/
 public class FileController {
     private CanvasContentManagementController canvasContentManagementController;
     private FileChooser fileChooser;
+
+    private static final String ROOT_TAG_NAME = "canvas";
 
     public FileController(CanvasContentManagementController canvasContentManagementController){
         this.canvasContentManagementController = canvasContentManagementController;
@@ -52,7 +54,7 @@ public class FileController {
                 Document doc = dBuilder.newDocument();
 
                 // root element
-                Element rootElement = doc.createElement("canvas");
+                Element rootElement = doc.createElement(ROOT_TAG_NAME);
                 doc.appendChild(rootElement);
 
                 //add element for each drawn component
@@ -94,29 +96,48 @@ public class FileController {
                 DocumentBuilder builder = factory.newDocumentBuilder();
                 Document document = builder.parse(selectedFile);
 
-                Reflections reflections = new Reflections(DrawableComponent.class);
-                //since we have to fetch by tag name, we iterate through each subclass of DrawableComponent
-                //and find all the tags that are for that subclass. Each tag for that subclass is converted
-                //into an object of that type and added to the drawableComponents list
-                Set<Class<? extends DrawableComponent>> subclasses = reflections.getSubTypesOf(DrawableComponent.class);
-                for(Class<?> subclass : subclasses){
-                    NodeList componentTags = document.getElementsByTagName(subclass.getName());
-                    for(int i = 0; i < componentTags.getLength(); i++){
-                        HashMap<String, String> fieldValueMap = new HashMap<>();
-                        Node component = componentTags.item(i);
-                        NodeList componentFields = component.getChildNodes();
-                        for(int j = 0; j < componentFields.getLength(); j++){
-                            Node componentField = componentFields.item(j);
-                            fieldValueMap.put(componentField.getNodeName(), componentField.getTextContent());
+                //a list of all the component tags
+                NodeList componentTags = document.getElementsByTagName(ROOT_TAG_NAME).item(0).getChildNodes();
+                for(int i = 0; i < componentTags.getLength(); i++){
+                    Node componentTag = componentTags.item(i);
+                    //create a new instance of the class associated with the tag with no args constructor
+                    Class<?> clazz = Class.forName(componentTag.getNodeName());
+                    DrawableComponent drawableComponent = (DrawableComponent) clazz.getConstructor().newInstance();
+                    //get all the setters for the class associated with the tag
+                    Set<Method> setters = ReflectionUtils.getAllMethods(clazz,
+                            ReflectionUtils.withModifier(Modifier.PUBLIC), ReflectionUtils.withPrefix("set"),
+                            ReflectionUtils.withParametersCount(1));
+                    //get all the sub tags for each field
+                    NodeList fieldTags = componentTag.getChildNodes();
+                    for(Method setter : setters){
+                        //call each setter to populate DrawableComponent
+                        String fieldTagContents = null;
+                        for(int j = 0; j < fieldTags.getLength(); j++){
+                            if(setter.getName().contains(fieldTags.item(j).getNodeName())){
+                                fieldTagContents = fieldTags.item(j).getTextContent();
+                                break;
+                            }
                         }
-
-                        for(Class<?> c : subclasses){
-                            if(c.getName().equals(component.getNodeName())){
-                                Method m = c.getMethod("fromXML", HashMap.class);
-                                drawableComponents.add((DrawableComponent) m.invoke(null, fieldValueMap));
+                        if(fieldTagContents != null){
+                            Class<?> parameterType = setter.getParameterTypes()[0];
+                            if (parameterType.equals(double.class)) {
+                                setter.invoke(drawableComponent, Double.parseDouble(fieldTagContents));
+                            } else if (parameterType.equals(String.class)) {
+                                setter.invoke(drawableComponent, fieldTagContents);
+                            } else if (parameterType.equals(Pair.class)) {
+                                //to make a pair from the string, we have to remove the square
+                                //brackets from ends and split on the comma separating each part
+                                String[] pairAsTextList = fieldTagContents.
+                                        substring(1, fieldTagContents.length()-1).split(", ");
+                                setter.invoke(drawableComponent, new Pair<>(Double.parseDouble(pairAsTextList[0]),
+                                         Double.parseDouble(pairAsTextList[1])));
+                            } else if (parameterType.equals(ConnectionType.class)) {
+                                setter.invoke(drawableComponent, ConnectionType.valueOf(fieldTagContents));
                             }
                         }
                     }
+                    //add component to list
+                    drawableComponents.add(drawableComponent);
                 }
             } catch(Exception e){
                 //print error alert

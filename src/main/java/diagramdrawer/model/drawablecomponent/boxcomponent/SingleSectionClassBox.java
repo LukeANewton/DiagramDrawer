@@ -5,8 +5,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 
-import java.util.HashMap;
-
 /**Represents a class box with a single section for the class name*/
 public class SingleSectionClassBox extends BoxComponent {
     //default sizes for newly created components
@@ -41,15 +39,6 @@ public class SingleSectionClassBox extends BoxComponent {
     @Override
     public DrawableComponent createCopy() {
         return new SingleSectionClassBox(this.title, this.centerX, this.centerY, this.height, this.width);
-    }
-
-    public static DrawableComponent fromXML(HashMap<String, String> arguments) {
-        arguments.get("title");
-        arguments.get("centerX");
-
-        return new SingleSectionClassBox(arguments.get("Title"), Double.parseDouble(arguments.get("CenterX")),
-                Double.parseDouble(arguments.get("CenterY")), Double.parseDouble(arguments.get("Height")),
-                Double.parseDouble(arguments.get("Width")));
     }
 
     @Override
