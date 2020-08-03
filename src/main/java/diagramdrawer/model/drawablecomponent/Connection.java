@@ -13,8 +13,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.javatuples.Pair;
 
-import java.util.HashMap;
-
 @Getter
 @Setter
 public class Connection extends DrawableComponent {
@@ -44,11 +42,8 @@ public class Connection extends DrawableComponent {
 
     @Override
     public boolean checkPointInBounds(double x, double y) {
-        //build a string line through between the points
-        double m = (end.getValue1() - start.getValue1()) / (end.getValue0() - start.getValue0());
-        double b = start.getValue1() - m * start.getValue0();
         //since the lines are so thin, we'll give some wiggle room: 5 pixels on either side
-        return Math.abs(m*x + b - y) <= 5;
+        return Math.abs(calculateSlope()*x + calculateIntercept() - y) <= 5;
     }
 
     @Override
@@ -56,7 +51,8 @@ public class Connection extends DrawableComponent {
         gc.setLineWidth(lineWidth);
         gc.setStroke(color);
         gc.strokeLine(start.getValue0(), start.getValue1(), end.getValue0(), end.getValue1());
-        connectionType.drawHead(gc, color, lineWidth);
+
+        connectionType.drawHead(gc, end, start);
     }
 
     @Override
@@ -103,5 +99,13 @@ public class Connection extends DrawableComponent {
         Pair<Double, Double> temp = start;
         start = end;
         end = temp;
+    }
+
+    private double calculateSlope(){
+        return (end.getValue1() - start.getValue1()) / (end.getValue0() - start.getValue0());
+    }
+
+    private double calculateIntercept(){
+        return start.getValue1() - calculateSlope() * start.getValue0();
     }
 }

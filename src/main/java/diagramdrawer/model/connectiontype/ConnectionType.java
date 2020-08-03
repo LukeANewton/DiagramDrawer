@@ -2,16 +2,17 @@ package diagramdrawer.model.connectiontype;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import org.javatuples.Pair;
 
 /**Enum defining the possible connection types between two components*/
 public enum ConnectionType {
     None(null),
-    Dependency(new Dependency()),
-    Association(new Association()),
-    Aggregation(new Aggregation()),
-    Composition(new Composition()),
-    Inheritance(new Inheritance()),
-    Implementation(new Implementation());
+    Dependency(new OpenArrow()),
+    Association(new OpenArrow()),
+    Aggregation(new DiamondHead(Color.WHITE)),
+    Composition(new DiamondHead(Color.BLACK)),
+    Inheritance(new ClosedArrow()),
+    Implementation(new ClosedArrow());
 
     private ConnectionHead connectionHead;
 
@@ -23,12 +24,11 @@ public enum ConnectionType {
      * draws the head on the given GraphicsContext with the specified color and line thickness
      *
      * @param gc the GraphicsContext of the canvas to draw on
-     * @param color the color to draw in
-     * @param lineWidth the thickness of the lines to draw with
+
      */
-    public void drawHead(GraphicsContext gc, Color color, int lineWidth){
+    public void drawHead(GraphicsContext gc, Pair<Double, Double> lastPoint, Pair<Double, Double> secondLast) {
         if(connectionHead != null){
-            connectionHead.drawHead(gc, color, lineWidth);
+            connectionHead.drawHead(gc, lastPoint, secondLast);
         }
     }
 }

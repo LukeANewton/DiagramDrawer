@@ -2,7 +2,6 @@ package diagramdrawer.controller;
 
 
 import diagramdrawer.controller.canvasstate.AddComponentState;
-import diagramdrawer.controller.canvasstate.SelectComponentState;
 import diagramdrawer.model.drawablecomponent.boxcomponent.SingleSectionClassBox;
 import diagramdrawer.model.drawablecomponent.boxcomponent.ThreeSectionClassBox;
 import diagramdrawer.model.drawablecomponent.boxcomponent.TwoSectionClassBox;
@@ -98,9 +97,9 @@ public class MainWindowController {
         canvasContentManagementController.setDrawnComponents(
                 fileController.loadDrawnComponents(root.getScene().getWindow()));
 
-        //after loading the file, we need to refresh the canvas drawing and reset the keystroke handler
+        //after loading the file, we need to refresh the canvas drawing and reset the keystroke handler by resetting state
         canvasContentManagementController.getCanvasDrawController().redrawCanvas();
-        canvasContentManagementController.setCurrentCanvasState(new SelectComponentState(canvasContentManagementController));
+        canvasContentManagementController.getCurrentCanvasState().enterState();
     }
 
     /**handler for saving the current set of DrawableComponents on the canvas to a file*/

@@ -87,6 +87,7 @@ public abstract class BoxComponent extends DrawableComponent {
 
         final Text throwaway = new Text(title);
         new Scene(new Group(throwaway));
+        gc.setFill(Color.BLACK);
         gc.fillText(title,centerX - (throwaway.getLayoutBounds().getWidth()/2), getTitleYCoord());
     }
 
