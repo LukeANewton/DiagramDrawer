@@ -1,4 +1,4 @@
-package diagramdrawer.model.connectiontype;
+package diagramdrawer.model.connectiontype.connectionhead;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -14,7 +14,7 @@ public abstract class ConnectionHead {
      *
      * @param gc the GraphicsContext of the canvas to draw on
      */
-     void drawHead(GraphicsContext gc, Pair<Double, Double> lastPoint, Pair<Double, Double> secondLast){
+    public void drawHead(GraphicsContext gc, Pair<Double, Double> lastPoint, Pair<Double, Double> secondLast){
          gc.setStroke(Color.BLACK);
          gc.setLineWidth(1);
      }

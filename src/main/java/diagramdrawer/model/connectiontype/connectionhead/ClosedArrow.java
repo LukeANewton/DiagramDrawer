@@ -1,4 +1,4 @@
-package diagramdrawer.model.connectiontype;
+package diagramdrawer.model.connectiontype.connectionhead;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
