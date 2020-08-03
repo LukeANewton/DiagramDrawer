@@ -1,9 +1,9 @@
-package diagramdrawer.model.connectiontype;
+package diagramdrawer.model.drawablecomponent.connectiontype;
 
-import diagramdrawer.model.connectiontype.connectionhead.ClosedArrow;
-import diagramdrawer.model.connectiontype.connectionhead.ConnectionHead;
-import diagramdrawer.model.connectiontype.connectionhead.DiamondHead;
-import diagramdrawer.model.connectiontype.connectionhead.OpenArrow;
+import diagramdrawer.model.drawablecomponent.connectiontype.connectionhead.ClosedArrow;
+import diagramdrawer.model.drawablecomponent.connectiontype.connectionhead.ConnectionHead;
+import diagramdrawer.model.drawablecomponent.connectiontype.connectionhead.DiamondHead;
+import diagramdrawer.model.drawablecomponent.connectiontype.connectionhead.OpenArrow;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import org.javatuples.Pair;

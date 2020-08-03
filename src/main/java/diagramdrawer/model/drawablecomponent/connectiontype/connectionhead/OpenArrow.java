@@ -1,4 +1,4 @@
-package diagramdrawer.model.connectiontype.connectionhead;
+package diagramdrawer.model.drawablecomponent.connectiontype.connectionhead;
 
 import javafx.scene.canvas.GraphicsContext;
 import org.javatuples.Pair;

@@ -1,6 +1,6 @@
 package diagramdrawer.controller;
 
-import diagramdrawer.model.connectiontype.ConnectionType;
+import diagramdrawer.model.drawablecomponent.connectiontype.ConnectionType;
 import diagramdrawer.model.drawablecomponent.DrawableComponent;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.SnapshotParameters;
