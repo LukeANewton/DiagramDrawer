@@ -35,13 +35,16 @@ public class DiamondHead extends ConnectionHead {
 
         double diamondLength = Math.cos(theta) * ARROW_HEAD_LENGTH * 2;
         double difference = 0.5;
-        double step = 0.1;
-        double x = lastPoint.getValue0();
-        while(Math.abs(secondLast.getValue0()-x) > difference){
+        double base = secondLast.getValue0();
+        double end = lastPoint.getValue0();
+        double distance;
+        do{
+            double x = (end + base) / 2;
+
             double xDiff = lastPoint.getValue0() - x;
             double yDiff = lastPoint.getValue1() - (m*x+b);
 
-            double distance = Math.sqrt(Math.pow(xDiff,2)+Math.pow(yDiff,2));
+            distance = Math.sqrt(Math.pow(xDiff,2)+Math.pow(yDiff,2));
 
             if(Math.abs(distance-diamondLength) < difference){//the point found is close enough to draw an accurate diamond
                 Pair<Double, Double> diamondBack = new Pair<>(x,  m * x + b);
@@ -53,13 +56,11 @@ public class DiamondHead extends ConnectionHead {
                 gc.fillPolygon(pointsX, pointsY, pointsX.length);
                 gc.strokePolygon(pointsX, pointsY, pointsX.length);
                 break;
-            }
-
-            if(lastPoint.getValue0() > secondLast.getValue0()){
-                x -= step;
+            } else if(distance > diamondLength){
+                base = x;
             }else{
-                x += step;
+                end = x;
             }
-        }
+        }while(Math.abs(distance-diamondLength) > difference);
     }
 }
