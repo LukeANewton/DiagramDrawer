@@ -10,17 +10,14 @@ public class ClosedArrow extends ConnectionHead {
     public void drawHead(GraphicsContext gc, Pair<Double, Double> lastPoint, Pair<Double, Double> secondLast) {
         super.drawHead(gc, lastPoint, secondLast);
 
-        //convert angle to radians
-        double theta = degreeToRadians(ROTATION_ANGLE) ;
-
         //shift absolute coordinates to vector from last point
         double vectorX = secondLast.getValue0() - lastPoint.getValue0();
         double vectorY = secondLast.getValue1() - lastPoint.getValue1();
 
         //draw clockwise
-        Pair<Double, Double> arrowEndC = rotateAndDraw(gc, lastPoint, vectorX, vectorY, theta);
+        Pair<Double, Double> arrowEndC = rotateAndDraw(gc, lastPoint, vectorX, vectorY, ROTATION_ANGLE_RADIANS);
         //draw counter-clockwise
-        Pair<Double, Double> arrowEndCC = rotateAndDraw(gc, lastPoint, vectorX, vectorY, 2 * Math.PI - theta);
+        Pair<Double, Double> arrowEndCC = rotateAndDraw(gc, lastPoint, vectorX, vectorY, 2 * Math.PI - ROTATION_ANGLE_RADIANS);
 
         //draw bottom line
         gc.strokeLine(arrowEndC.getValue0(), arrowEndC.getValue1(), arrowEndCC.getValue0(), arrowEndCC.getValue1());

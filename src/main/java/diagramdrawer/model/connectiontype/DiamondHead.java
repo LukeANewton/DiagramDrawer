@@ -16,24 +16,21 @@ public class DiamondHead extends ConnectionHead {
     public void drawHead(GraphicsContext gc, Pair<Double, Double> lastPoint, Pair<Double, Double> secondLast) {
         super.drawHead(gc, lastPoint, secondLast);
 
-        //convert angle to radians
-        double theta = degreeToRadians(ROTATION_ANGLE) ;
-
         //shift absolute coordinates to vector from last point
         double vectorX = secondLast.getValue0() - lastPoint.getValue0();
         double vectorY = secondLast.getValue1() - lastPoint.getValue1();
 
         //get clockwise side point
-        Pair<Double, Double> arrowEndC = rotateAndDraw(gc, lastPoint, vectorX, vectorY, theta);
+        Pair<Double, Double> arrowEndC = rotateAndDraw(gc, lastPoint, vectorX, vectorY, ROTATION_ANGLE_RADIANS);
         //get counter-clockwise side point
-        Pair<Double, Double> arrowEndCC = rotateAndDraw(gc, lastPoint, vectorX, vectorY, 2 * Math.PI - theta);
+        Pair<Double, Double> arrowEndCC = rotateAndDraw(gc, lastPoint, vectorX, vectorY, 2 * Math.PI - ROTATION_ANGLE_RADIANS);
 
         /*determine point on other side of diamond by determining how long the diamond must be,
         then a bisection search along the line to find the right coordinates*/
         double m = (lastPoint.getValue1() - secondLast.getValue1())/(lastPoint.getValue0() - secondLast.getValue0());
         double b = lastPoint.getValue1() - m * lastPoint.getValue0();
 
-        double diamondLength = Math.cos(theta) * ARROW_HEAD_LENGTH * 2;
+        double diamondLength = Math.cos(ROTATION_ANGLE_RADIANS) * ARROW_HEAD_LENGTH * 2;
         double difference = 0.5;
         double base = secondLast.getValue0();
         double end = lastPoint.getValue0();
