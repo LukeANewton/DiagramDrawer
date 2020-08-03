@@ -3,7 +3,7 @@ package diagramdrawer.model.drawablecomponent.connectiontype.connectionhead;
 import javafx.scene.canvas.GraphicsContext;
 import org.javatuples.Pair;
 
-/**Describes how to draw the head on an association relationship*/
+/**Describes how to draw an open-ended arrowhead*/
 public class OpenArrow extends ConnectionHead {
     @Override
     public void drawHead(GraphicsContext gc, Pair<Double, Double> lastPoint, Pair<Double, Double> secondLast) {

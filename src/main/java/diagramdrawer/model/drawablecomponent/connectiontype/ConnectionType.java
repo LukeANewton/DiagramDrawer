@@ -18,8 +18,14 @@ public enum ConnectionType {
     Inheritance(new ClosedArrow()),
     Implementation(new ClosedArrow());
 
+    //the strategy for drawing the arrow head
     private ConnectionHead connectionHead;
 
+    /**
+     * Constructor
+     *
+     * @param connectionHead the strategy for drawing the arrow head
+     */
     ConnectionType(ConnectionHead connectionHead){
         this.connectionHead = connectionHead;
     }

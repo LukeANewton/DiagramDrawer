@@ -4,10 +4,16 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import org.javatuples.Pair;
 
-/**Describes how to draw the head on an composition relationship*/
+/**Describes how to draw a diamond-shaped arrowhead*/
 public class DiamondHead extends ConnectionHead {
+    //the color to use to fill the diamond arrow head
     private Color diamondFill;
 
+    /**
+     * Constructor
+     *
+     * @param diamondFill the color to use to fill the diamond arrow head
+     */
     public DiamondHead(Color diamondFill){
         this.diamondFill = diamondFill;
     }

@@ -4,7 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import org.javatuples.Pair;
 
-/**Describes how to draw the head on an inheritance relationship*/
+/**Describes how to draw a triangle-shaped arrow head*/
 public class ClosedArrow extends ConnectionHead {
     @Override
     public void drawHead(GraphicsContext gc, Pair<Double, Double> lastPoint, Pair<Double, Double> secondLast) {
