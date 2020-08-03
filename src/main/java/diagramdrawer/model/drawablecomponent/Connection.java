@@ -97,8 +97,8 @@ public class Connection extends DrawableComponent {
     public void draw(GraphicsContext gc, Color color, int lineWidth) {
         gc.setLineWidth(lineWidth);
         gc.setStroke(color);
+        gc.setLineDashes(connectionType.getDashedLineGap());
         gc.strokeLine(start.getValue0(), start.getValue1(), end.getValue0(), end.getValue1());
-
         connectionType.drawHead(gc, end, start);
     }
 

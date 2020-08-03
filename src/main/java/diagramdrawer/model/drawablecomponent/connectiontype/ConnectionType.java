@@ -6,28 +6,39 @@ import diagramdrawer.model.drawablecomponent.connectiontype.connectionhead.Diamo
 import diagramdrawer.model.drawablecomponent.connectiontype.connectionhead.OpenArrow;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import lombok.Getter;
 import org.javatuples.Pair;
 
 /**Enum defining the possible connection types between two components*/
 public enum ConnectionType {
-    None(null),
-    Dependency(new OpenArrow()),
-    Association(new OpenArrow()),
-    Aggregation(new DiamondHead(Color.WHITE)),
-    Composition(new DiamondHead(Color.BLACK)),
-    Inheritance(new ClosedArrow()),
-    Implementation(new ClosedArrow());
+    None(null, LineStyle.SOLID_LINE),
+    Dependency(new OpenArrow(), LineStyle.DASHED_LINE),
+    Association(new OpenArrow(), LineStyle.SOLID_LINE),
+    Aggregation(new DiamondHead(Color.WHITE), LineStyle.SOLID_LINE),
+    Composition(new DiamondHead(Color.BLACK), LineStyle.SOLID_LINE),
+    Inheritance(new ClosedArrow(), LineStyle.SOLID_LINE),
+    Implementation(new ClosedArrow(), LineStyle.DASHED_LINE);
 
     //the strategy for drawing the arrow head
     private ConnectionHead connectionHead;
+    //the space to be set in between line dashes (0 if line is solid)
+    @Getter
+    private int dashedLineGap;
+
+    private static class LineStyle{
+        private static final int DASHED_LINE = 5;
+        private static final int SOLID_LINE = 0;
+    }
+
 
     /**
      * Constructor
      *
      * @param connectionHead the strategy for drawing the arrow head
      */
-    ConnectionType(ConnectionHead connectionHead){
+    ConnectionType(ConnectionHead connectionHead, int dashedLineGap){
         this.connectionHead = connectionHead;
+        this.dashedLineGap = dashedLineGap;
     }
 
     /**

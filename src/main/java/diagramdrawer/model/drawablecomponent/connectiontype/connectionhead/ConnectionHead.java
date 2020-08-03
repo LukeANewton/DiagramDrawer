@@ -20,6 +20,7 @@ public abstract class ConnectionHead {
     public void drawHead(GraphicsContext gc, Pair<Double, Double> lastPoint, Pair<Double, Double> secondLast){
          gc.setStroke(Color.BLACK);
          gc.setLineWidth(1);
+         gc.setLineDashes(0);
      }
 
     /**

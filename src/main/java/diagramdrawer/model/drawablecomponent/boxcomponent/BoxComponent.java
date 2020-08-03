@@ -80,6 +80,7 @@ public abstract class BoxComponent extends DrawableComponent {
         double startY = centerY - (height / 2);
         gc.setStroke(color);
         gc.setLineWidth(lineWidth);
+        gc.setLineDashes(0);
         gc.strokeLine(startX, startY, startX, startY + height);
         gc.strokeLine(startX, startY + height, startX + width, startY + height);
         gc.strokeLine(startX + width, startY + height, startX + width, startY);
