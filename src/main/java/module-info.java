@@ -1,4 +1,4 @@
-module DiagramDrawer {
+module diagramdrawer.DiagramDrawer {
     requires javafx.controls;
     requires javafx.graphics;
     requires javafx.fxml;
