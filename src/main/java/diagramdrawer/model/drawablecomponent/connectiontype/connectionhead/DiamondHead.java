@@ -31,39 +31,19 @@ public class DiamondHead extends ConnectionHead {
         //get counter-clockwise side point
         Pair<Double, Double> arrowEndCC = rotateAndDraw(gc, lastPoint, vectorX, vectorY, 2 * Math.PI - ROTATION_ANGLE_RADIANS);
 
-        /*determine point on other side of diamond by determining how long the diamond must be,
-        then a bisection search along the line to find the right coordinates*/
-        double m = (lastPoint.getValue1() - secondLast.getValue1())/(lastPoint.getValue0() - secondLast.getValue0());
-        double b = lastPoint.getValue1() - m * lastPoint.getValue0();
+        //get the point at the back of the arrow rotating one arrow head tip further
+        vectorX = lastPoint.getValue0() - arrowEndC.getValue0();
+        vectorY = lastPoint.getValue1() - arrowEndC.getValue1();
+        Pair<Double, Double> diamondBack = rotateAndDraw(gc, arrowEndC, vectorX, vectorY,
+                //diamonds are parallelograms: adjacent angles add to 180 degrees
+                Math.PI - 2*ROTATION_ANGLE_RADIANS);
+        gc.setFill(diamondFill);
+        double [] pointsX = new double[]{lastPoint.getValue0(), arrowEndC.getValue0(),
+                diamondBack.getValue0(), arrowEndCC.getValue0()};
+        double [] pointsY = new double[]{lastPoint.getValue1(), arrowEndC.getValue1(),
+                diamondBack.getValue1(), arrowEndCC.getValue1()};
 
-        double diamondLength = Math.cos(ROTATION_ANGLE_RADIANS) * ARROW_HEAD_LENGTH * 2;
-        double difference = 0.5;
-        double base = secondLast.getValue0();
-        double end = lastPoint.getValue0();
-        double distance;
-        do{
-            double x = (end + base) / 2;
-
-            double xDiff = lastPoint.getValue0() - x;
-            double yDiff = lastPoint.getValue1() - (m*x+b);
-
-            distance = Math.sqrt(Math.pow(xDiff,2)+Math.pow(yDiff,2));
-
-            if(Math.abs(distance-diamondLength) < difference){//the point found is close enough to draw an accurate diamond
-                Pair<Double, Double> diamondBack = new Pair<>(x,  m * x + b);
-                gc.setFill(diamondFill);
-                double [] pointsX = new double[]{lastPoint.getValue0(), arrowEndC.getValue0(),
-                        diamondBack.getValue0(), arrowEndCC.getValue0()};
-                double [] pointsY = new double[]{lastPoint.getValue1(), arrowEndC.getValue1(),
-                        diamondBack.getValue1(), arrowEndCC.getValue1()};
-                gc.fillPolygon(pointsX, pointsY, pointsX.length);
-                gc.strokePolygon(pointsX, pointsY, pointsX.length);
-                break;
-            } else if(distance > diamondLength){
-                base = x;
-            }else{
-                end = x;
-            }
-        }while(Math.abs(distance-diamondLength) > difference);
+        gc.fillPolygon(pointsX, pointsY, pointsX.length);
+        gc.strokePolygon(pointsX, pointsY, pointsX.length);
     }
 }

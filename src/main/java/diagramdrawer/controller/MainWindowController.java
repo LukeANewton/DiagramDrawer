@@ -71,8 +71,6 @@ public class MainWindowController {
     /**handler for adding a new SingleSectionClassBox to the canvas*/
     @FXML
     public void drawNewSingleSectionClass(){
-        System.out.println(canvas.getWidth());
-        System.out.println(canvas.getHeight());
         canvasContentManagementController.setCurrentCanvasState(
                 new AddComponentState(canvasContentManagementController, new SingleSectionClassBox()));
     }
