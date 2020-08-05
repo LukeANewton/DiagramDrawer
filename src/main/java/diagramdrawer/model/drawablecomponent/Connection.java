@@ -70,27 +70,8 @@ public class Connection extends DrawableComponent {
 
         //since the lines are so thin, we'll give some wiggle room as defined by the constant
         return Math.abs(m*x + b - y) <= BOUNDARY_LEEWAY &&
-                //these bounds need to be checked so we dont click on the line equation but outside the
-                //bounds of the drawn segment
-                (inBox(start, end, x, y) || inBox(end, start, x, y) ||
-                        inBox(new Pair<>(start.getValue0(), end.getValue1()),
-                                new Pair<>(end.getValue0(), start.getValue1()), x, y) ||
-                        inBox(new Pair<>(end.getValue0(), start.getValue1()),
-                                new Pair<>(start.getValue0(), end.getValue1()), x, y));
-    }
-
-    /**
-     * check if the provided coordinates are within a box defined by the two passed pairs
-     *
-     * @param topLeft the coordinates of the top-left of the box
-     * @param bottomRight the coordinates of the bottom-right of the box
-     * @param x the x coordinate of the point to check
-     * @param y the y coordinate of the point to check
-     * @return true if the coordinates are within the defined box
-     */
-    private boolean inBox(Pair<Double, Double> topLeft, Pair<Double, Double> bottomRight, double x, double y){
-        return topLeft.getValue0() - BOUNDARY_LEEWAY < x && topLeft.getValue1() - BOUNDARY_LEEWAY < y
-                && bottomRight.getValue0() + BOUNDARY_LEEWAY > x && bottomRight.getValue1() + BOUNDARY_LEEWAY > y;
+                ((end.getValue0() <= x && x <= start.getValue0()) ||
+                (start.getValue0() <= x && x <= end.getValue0()));
     }
 
     @Override
